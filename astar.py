@@ -9,6 +9,7 @@ class gameBoard():
         self.positionArray = positionArray
         self.actionCost = actionCost # This is g(n)
         self.heuristic = self.numberQueensAttacked() + 10 # This is h(n)
+        print(self.heuristic)
 
     def __lt__(self, other):
         return (self.actionCost + self.heuristic) < (other.actionCost + other.heuristic)
@@ -21,7 +22,7 @@ class gameBoard():
         numAttacks =0
         firstCount = 0
         while firstCount<len(self.positionArray):
-            secondCount = firstCount
+            secondCount = firstCount + 1
             while secondCount<len(self.positionArray):
                 if self.positionArray[firstCount]==self.positionArray[secondCount]:
                     numAttacks = numAttacks+1
@@ -29,6 +30,8 @@ class gameBoard():
                     numAttacks = numAttacks+1
                 if (self.positionArray[firstCount]-(secondCount-firstCount))==self.positionArray[secondCount]:
                     numAttacks = numAttacks+1
+                secondCount = secondCount+1
+            firstCount = firstCount+1
         return numAttacks
 
 def astar(currentBoard):
