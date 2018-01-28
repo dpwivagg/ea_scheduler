@@ -15,7 +15,18 @@ class gameBoard():
         return (self.actionCost + self.heuristic) < (other.actionCost + other.heuristic)
 
     def getChildren(self):
-        pass
+        firstCount = 0
+        objectList = []
+        while firstCount<len(self.positionArray):
+            secondCount = 0
+            while secondCount<len(self.positionArray):
+                if secondCount != firstCount:
+                    newPositionArray = self.positionArray
+                    newPositionArray[firstCount] = secondCount
+                    aCost = 10 + abs(secondCount-firstCount)*abs(secondCount-firstCount)
+                    childBoard = gameBoard(newPositionArray,aCost)
+                    objectList.append(childBoard)
+        return objectList
 
     def numberQueensAttacked(self):
         # Fill in this function to return number of queens attacked
