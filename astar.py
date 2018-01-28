@@ -12,3 +12,4 @@ def calcCost(board):
 def numberQueensAttacked(board):
 
     pass
+
