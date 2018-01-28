@@ -1,5 +1,5 @@
-from astar import gameBoard
+import astar
 
-board = gameBoard([0,0,0], 5)
-for i in board.getChildren():
-    print(i.positionArray)
+board = astar.gameBoard([0,0,0,0])
+
+astar.astarRun(board)
