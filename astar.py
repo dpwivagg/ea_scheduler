@@ -1,4 +1,7 @@
 import heapq
+
+from copy import deepcopy
+
 """
 Heapq.heappush: Add an item to the priority queue
 Heapq.heappop: Remove the smallest item from the queue
@@ -9,7 +12,7 @@ class gameBoard():
         self.positionArray = positionArray
         self.actionCost = actionCost # This is g(n)
         self.heuristic = self.numberQueensAttacked() + 10 # This is h(n)
-        print(self.heuristic)
+        # print(self.heuristic)
 
     def __lt__(self, other):
         return (self.actionCost + self.heuristic) < (other.actionCost + other.heuristic)
@@ -20,12 +23,14 @@ class gameBoard():
         while firstCount<len(self.positionArray):
             secondCount = 0
             while secondCount<len(self.positionArray):
-                if secondCount != firstCount:
-                    newPositionArray = self.positionArray
+                if secondCount != self.positionArray[firstCount]:
+                    newPositionArray = deepcopy(self.positionArray)
                     newPositionArray[firstCount] = secondCount
                     aCost = 10 + abs(secondCount-firstCount)*abs(secondCount-firstCount)
                     childBoard = gameBoard(newPositionArray,aCost)
                     objectList.append(childBoard)
+                secondCount += 1
+            firstCount += 1
         return objectList
 
     def numberQueensAttacked(self):
