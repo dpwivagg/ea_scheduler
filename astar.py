@@ -18,7 +18,18 @@ class gameBoard():
 
     def numberQueensAttacked(self):
         # Fill in this function to return number of queens attacked
-        return self.positionArray
+        numAttacks =0
+        firstCount = 0
+        while firstCount<len(self.positionArray):
+            secondCount = firstCount
+            while secondCount<len(self.positionArray):
+                if self.positionArray[firstCount]==self.positionArray[secondCount]:
+                    numAttacks = numAttacks+1
+                if (self.positionArray[firstCount]+(secondCount-firstCount))==self.positionArray[secondCount]:
+                    numAttacks = numAttacks+1
+                if (self.positionArray[firstCount]-(secondCount-firstCount))==self.positionArray[secondCount]:
+                    numAttacks = numAttacks+1
+        return numAttacks
 
 def astar(currentBoard):
     frontier = []
