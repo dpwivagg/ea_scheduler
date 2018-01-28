@@ -10,8 +10,10 @@ class gameBoard():
         self.actionCost = actionCost # This is g(n)
         self.heuristic = self.numberQueensAttacked() + 10 # This is h(n)
 
-    def getChildren(self):
+    def __lt__(self, other):
+        return (self.actionCost + self.heuristic) < (other.actionCost + other.heuristic)
 
+    def getChildren(self):
         pass
 
     def numberQueensAttacked(self):
@@ -23,21 +25,17 @@ def astar(currentBoard):
     heapq.heappush(frontier, currentBoard)
 
     while frontier:
-        # Pop the priority queue
-        # Evaluate the current board--is it the solution?
-        # Expand the current board
-        # Add expanded nodes to priority queue
+        # Pop the priority queue -- done
+        # Evaluate the current board--is it the solution? -- done
+        # Expand the current board -- done
+        # Add expanded nodes to priority queue -- done
         board = heapq.heappop(frontier)
         if board.heuristic == 0:
             print("Board found")
-            return board
+            return board # Need to return some other stuff too
 
         else:
-            
+            heapq.heappush(frontier, (newBoard for newBoard in board.getChildren()))
 
     pass
 
-# calcCost: takes in a board and returns the
-def calcCost(board):
-
-    pass
