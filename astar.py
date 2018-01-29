@@ -1,5 +1,5 @@
 import heapq
-
+import datetime
 from copy import deepcopy
 
 """
@@ -29,7 +29,7 @@ class gameBoard():
                 if secondCount != self.positionArray[firstCount]:
                     newPositionArray = deepcopy(self.positionArray)
                     newPositionArray[firstCount] = secondCount
-                    aCost = 10 + abs(secondCount-self.positionArray[firstCount])**2
+                    aCost = self.actionCost + 10 + abs(secondCount-self.positionArray[firstCount])**2
                     childBoard = gameBoard(newPositionArray,aCost)
                     objectList.append(childBoard)
                 secondCount += 1
@@ -61,7 +61,11 @@ class gameBoard():
 def astarRun(currentBoard):
     frontier = []
     explored = []
+    # TODO: Need a list or something to backtrack the path (and compute effective branching factor)
     heapq.heappush(frontier, currentBoard)
+
+    expansions = 0
+    starttime = datetime.datetime.now()
 
     while frontier:
         # Pop the priority queue -- done
@@ -69,12 +73,18 @@ def astarRun(currentBoard):
         # Expand the current board -- done
         # Add expanded nodes to priority queue -- done
         board = heapq.heappop(frontier)
+
         # TODO: Add a failsafe for infinite loops, when there is no solution (as in 2x2 and 3x3)
         if board.heuristic == 0:
-            print("Board found", board.positionArray)
+            endtime = datetime.datetime.now()
+            print("Board found: " + str(board.positionArray))
+            print("No. Boards Expanded: " + str(expansions))
+            print("Time taken to solve: " + str(endtime - starttime))
+            print("Cost of final board: " + str(board.actionCost))
             return board # Need to return some other stuff too
 
         else:
+            expansions += 1
             for newBoard in board.getChildren():
                 if newBoard not in explored:
                     explored.append(newBoard)
