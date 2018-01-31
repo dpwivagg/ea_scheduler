@@ -79,6 +79,7 @@ def astarRun(currentBoard):
 
         # TODO: Add a failsafe for infinite loops, when there is no solution (as in 2x2 and 3x3)
         # Is there any other place that needs a fail safe checks
+        # We will have this in condition check before entering the algorithm.
         if board.heuristic == 0:
             endtime = datetime.datetime.now()
             print("Board found: " + str(board.positionArray))
@@ -98,6 +99,7 @@ def astarRun(currentBoard):
         backTrackBoard = backTrackBoard.parentBoard
     solution.append(backTrackBoard)
     solution = solution.reverse
+    print("Path Length: "+str(len(solution)))
     for aBoard in solution:
         print(aBoard)
     return board  # Need to return some other stuff too
