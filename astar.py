@@ -59,7 +59,8 @@ class gameBoard():
             return numAttacks + 10
 
 
-def astarRun(currentBoard):
+def astarRun(passBoard):
+    currentBoard = gameBoard(passBoard)
     frontier = []
     explored = []
     # TODO: Need a list or something to backtrack the path (and compute effective branching factor)
@@ -95,11 +96,11 @@ def astarRun(currentBoard):
                     heapq.heappush(frontier, newBoard)
     backTrackBoard = board
     while backTrackBoard.parentBoard:
-        solution.append(backTrackBoard)
+        solutionPath.append(backTrackBoard)
         backTrackBoard = backTrackBoard.parentBoard
-    solution.append(backTrackBoard)
-    solution = solution.reverse
-    print("Path Length: "+str(len(solution)))
+    solutionPath.append(backTrackBoard)
+    solutionPath = solutionPath.reverse
+    print("Path Length: "+str(len(solutionPath)))
     for aBoard in solution:
         print(aBoard)
     return board  # Need to return some other stuff too
