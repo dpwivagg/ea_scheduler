@@ -100,6 +100,7 @@ def astarRun(passBoard):
             print("Time taken to solve: " + str(endtime - starttime))
             print("Cost of final board: " + str(board.actionCost))
             solution = board
+            break
         else:
             expansions += 1
             for newBoard in board.getChildren():
@@ -111,10 +112,16 @@ def astarRun(passBoard):
         solutionPath.append(backTrackBoard)
         backTrackBoard = backTrackBoard.parentBoard
     solutionPath.append(backTrackBoard)
-    solutionPath = solutionPath.reverse
-    print("Path Length: "+str(len(solutionPath)))
-    for aBoard in solution:
-        print(aBoard)
+    solutionPath.reverse()
+
+    if solutionPath is not None:
+        print("Path Length: "+str(len(solutionPath)))
+        print("Path starts:")
+        for aBoard in solutionPath:
+             print(aBoard)
+        print("Path ends.")
+    else:
+        print("No solution")
     return board  # Need to return some other stuff too
 
 
