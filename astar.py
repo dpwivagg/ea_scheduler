@@ -21,6 +21,18 @@ class gameBoard():
     def __eq__(self, other):
         return self.positionArray == other.positionArray
 
+    def __str__(self):
+        string = ""
+        for row in range(0, len(self.positionArray)):
+            string = string + "\n|"
+            for column in range(0, len(self.positionArray)):
+                if row == self.positionArray[column]:
+                    string = string + "Q|"
+                else:
+                    string = string + " |"
+
+        return string
+
     def getChildren(self):
         firstCount = 0
         objectList = []
