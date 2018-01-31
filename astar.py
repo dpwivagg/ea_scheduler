@@ -8,10 +8,11 @@ Heapq.heappop: Remove the smallest item from the queue
 """
 
 class gameBoard():
-    def __init__(self, positionArray, actionCost=0):
+    def __init__(self, positionArray, actionCost=0, parentBoard = None):
         self.positionArray = positionArray
         self.actionCost = actionCost # This is g(n)
         self.heuristic = self.numberQueensAttacked() # This is h(n)
+        self.parentBoard = parentBoard
         # print(self.heuristic)
 
     def __lt__(self, other):
@@ -30,7 +31,7 @@ class gameBoard():
                     newPositionArray = deepcopy(self.positionArray)
                     newPositionArray[firstCount] = secondCount
                     aCost = self.actionCost + 10 + abs(secondCount-self.positionArray[firstCount])**2
-                    childBoard = gameBoard(newPositionArray,aCost)
+                    childBoard = gameBoard(newPositionArray,aCost,self)
                     objectList.append(childBoard)
                 secondCount += 1
             firstCount += 1
@@ -62,11 +63,13 @@ def astarRun(currentBoard):
     frontier = []
     explored = []
     # TODO: Need a list or something to backtrack the path (and compute effective branching factor)
+    solutionPath = []
     heapq.heappush(frontier, currentBoard)
-
+    solution = None
+    backTrackBoard = None
     expansions = 0
     starttime = datetime.datetime.now()
-
+    board = None
     while frontier:
         # Pop the priority queue -- done
         # Evaluate the current board--is it the solution? -- done
@@ -75,20 +78,28 @@ def astarRun(currentBoard):
         board = heapq.heappop(frontier)
 
         # TODO: Add a failsafe for infinite loops, when there is no solution (as in 2x2 and 3x3)
+        # Is there any other place that needs a fail safe checks
         if board.heuristic == 0:
             endtime = datetime.datetime.now()
             print("Board found: " + str(board.positionArray))
             print("No. Boards Expanded: " + str(expansions))
             print("Time taken to solve: " + str(endtime - starttime))
             print("Cost of final board: " + str(board.actionCost))
-            return board # Need to return some other stuff too
-
+            solution = board
         else:
             expansions += 1
             for newBoard in board.getChildren():
                 if newBoard not in explored:
                     explored.append(newBoard)
                     heapq.heappush(frontier, newBoard)
+    backTrackBoard = board
+    while backTrackBoard.parentBoard:
+        solution.append(backTrackBoard)
+        backTrackBoard = backTrackBoard.parentBoard
+    solution.append(backTrackBoard)
+    solution = solution.reverse
+    for aBoard in solution:
+        print(aBoard)
+    return board  # Need to return some other stuff too
 
-    pass
 
