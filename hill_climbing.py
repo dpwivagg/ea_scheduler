@@ -73,8 +73,9 @@ def Queens(status):
         # for restart: I m not sure about this part
         if expansion > 50:
             x = random.randint(0,len(status)-1)
-            while status[x] - 1 > 0:
+            while status[x] - 1 >= 0:
                 status[x] = status[x] - 1
+            #Queens(Board)
     
     endtime = datetime.datetime.now()
     print ("The final status is:" + str(status))  
