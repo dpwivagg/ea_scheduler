@@ -34,7 +34,7 @@ def hill_climbing(status):
             status_copy[col] = row  
             successor[(col,row)] = heuristic_function(status_copy)  
   
-    answers = [] 
+    next_move = [] 
     attackedQueens = heuristic_function(status) 
   
     for key,value in successor.items():  
@@ -43,12 +43,12 @@ def hill_climbing(status):
         
     for key,value in successor.items():  
         if value == attackedQueens:  
-            answers.append(key)  
+            next_move.append(key)  
   
-    if len(answers) > 0:  
+    if len(next_move) > 0:  
         x = random.randint(0,len(answers)-1)  
-        col = answers[x][0]  
-        row = answers[x][1]
+        col = next_move[x][0]  
+        row = next_move[x][1]
         cost = 10 + abs(status[col] - row)**2
         status[col] = row  
   
