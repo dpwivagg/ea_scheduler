@@ -82,7 +82,7 @@ def Queens(status):
         print (heuristic_function(status))  
         
         # for restart: I m not sure about this part
-        if expansion > 100:
+        if path > 100:
             x = random.randint(0,len(status)-1)
             while status[x] - 1 >= 0:
                 status[x] = status[x] - 1
