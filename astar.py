@@ -2,24 +2,36 @@ import heapq
 import datetime
 from copy import deepcopy
 
+
 """
 Heapq.heappush: Add an item to the priority queue
 Heapq.heappop: Remove the smallest item from the queue
 """
 
 class gameBoard():
-    def __init__(self, positionArray, actionCost=0, parentBoard = None):
+    def __init__(self, positionArray, actionCost=0,parentBoard = None,heuristicOriginal = 0):
         self.positionArray = positionArray
         self.actionCost = actionCost # This is g(n)
         self.heuristic = self.numberQueensAttacked() # This is h(n)
+        self.priorityQueueCost = heuristicOriginal + self.numberQueensAttacked()
         self.parentBoard = parentBoard
-        # print(self.heuristic)
+        # print(self.priorityQueueCost)
 
     def __lt__(self, other):
-        return (self.actionCost + self.heuristic) < (other.actionCost + other.heuristic)
+        # return (self.actionCost + self.heuristic) < (other.actionCost + other.heuristic)
+        return self.priorityQueueCost< other.priorityQueueCost
 
     def __eq__(self, other):
         return self.positionArray == other.positionArray
+
+    def __cmp__(self, other):
+        return (self.priorityQueueCost> other.priorityQueueCost)-(self.priorityQueueCost< other.priorityQueueCost)
+
+    def __hash__(self):
+        return hash(self.__repr__())
+
+    def __repr__(self):
+        return "gameBoard(%s)" % (self.positionArray)
 
     def __str__(self):
         string = ""
@@ -43,10 +55,11 @@ class gameBoard():
                     newPositionArray = deepcopy(self.positionArray)
                     newPositionArray[firstCount] = secondCount
                     aCost = self.actionCost + 10 + abs(secondCount-self.positionArray[firstCount])**2
-                    childBoard = gameBoard(newPositionArray,aCost,self)
+                    childBoard = gameBoard(newPositionArray,aCost,self,self.actionCost)
                     objectList.append(childBoard)
                 secondCount += 1
             firstCount += 1
+
         return objectList
 
     def numberQueensAttacked(self):
@@ -74,7 +87,7 @@ class gameBoard():
 def astarRun(passBoard):
     currentBoard = gameBoard(passBoard)
     frontier = []
-    explored = []
+    explored = set()
     # TODO: Need a list or something to backtrack the path (and compute effective branching factor)
     solutionPath = []
     heapq.heappush(frontier, currentBoard)
@@ -89,7 +102,7 @@ def astarRun(passBoard):
         # Expand the current board -- done
         # Add expanded nodes to priority queue -- done
         board = heapq.heappop(frontier)
-
+        print(board.priorityQueueCost)
         # TODO: Add a failsafe for infinite loops, when there is no solution (as in 2x2 and 3x3)
         # Is there any other place that needs a fail safe checks
         # We will have this in condition check before entering the algorithm.
@@ -103,16 +116,21 @@ def astarRun(passBoard):
             break
         else:
             expansions += 1
+            # starttime = datetime.datetime.now()
             for newBoard in board.getChildren():
                 if newBoard not in explored:
-                    explored.append(newBoard)
+                    explored.add(newBoard)
                     heapq.heappush(frontier, newBoard)
+            # endtime = datetime.datetime.now()
+            # print(endtime - starttime)
+
     backTrackBoard = board
-    while backTrackBoard.parentBoard:
+    if backTrackBoard is not None:
+        while backTrackBoard.parentBoard:
+            solutionPath.append(backTrackBoard)
+            backTrackBoard = backTrackBoard.parentBoard
         solutionPath.append(backTrackBoard)
-        backTrackBoard = backTrackBoard.parentBoard
-    solutionPath.append(backTrackBoard)
-    solutionPath.reverse()
+        solutionPath.reverse()
 
     if solutionPath is not None:
         print("Path Length: "+str(len(solutionPath)))
