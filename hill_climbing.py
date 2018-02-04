@@ -51,7 +51,17 @@ def hill_climbing(status):
         status[col] = row  
   
     return status, cost
-  
+
+def __str__(status):
+    string = ""
+    for row in range(0, len(status)):
+        string = string + "\n|"
+        for col in range(0, len(status)):
+            if row == status[col]:
+                string = string + "Q|"
+            else:
+                string = string + " |"
+    return string
     
 def Queens(status):  
     status = board
@@ -67,11 +77,13 @@ def Queens(status):
         cost = cost + one_move[1]
         expansion += ((len(status))**2-len(status))
         path += 1
-        print (status) 
+        print (status)
+        print (__str__(status))
         print (heuristic_function(status))  
     
     endtime = datetime.datetime.now()
     print ("The final status is:" + str(status))
+    print(__str__(status))
     print ("The length of the solution path:" + str(path))
     print ("The total cost is:" + str(cost))
     print ("The number of nodes expanded:" + str(expansion))
