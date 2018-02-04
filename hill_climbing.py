@@ -80,6 +80,12 @@ def Queens(status):
         print (status)
         print (__str__(status))
         print (heuristic_function(status))  
+        
+        # for restart: I m not sure about this part
+        if expansion > 100:
+            x = random.randint(0,len(status)-1)
+            while status[x] - 1 >= 0:
+                status[x] = status[x] - 1
     
     endtime = datetime.datetime.now()
     print ("The final status is:" + str(status))
