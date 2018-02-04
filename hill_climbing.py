@@ -19,8 +19,6 @@ def heuristic_function (board):
 
 heuristic_function(board)
 
-
-
 def hill_climbing(status):  
     successor = {}    
     cost = 0
@@ -34,7 +32,7 @@ def hill_climbing(status):
             status_copy[col] = row  
             successor[(col,row)] = heuristic_function(status_copy)  
   
-    next_move = [] 
+    best_answers = [] 
     attackedQueens = heuristic_function(status) 
   
     for key,value in successor.items():  
@@ -43,32 +41,33 @@ def hill_climbing(status):
         
     for key,value in successor.items():  
         if value == attackedQueens:  
-            next_move.append(key)  
+            best_answers.append(key)  
   
-    if len(next_move) > 0:  
-        x = random.randint(0,len(answers)-1)  
-        col = next_move[x][0]  
-        row = next_move[x][1]
+    if len(best_answers) > 0:  
+        x = random.randint(0,len(best_answers)-1)  
+        col = best_answers[x][0]  
+        row = best_answers[x][1]
         cost = 10 + abs(status[col] - row)**2
         status[col] = row  
   
     return status, cost
 
 def __str__(status):
-        string = ""
-        for row in range(0, len(status)):
-            string = string + "\n|"
-            for col in range(0, len(status)):
-                if row == status[col]:
-                    string = string + "Q|"
-                else:
-                    string = string + " |"
-        return string
+    string = ""
+    for row in range(0, len(status)):
+        string = string + "\n|"
+        for col in range(0, len(status)):
+            if row == status[col]:
+                string = string + "Q|"
+            else:
+                string = string + " |"
+    return string
     
 def Queens(status):  
     status = board
     cost = 0
     expansion = 0
+    path = 0
     starttime = datetime.datetime.now()
     print ("The start status:" + str(status))
    
@@ -76,21 +75,22 @@ def Queens(status):
         one_move = hill_climbing(status)
         status = one_move[0]
         cost = cost + one_move[1]
-        expansion += 1
-        print (status) 
+        expansion += ((len(status))**2-len(status))
+        path += 1
+        print (status)
         print (__str__(status))
-        print (heuristic_function(status))
+        print (heuristic_function(status))  
         
         # for restart: I m not sure about this part
-        if expansion > 50:
+        if path > 100:
             x = random.randint(0,len(status)-1)
             while status[x] - 1 >= 0:
                 status[x] = status[x] - 1
-            #Queens(Board)
     
     endtime = datetime.datetime.now()
-    print ("The final status is:" + str(status))  
+    print ("The final status is:" + str(status))
     print(__str__(status))
+    print ("The length of the solution path:" + str(path))
     print ("The total cost is:" + str(cost))
     print ("The number of nodes expanded:" + str(expansion))
     print ("Cost time:" + str(endtime - starttime))
