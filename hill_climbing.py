@@ -19,6 +19,19 @@ def heuristic_function (board):
 
 heuristic_function(board)
 
+
+def restart(status):
+    status = get_board(len(status))  
+    
+    return status
+
+
+def max_heuristic(status):
+    maxheuristic = (1 + len(status)) * len(status)/2
+    
+    return maxheuristic
+
+
 def hill_climbing(status):  
     successor = {}    
     cost = 0
@@ -49,8 +62,17 @@ def hill_climbing(status):
         row = best_answers[x][1]
         cost = 10 + abs(status[col] - row)**2
         status[col] = row  
+    
+    if heuristic_function(status_copy) < heuristic_function(status):
+        restart(status)
+        print("Restart because heuristic is increasing!")
+    
+    if heuristic_function(status) > (max_heuristic(status)*0.8):
+        restart(status)
+        print("Restart because heuristic is too high!")
   
     return status, cost
+
 
 def __str__(status):
     string = ""
@@ -68,6 +90,7 @@ def Queens(status):
     cost = 0
     expansion = 0
     path = 0
+    sideways_count = 0
     starttime = datetime.datetime.now()
     print ("The start status:" + str(status))
    
@@ -77,15 +100,18 @@ def Queens(status):
         cost = cost + one_move[1]
         expansion += ((len(status))**2-len(status))
         path += 1
+        
+        #Sideways
+        if heuristic_now == heuristic_function(status):
+            sideways_count += 1
+            if sideways_count > len(status):
+                restart(status)
+                sideways_count = 0
+                print("Sideways!Restart board: " + str(status))
+                
         print (status)
         print (__str__(status))
         print (heuristic_function(status))  
-        
-        # for restart: I m not sure about this part
-        if path > 100:
-            x = random.randint(0,len(status)-1)
-            while status[x] - 1 >= 0:
-                status[x] = status[x] - 1
     
     endtime = datetime.datetime.now()
     print ("The final status is:" + str(status))
