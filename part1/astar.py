@@ -102,13 +102,14 @@ def astarRun(passBoard):
         # Expand the current board -- done
         # Add expanded nodes to priority queue -- done
         board = heapq.heappop(frontier)
-        print(board.priorityQueueCost)
+        # print(board.priorityQueueCost)
         # TODO: Add a failsafe for infinite loops, when there is no solution (as in 2x2 and 3x3)
         # Is there any other place that needs a fail safe checks
         # We will have this in condition check before entering the algorithm.
         if board.heuristic == 0:
             endtime = datetime.datetime.now()
             print("Board found: " + str(board.positionArray))
+            print(board);
             print("No. Boards Expanded: " + str(expansions))
             print("Time taken to solve: " + str(endtime - starttime))
             print("Cost of final board: " + str(board.actionCost))
@@ -134,6 +135,7 @@ def astarRun(passBoard):
 
     if solutionPath is not None:
         print("Path Length: "+str(len(solutionPath)))
+        print("Effective Branching Factor: " + str(expansions /len(solutionPath)));
         print("Path starts:")
         for aBoard in solutionPath:
              print(aBoard)
