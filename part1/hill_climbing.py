@@ -95,6 +95,7 @@ def Queens(status):
     print ("The start status:" + str(status))
    
     while heuristic_function(status) > 0: 
+        heuristic_now = heuristic_function(status)
         one_move = hill_climbing(status)
         status = one_move[0]
         cost = cost + one_move[1]
