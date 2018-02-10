@@ -10,9 +10,7 @@ def map_size ():
 
 
 def initial_map (maprow, mapcol):
-    
     matrix = {}
-    
     for i in range(maprow):
         for j in range(mapcol):
             k = random.randint(0,9)
