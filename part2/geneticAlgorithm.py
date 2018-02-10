@@ -1,33 +1,47 @@
 #This is for Genetic Algorithm
 import random
 
-original_map = {}
-""" Change these to be the correct values during runtime """
-map_width = 5
-map_height = 5
-
 class map():
-    def __init__(self, map_matrix):
+    def __init__(self, maprow, mapcol, original_map, map_matrix):
         self.map_matrix = map_matrix
-        self.fitness = self.fitness() - self.cost_to_build()
+        self.maprow = maprow
+        self.mapcol = mapcol
+        self.original_map = original_map
+        #self.fitness = self.fitness() - self.cost_to_build()
+
+    def __str__(self):
+        string = ""
+        for row in range(0, self.maprow):
+            string = string + "\n|"
+            for column in range(0, self.mapcol):
+                if self.map_matrix[row, column] == 0:
+                    string = string + " |"
+                else:
+                    string = string + self.map_matrix[row, column] + "|"
+
+        return string
 
     def cost_to_build(self):
         cost = 0
-        for key, value in original_map:
+        for key, value in self.original_map:
             type = self.map_matrix[key]
-            if type == "C" or type == "R" or type == "I":
+            if not type == 0:
                 cost += value
+
+        return cost
 
     def fitness(self):
         # Returns the integer fitness value
         pass
 
     def mutate(self):
-        x1, y1 = random.randint(0, map_width), random.randint(0, map_height)
-        x2, y2 = random.randint(0, map_width), random.randint(0, map_height)
-        while original_map[x1, y1] == "X" or original_map[x2, y2] == "X":
-            x1, y1 = random.randint(0, map_width), random.randint(0, map_height)
-            x2, y2 = random.randint(0, map_width), random.randint(0, map_height)
+        rows = self.maprow - 1
+        cols = self.mapcol - 1
+        x1, y1 = random.randint(0, rows), random.randint(0, cols)
+        x2, y2 = random.randint(0, rows), random.randint(0, cols)
+        while self.original_map[x1, y1] == 'X' or self.original_map[x2, y2] == 'X' or self.map_matrix[x1, y1] == 0 or self.map_matrix[x2, y2] == 0:
+            x1, y1 = random.randint(0, rows), random.randint(0, cols)
+            x2, y2 = random.randint(0, rows), random.randint(0, cols)
 
         oldVal = self.map_matrix[x1, y1]
         newVal = self.map_matrix[x2, y2]
@@ -37,17 +51,13 @@ class map():
     def crossover(self, other):
         first_new_map = {}
         second_new_map = {}
-        for i in range(0, map_width//2):
-            for j in range(0, map_height):
+        for i in range(0, self.maprow // 2):
+            for j in range(0, self.mapcol):
                 first_new_map[i, j] = self.map_matrix[i, j]
                 second_new_map[i, j] = other.map_matrix[i, j]
 
-        for i in range(map_width//2, map_width):
-            for j in range(0, map_height):
+        for i in range(self.maprow // 2, self.maprow):
+            for j in range(0, self.mapcol):
                 first_new_map[i, j] = other.map_matrix[i, j]
                 second_new_map[i, j] = self.map_matrix[i, j]
-
-
-def crossover(map1, map2):
-    pass
 

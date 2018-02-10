@@ -1,4 +1,5 @@
 import random
+from geneticAlgorithm import map
 
 def map_size ():
     
@@ -82,4 +83,7 @@ def map_status (maprow, mapcol, initial_map):
 
 
 map_status = map_status(maprow, mapcol, initial_map)
-print(map_status)
+new_map = map(maprow, mapcol, initial_map, map_status)
+print(new_map)
+new_map.mutate()
+print(new_map)
