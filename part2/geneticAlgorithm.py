@@ -1,6 +1,7 @@
 #This is for Genetic Algorithm
+import random
 
-original_map = []
+original_map = {}
 """ Change these to be the correct values during runtime """
 map_width = 5
 map_height = 5
@@ -8,17 +9,30 @@ map_height = 5
 class map():
     def __init__(self, map_matrix):
         self.map_matrix = map_matrix
-        self.fitness = self.fitness()
+        self.fitness = self.fitness() - self.cost_to_build()
 
-    def create_map(self):
-        pass
+    def cost_to_build(self):
+        cost = 0
+        for key, value in original_map:
+            type = self.map_matrix[key]
+            if type == "C" or type == "R" or type == "I":
+                cost += value
 
     def fitness(self):
         # Returns the integer fitness value
         pass
 
     def mutate(self):
-        pass
+        x1, y1 = random.randint(0, map_width), random.randint(0, map_height)
+        x2, y2 = random.randint(0, map_width), random.randint(0, map_height)
+        while original_map[x1, y1] == "X" or original_map[x2, y2] == "X":
+            x1, y1 = random.randint(0, map_width), random.randint(0, map_height)
+            x2, y2 = random.randint(0, map_width), random.randint(0, map_height)
+
+        oldVal = self.map_matrix[x1, y1]
+        newVal = self.map_matrix[x2, y2]
+        self.map_matrix[x1, y1] = newVal
+        self.map_matrix[x2, y2] = oldVal
 
     def crossover(self, other):
         first_new_map = {}
