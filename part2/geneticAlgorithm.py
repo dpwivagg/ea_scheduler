@@ -1,6 +1,6 @@
 #This is for Genetic Algorithm
 
-original_map = []
+original_map = {}
 
 class map():
     def __init__(self, map_matrix):
@@ -8,10 +8,21 @@ class map():
         self.fitness = self.fitness()
 
     def create_map(self):
-        pass
+        created_map = self.map_matrix
+        return created_map
 
     def fitness(self):
         # Returns the integer fitness value
+        # First fill in the map with the original
+        formed_map = self.create_map()
+        # Calculating from the original map side
+        # Toxic waste
+        # Scenic view
+        # Calculating after placing the terrains
+
+        # Industrial
+        # Residential
+        # Commercial
         pass
 
     def mutate(self):
