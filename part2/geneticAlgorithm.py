@@ -173,7 +173,7 @@ class map():
         newVal = self.map_matrix[x2, y2]
         self.map_matrix[x1, y1] = newVal
         self.map_matrix[x2, y2] = oldVal
-
+# TODO: cross over needs to keep I, C , R with constant number
     def crossover(self, other):
         first_new_map = {}
         second_new_map = {}
@@ -231,14 +231,13 @@ def geneticRun(originalMap, maprow, mapcol, num_I, num_R, num_C, lastTime):
         original_size = 5
 
     # TODO:First need randomnize the amount of size of original size
-    while len(gen_list)<100:
+    while len(gen_list)<original_size:
         gen_list.append(randomly_form_generation(original_map,num_I,num_R,num_C,maprow,mapcol))
     gen_list.sort(key=lambda x: x.fitness_score,reverse=True)
     # Now starts genetic
     for i in range (0,1):
-
+ #   while(diff<last_time):
         # Selection
-        # TODO Add probability distribution
         elite_list = list(chain(gen_list[0:(elite_size)]))
         # This is for forming the next generation (need to be selected)
         normal_list = list(chain(gen_list[0:(len(gen_list)-cull_size)]))
@@ -271,6 +270,7 @@ def geneticRun(originalMap, maprow, mapcol, num_I, num_R, num_C, lastTime):
 
     pass
 # form a probability distribution
+# TODO consider negetive values
 def probability_distribution(map_list):
     total_count = 0
     probability_list = [None]*len(map_list)
