@@ -81,6 +81,7 @@ class map():
                                        unit_score * self.find_terrain_in_distance(formed_map, distance, industrial, i,
                                                                                   j)
                 elif formed_map[i, j] == commercial:
+                    # print("in commercial")
                     # For residence close to commercial
                     distance = 3
                     unit_score = 5
@@ -94,8 +95,12 @@ class map():
                                                     self.find_terrain_in_distance(formed_map, distance, commercial, i,
                                                                                   j)
                     commercial_score = commercial_score + residential_c_commercial_score + commercial_c_commercial_score
+                    print(
+                        "commercial score "+str(commercial_score) + "Comercial " + str(commercial_c_commercial_score) + " residential " + str(
+                            residential_c_commercial_score))
                 elif formed_map[i, j] == residential:
                     # For industrial close to residential
+                    # print("in residential")
                     distance = 3
                     unit_score = -5
                     industrial_c_residential_score = unit_score * \
@@ -109,6 +114,8 @@ class map():
                                                                                    j)
                     residential_score = residential_score + \
                                         industrial_c_residential_score + commercial_c_residential_score
+                    print("residential score " +str(residential_score)+" commercial " + str(
+                        commercial_c_residential_score) + " industrial " + str(industrial_c_residential_score))
                 elif formed_map[i, j] == toxic:
                     # For Industrial close to toxic
                     distance = 2
@@ -134,14 +141,14 @@ class map():
                     residential_c_scenic_score = unit_score * \
                                                  self.find_terrain_in_distance(formed_map, distance, residential, i, j)
                     scenic_score = scenic_score + residential_c_scenic_score
-        self.fitness_score = self.fitness_score + build_cost + \
+        self.fitness_score = self.fitness_score - build_cost + \
                              toxic_score + scenic_score + industrial_score + residential_score + commercial_score
         print("build cost " + str(build_cost))
         print("toxic score " + str(toxic_score))
         print("scenic score " + str(scenic_score))
         print("industrial score " + str(industrial_score))
-        print("residential score " + "commercial "+str(commercial_c_residential_score)+" industrial "+str(industrial_c_residential_score))
-        print("commercial score " +"Comercial "+ str(commercial_c_commercial_score)+" residential "+str(residential_c_commercial_score))
+        print("residential score "+str(residential_score))
+        print("commercial score " +str(commercial_score))
         print("fitness score " + str(self.fitness_score))
         pass
 

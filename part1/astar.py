@@ -96,6 +96,7 @@ def astarRun(passBoard):
     expansions = 0
     starttime = datetime.datetime.now()
     board = None
+    limit = 20
     while frontier:
         # Pop the priority queue -- done
         # Evaluate the current board--is it the solution? -- done
@@ -124,6 +125,7 @@ def astarRun(passBoard):
                     heapq.heappush(frontier, newBoard)
             # endtime = datetime.datetime.now()
             # print(endtime - starttime)
+
 
     backTrackBoard = board
     if backTrackBoard is not None:
