@@ -1,8 +1,13 @@
 import astar
+import random
 
-board = astar.gameBoard([1, 0, 3, 2, 4])
+def run_astar():
+    board_size = input("Enter board size: ")
+    print("Randomly generating board...")
+    board = [random.randint(0, board_size) for i in range(0, board_size)]
+    print("Generated " + str(board))
+    print("Running A*...")
+    astar.astarRun(board)
 
-# for b in board.getChildren():
-#     print(b.positionArray)
-#print(board)
-astar.astarRun([0, 0, 0, 0, 0, 0])
+
+run_astar()
