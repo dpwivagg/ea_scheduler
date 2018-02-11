@@ -1,4 +1,4 @@
-import astar
+from part1 import astar
 
 board = astar.gameBoard([1, 0, 3, 2, 4])
 

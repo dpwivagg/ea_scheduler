@@ -1,7 +1,9 @@
 # This is for Genetic Algorithm
 import random
-
-original_map = {}
+import datetime
+import time
+from itertools import chain
+#original_map = {}
 industrial = 'I'
 commercial = 'C'
 residential = 'R'
@@ -16,7 +18,7 @@ class map():
         self.mapcol = mapcol
         self.original_map = original_map
         self.fitness_score = 0
-        # self.fitness()
+        self.fitness()
 
     def __str__(self):
         string = ""
@@ -33,14 +35,19 @@ class map():
                     string = string + str(self.map_matrix[row, column]) + "|"
 
         return string
+    def __hash__(self):
+        return hash(self.__repr__())
+
+    def __repr__(self):
+        return "gameBoard(%s)" % (self.map_matrix)
+    def __cmp__(self, other):
+        return (self.fitness_score> other.fitness_score)-(self.fitness_score< other.fitness_score)
 
     def cost_to_build(self):
         cost = 0
-        print(self)
         for key, value in self.original_map.items():
             type = self.map_matrix[key]
             if type != 0 and  value != toxic and value != scenic:
-                print("value "+str(value)+" type "+str(type))
                 cost += value
 
         return cost
@@ -95,9 +102,9 @@ class map():
                                                     self.find_terrain_in_distance(formed_map, distance, commercial, i,
                                                                                   j)
                     commercial_score = commercial_score + residential_c_commercial_score + commercial_c_commercial_score
-                    print(
-                        "commercial score "+str(commercial_score) + "Comercial " + str(commercial_c_commercial_score) + " residential " + str(
-                            residential_c_commercial_score))
+                    # print(
+                    #     "commercial score "+str(commercial_score) + "Comercial " + str(commercial_c_commercial_score) + " residential " + str(
+                    #         residential_c_commercial_score))
                 elif formed_map[i, j] == residential:
                     # For industrial close to residential
                     # print("in residential")
@@ -114,8 +121,8 @@ class map():
                                                                                    j)
                     residential_score = residential_score + \
                                         industrial_c_residential_score + commercial_c_residential_score
-                    print("residential score " +str(residential_score)+" commercial " + str(
-                        commercial_c_residential_score) + " industrial " + str(industrial_c_residential_score))
+                    # print("residential score " +str(residential_score)+" commercial " + str(
+                    #     commercial_c_residential_score) + " industrial " + str(industrial_c_residential_score))
                 elif formed_map[i, j] == toxic:
                     # For Industrial close to toxic
                     distance = 2
@@ -143,13 +150,13 @@ class map():
                     scenic_score = scenic_score + residential_c_scenic_score
         self.fitness_score = self.fitness_score - build_cost + \
                              toxic_score + scenic_score + industrial_score + residential_score + commercial_score
-        print("build cost " + str(build_cost))
-        print("toxic score " + str(toxic_score))
-        print("scenic score " + str(scenic_score))
-        print("industrial score " + str(industrial_score))
-        print("residential score "+str(residential_score))
-        print("commercial score " +str(commercial_score))
-        print("fitness score " + str(self.fitness_score))
+        # print("build cost " + str(build_cost))
+        # print("toxic score " + str(toxic_score))
+        # print("scenic score " + str(scenic_score))
+        # print("industrial score " + str(industrial_score))
+        # print("residential score "+str(residential_score))
+        # print("commercial score " +str(commercial_score))
+        # print("fitness score " + str(self.fitness_score))
         pass
 
     def mutate(self):
@@ -179,6 +186,12 @@ class map():
             for j in range(0, self.mapcol):
                 first_new_map[i, j] = other.map_matrix[i, j]
                 second_new_map[i, j] = self.map_matrix[i, j]
+        first = map(self.maprow, self.mapcol, self.original_map, first_new_map)
+        second = map(self.maprow, self.mapcol, self.original_map, second_new_map)
+        result_list = []
+        result_list.append(first)
+        result_list.append(second)
+        return result_list
 
     def find_terrain_in_distance(self, my_map, distance, terrain, row, col):
         count = 0
@@ -194,3 +207,110 @@ class map():
                     count = count + 1
                     # print("index "+ str(row+i) + " "+ str(col+j))
         return count
+
+def geneticRun(originalMap, maprow, mapcol, num_I, num_R, num_C, lastTime):
+    last_time = lastTime # Time would always be set to 10s
+    original_map = originalMap
+    maprow = maprow
+    mapcol = mapcol
+    start_time = time.time()
+    elite_list = []  # For storing the elite list
+    normal_list = []
+    cull_list = []
+    gen_list = []
+    original_size = 100
+    elite_size = 2
+    cull_size = 2
+    cross_over_fraction = 0.6
+    mutation_rate = 0.02   # The fraction for mutation 0.02 chance to mutate after crossover
+    diff = 0
+    # For the first time we always set the size to be 100
+    if(maprow * mapcol)<5:
+        elite_size = 1
+        cull_size = 1
+        original_size = 5
+
+    # TODO:First need randomnize the amount of size of original size
+    while len(gen_list)<100:
+        gen_list.append(randomly_form_generation(original_map,num_I,num_R,num_C,maprow,mapcol))
+    gen_list.sort(key=lambda x: x.fitness_score,reverse=True)
+    # Now starts genetic
+    for i in range (0,1):
+
+        # Selection
+        # TODO Add probability distribution
+        elite_list = list(chain(gen_list[0:(elite_size)]))
+        # This is for forming the next generation (need to be selected)
+        normal_list = list(chain(gen_list[0:(len(gen_list)-cull_size)]))
+        # Currently have no use to store
+        cull_list = list(chain(gen_list[(len(gen_list)  -cull_size):]))
+        # The probability distribution of the list
+        probability_list = probability_distribution(normal_list)
+        # Start to create  next generation
+        gen_list = []+elite_list
+
+        # starts selection
+        while(len(gen_list)<original_size):
+            # selection with probability
+            parents = random.choices(normal_list,weights=probability_list,k=2)
+            parent1 = parents[0]
+            parent2 = parents[1]
+            # Cross over
+            children = parent1.crossover(parent2)
+            # check for mutation
+            if random.random() < mutation_rate:
+                children[0].mutate()
+                children[1].mutate()
+            print(children[0])
+            print(children[1])
+            gen_list = gen_list + children
+        gen_list.sort(key=lambda x: x.fitness_score,reverse = True)
+        diff = int(time.time() - start_time)
+        print(gen_list[0])
+        print("fitness score " + str(gen_list[0].fitness_score))
+
+    pass
+# form a probability distribution
+def probability_distribution(map_list):
+    total_count = 0
+    probability_list = [None]*len(map_list)
+    for map in map_list:
+        total_count += map.fitness_score
+    count = 0
+    for map in map_list:
+        probability_list[count] = map.fitness_score/total_count  # Calculate the probability of
+        count += 1
+    return probability_list
+# randomly form a new map based on the counts of different terrain
+def randomly_form_generation(original_map,industrial_number,residential_number,commercial_number, maprow, mapcol):
+    map_status = {}
+    m = 0
+    h = 0
+    k = 0
+    for i in range(maprow):
+        for j in range(mapcol):
+            map_status[i,j]=0
+    while m < industrial_number:
+        random_row = random.randint(0, maprow - 1)
+        random_col = random.randint(0, mapcol - 1)
+        if original_map[random_row, random_col] == "X":
+            continue
+        map_status[random_row, random_col] = "I"
+        m += 1
+
+    while h < residential_number:
+        random_row = random.randint(0, maprow - 1)
+        random_col = random.randint(0, mapcol - 1)
+        if map_status[random_row, random_col] != 0 or original_map[random_row, random_col] == "X":
+            continue
+        map_status[random_row, random_col] = "R"
+        h += 1
+
+    while k < commercial_number:
+        random_row = random.randint(0, maprow - 1)
+        random_col = random.randint(0, mapcol - 1)
+        if map_status[random_row, random_col] != 0 or original_map[random_row, random_col] == "X":
+            continue
+        map_status[random_row, random_col] = "C"
+        k += 1
+    return map(maprow, mapcol,original_map, map_status)
