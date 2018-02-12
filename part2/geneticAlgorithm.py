@@ -315,8 +315,8 @@ def geneticRun(originalMap, maprow, mapcol, num_I, num_R, num_C, lastTime):
         gen_list.append(randomly_form_generation(original_map,num_I,num_R,num_C,maprow,mapcol))
     gen_list.sort(key=lambda x: x.fitness_score,reverse=True)
     # Now starts genetic
-    for i in range (0,1):
- #   while(diff<last_time):
+   # for i in range (0,1):
+    while diff<last_time:
         # Selection
         elite_list = list(chain(gen_list[0:(elite_size)]))
         # This is for forming the next generation (need to be selected)
@@ -340,8 +340,8 @@ def geneticRun(originalMap, maprow, mapcol, num_I, num_R, num_C, lastTime):
             if random.random() < mutation_rate:
                 children[0].mutate()
                 children[1].mutate()
-            print(children[0])
-            print(children[1])
+            # print(children[0])
+            # print(children[1])
             gen_list = gen_list + children
         gen_list.sort(key=lambda x: x.fitness_score,reverse = True)
         diff = int(time.time() - start_time)
@@ -353,12 +353,17 @@ def geneticRun(originalMap, maprow, mapcol, num_I, num_R, num_C, lastTime):
 # TODO consider negetive values
 def probability_distribution(map_list):
     total_count = 0
+    min = 0
     probability_list = [None]*len(map_list)
     for map in map_list:
-        total_count += map.fitness_score
+        if map.fitness_score<min:
+            min = map.fitness_score
+
+    for map in map_list:
+        total_count += (map.fitness_score-min)
     count = 0
     for map in map_list:
-        probability_list[count] = map.fitness_score/total_count  # Calculate the probability of
+        probability_list[count] = (map.fitness_score-min)/total_count  # Calculate the probability of
         count += 1
     return probability_list
 # randomly form a new map based on the counts of different terrain

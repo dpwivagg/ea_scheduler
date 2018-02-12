@@ -91,6 +91,6 @@ initial_map = {(0, 0): 6, (0, 1): 9, (0, 2): 6, (0, 3): 5, (0, 4): 9, (0, 5): 8,
 # #print(new_map.fitness())
 # print(test_map)
 #print(str(test_map.find_terrain_in_distance(new_map.create_map(),3,'C',2,2)))
-geneticAlgorithm.geneticRun(initial_map, 7, 7, 2, 2, 2, 10)
+geneticAlgorithm.geneticRun(initial_map, 7, 7, 3, 3, 3, 10)
 
 
