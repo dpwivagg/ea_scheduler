@@ -174,7 +174,7 @@ class map():
         self.map_matrix[x1, y1] = newVal
         self.map_matrix[x2, y2] = oldVal
 
-# TODO: cross over needs to keep I, C , R with constant number
+
     def crossover(self, other):
         parent1 = []
         parent2 = []
@@ -372,13 +372,16 @@ def randomly_form_generation(original_map,industrial_number,residential_number,c
     for i in range(maprow):
         for j in range(mapcol):
             map_status[i,j]=0
+
+    print(original_map)
+
     while m < industrial_number:
         random_row = random.randint(0, maprow - 1)
         random_col = random.randint(0, mapcol - 1)
-        if original_map[random_row, random_col] == "X":
+        if original_map[random_row, random_col] == "X" or map_status[random_row, random_col] != 0:
             continue
         map_status[random_row, random_col] = "I"
-        m = m + 1
+        m += 1
 
     while h < residential_number:
         random_row = random.randint(0, maprow - 1)
@@ -396,4 +399,5 @@ def randomly_form_generation(original_map,industrial_number,residential_number,c
         map_status[random_row, random_col] = "C"
         k += 1
     map1 = map(maprow, mapcol,original_map, map_status)
+    print(map1)
     return map1
