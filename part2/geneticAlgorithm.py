@@ -12,15 +12,12 @@ scenic = 'S'
 
 
 class map():
-    def __init__(self, maprow, mapcol, original_map, map_matrix, num_i, num_c, num_r):
+    def __init__(self, maprow, mapcol, original_map, map_matrix):
         self.map_matrix = map_matrix
         self.maprow = maprow
         self.mapcol = mapcol
         self.original_map = original_map
         self.fitness_score = 0
-        self.num_i = num_i
-        self.num_c = num_c
-        self.num_r = num_r
         self.fitness()
 
     def __str__(self):
@@ -227,8 +224,8 @@ class map():
                     parent2.append("B" + str(bindex))
                     bindex += 1
 
-        start = random.randint(0, len(parent1))
-        end = random.randint(0, len(parent1))
+        start = random.randint(0, len(parent1) // 2)
+        end = random.randint(0, len(parent1) // 2)
 
         child1 = parent1
         child2 = parent2
@@ -266,8 +263,8 @@ class map():
 
                 counter += 1
 
-        first = map(self.maprow, self.mapcol, self.original_map, first_new_map, self.num_i, self.num_c, self.num_r)
-        second = map(self.maprow, self.mapcol, self.original_map, second_new_map, self.num_i, self.num_c, self.num_r)
+        first = map(self.maprow, self.mapcol, self.original_map, first_new_map)
+        second = map(self.maprow, self.mapcol, self.original_map, second_new_map)
         result_list = []
         result_list.append(first)
         result_list.append(second)
@@ -381,7 +378,7 @@ def randomly_form_generation(original_map,industrial_number,residential_number,c
         if original_map[random_row, random_col] == "X":
             continue
         map_status[random_row, random_col] = "I"
-        m += 1
+        m = m + 1
 
     while h < residential_number:
         random_row = random.randint(0, maprow - 1)
@@ -398,4 +395,5 @@ def randomly_form_generation(original_map,industrial_number,residential_number,c
             continue
         map_status[random_row, random_col] = "C"
         k += 1
-    return map(maprow, mapcol,original_map, map_status, industrial_number, commercial_number, residential_number)
+    map1 = map(maprow, mapcol,original_map, map_status)
+    return map1
