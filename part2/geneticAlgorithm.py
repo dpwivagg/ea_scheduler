@@ -379,7 +379,7 @@ def randomly_form_generation(original_map,industrial_number,residential_number,c
         for j in range(mapcol):
             map_status[i,j]=0
 
-    print(original_map)
+    # print(original_map)
 
     while m < industrial_number:
         random_row = random.randint(0, maprow - 1)
@@ -405,5 +405,5 @@ def randomly_form_generation(original_map,industrial_number,residential_number,c
         map_status[random_row, random_col] = "C"
         k += 1
     map1 = map(maprow, mapcol,original_map, map_status)
-    print(map1)
+    # print(map1)
     return map1

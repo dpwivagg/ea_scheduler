@@ -84,7 +84,7 @@ class gameBoard():
             return numAttacks + 10
 
 
-def astarRun(passBoard):
+def astarRun(passBoard, ID):
     currentBoard = gameBoard(passBoard)
     frontier = []
     explored = set()
@@ -96,9 +96,44 @@ def astarRun(passBoard):
     expansions = 0
     starttime = datetime.datetime.now()
     board = None
-    limit = 40
-    increment = 20
-    while solution is None:
+    if ID == 'Y':
+        limit = 40
+        increment = 20
+        while solution is None:
+            while frontier:
+                # Pop the priority queue -- done
+                # Evaluate the current board--is it the solution? -- done
+                # Expand the current board -- done
+                # Add expanded nodes to priority queue -- done
+                board = heapq.heappop(frontier)
+                # print(board.priorityQueueCost)
+                # TODO: Add a failsafe for infinite loops, when there is no solution (as in 2x2 and 3x3)
+                # Is there any other place that needs a fail safe checks
+                # We will have this in condition check before entering the algorithm.
+                if board.heuristic == 0:
+                    endtime = datetime.datetime.now()
+                    print("Board found: " + str(board.positionArray))
+                    print(board);
+                    print("No. Boards Expanded: " + str(expansions))
+                    print("Time taken to solve: " + str(endtime - starttime))
+                    print("Cost of final board: " + str(board.actionCost))
+                    solution = board
+                    break
+                else:
+                    expansions += 1
+                    # starttime = datetime.datetime.now()
+                    for newBoard in board.getChildren():
+                        if newBoard not in explored:
+                            explored.add(newBoard)
+                            if(newBoard.actionCost < limit):
+                                heapq.heappush(frontier, newBoard)
+                    # endtime = datetime.datetime.now()
+                    # print(endtime - starttime)
+            limit += increment
+            print("limit changes " + str(limit))
+            explored = set()
+            heapq.heappush(frontier, currentBoard)
+    elif ID == 'N':
         while frontier:
             # Pop the priority queue -- done
             # Evaluate the current board--is it the solution? -- done
@@ -124,14 +159,10 @@ def astarRun(passBoard):
                 for newBoard in board.getChildren():
                     if newBoard not in explored:
                         explored.add(newBoard)
-                        if(newBoard.actionCost < limit):
+                        if (newBoard.actionCost < limit):
                             heapq.heappush(frontier, newBoard)
                 # endtime = datetime.datetime.now()
                 # print(endtime - starttime)
-        limit += increment
-        print("limit changes " + str(limit))
-        explored = set()
-        heapq.heappush(frontier, currentBoard)
 
 
 
