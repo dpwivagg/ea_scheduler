@@ -1,9 +1,11 @@
 from copy import deepcopy
 import datetime
 
+# Create the heuristic function for hill climbing.
 def heuristic_function (board):
     h = 10
     
+    # Check the number of attacked queens.
     for i in range(len(board)):
         for j in range(i + 1,len(board)):
             if board[i] == board[j]:
@@ -19,25 +21,27 @@ def heuristic_function (board):
 
 heuristic_function(board)
 
-
+# Restart to get a new status randomly.
 def restart(status):
     status = get_board(len(status))  
     
     return status
 
-
+# Compute the maximum heuristic based on the size of the board.
+# This would be used in checking if the heuristic is large enough to restart or not. 
 def max_heuristic(status):
     maxheuristic = (1 + len(status)) * len(status)/2
     
     return maxheuristic
 
-
+# Hill climbing function
 def hill_climbing(status):  
     successor = {}    
     cost = 0
     
-    for col in range(len(status)):
-            
+    # Check all possibilities. 
+    # Calculate the heuristic for each of them and store the positions and heuristics into a dict.
+    for col in range(len(status)):     
         for row in range(len(status)):
             if status[col] == row:  
                 continue  
@@ -47,7 +51,8 @@ def hill_climbing(status):
   
     best_answers = [] 
     attackedQueens = heuristic_function(status) 
-  
+    
+    #
     for key,value in successor.items():  
         if value < attackedQueens:  
             attackedQueens = value  
