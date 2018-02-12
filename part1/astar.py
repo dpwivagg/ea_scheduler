@@ -96,7 +96,7 @@ def astarRun(passBoard):
     expansions = 0
     starttime = datetime.datetime.now()
     board = None
-    limit = 20
+    limit = 40
     increment = 20
     while solution is None:
         while frontier:
@@ -124,13 +124,15 @@ def astarRun(passBoard):
                 for newBoard in board.getChildren():
                     if newBoard not in explored:
                         explored.add(newBoard)
-                        if(newBoard.priorityQueueCost < limit):
+                        if(newBoard.actionCost < limit):
                             heapq.heappush(frontier, newBoard)
                 # endtime = datetime.datetime.now()
                 # print(endtime - starttime)
-            limit += increment
-            explored = []
-            heapq.heappush(frontier, currentBoard)
+        limit += increment
+        print("limit changes " + str(limit))
+        explored = set()
+        heapq.heappush(frontier, currentBoard)
+
 
 
     backTrackBoard = board
