@@ -160,19 +160,33 @@ class map():
         pass
 
     def mutate(self):
-        rows = self.maprow - 1
-        cols = self.mapcol - 1
-        x1, y1 = random.randint(0, rows), random.randint(0, cols)
-        x2, y2 = random.randint(0, rows), random.randint(0, cols)
-        while self.original_map[x1, y1] == 'X' or self.original_map[x2, y2] == 'X' or self.map_matrix[x1, y1] == 0 or \
-                self.map_matrix[x2, y2] == 0:
-            x1, y1 = random.randint(0, rows), random.randint(0, cols)
-            x2, y2 = random.randint(0, rows), random.randint(0, cols)
+        icount = 0
+        ccount = 0
+        rcount = 0
+        for key, value in self.map_matrix.items():
+            if value == industrial:
+                icount += 1
+            elif value == commercial:
+                ccount += 1
+            elif value == residential:
+                rcount += 1
 
-        oldVal = self.map_matrix[x1, y1]
-        newVal = self.map_matrix[x2, y2]
-        self.map_matrix[x1, y1] = newVal
-        self.map_matrix[x2, y2] = oldVal
+        map = randomly_form_generation(self.original_map, icount, ccount, rcount, self.maprow, self.mapcol)
+        self.map_matrix = map.map_matrix
+        self.fitness_score = map.fitness_score
+        # rows = self.maprow - 1
+        # cols = self.mapcol - 1
+        # x1, y1 = random.randint(0, rows), random.randint(0, cols)
+        # x2, y2 = random.randint(0, rows), random.randint(0, cols)
+        # while self.original_map[x1, y1] == 'X' or self.original_map[x2, y2] == 'X' or self.map_matrix[x1, y1] == 0 or \
+        #         self.map_matrix[x2, y2] == 0:
+        #     x1, y1 = random.randint(0, rows), random.randint(0, cols)
+        #     x2, y2 = random.randint(0, rows), random.randint(0, cols)
+        #
+        # oldVal = self.map_matrix[x1, y1]
+        # newVal = self.map_matrix[x2, y2]
+        # self.map_matrix[x1, y1] = newVal
+        # self.map_matrix[x2, y2] = oldVal
 
 
     def crossover(self, other):
