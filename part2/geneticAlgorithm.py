@@ -3,7 +3,7 @@ import random
 import datetime
 import time
 from itertools import chain
-#original_map = {}
+from collections import Counter
 industrial = 'I'
 commercial = 'C'
 residential = 'R'
@@ -12,12 +12,15 @@ scenic = 'S'
 
 
 class map():
-    def __init__(self, maprow, mapcol, original_map, map_matrix):
+    def __init__(self, maprow, mapcol, original_map, map_matrix, num_i, num_c, num_r):
         self.map_matrix = map_matrix
         self.maprow = maprow
         self.mapcol = mapcol
         self.original_map = original_map
         self.fitness_score = 0
+        self.num_i = num_i
+        self.num_c = num_c
+        self.num_r = num_r
         self.fitness()
 
     def __str__(self):
@@ -173,21 +176,98 @@ class map():
         newVal = self.map_matrix[x2, y2]
         self.map_matrix[x1, y1] = newVal
         self.map_matrix[x2, y2] = oldVal
+
 # TODO: cross over needs to keep I, C , R with constant number
     def crossover(self, other):
+        parent1 = []
+        parent2 = []
+
         first_new_map = {}
         second_new_map = {}
-        for i in range(0, self.maprow // 2):
-            for j in range(0, self.mapcol):
-                first_new_map[i, j] = self.map_matrix[i, j]
-                second_new_map[i, j] = other.map_matrix[i, j]
 
-        for i in range(self.maprow // 2, self.maprow):
+        bindex = 0
+        cindex = 0
+        rindex = 0
+        iindex = 0
+
+        for i in range(0, self.maprow):
             for j in range(0, self.mapcol):
-                first_new_map[i, j] = other.map_matrix[i, j]
-                second_new_map[i, j] = self.map_matrix[i, j]
-        first = map(self.maprow, self.mapcol, self.original_map, first_new_map)
-        second = map(self.maprow, self.mapcol, self.original_map, second_new_map)
+                value = self.map_matrix[i, j]
+                if value == industrial:
+                    parent1.append("I" + str(iindex))
+                    iindex += 1
+                elif value == commercial:
+                    parent1.append("C" + str(cindex))
+                    cindex += 1
+                elif value == residential:
+                    parent1.append("R" + str(rindex))
+                    rindex += 1
+                else:
+                    parent1.append("B" + str(bindex))
+                    bindex += 1
+
+        bindex = 0
+        cindex = 0
+        rindex = 0
+        iindex = 0
+
+        for i in range(0, self.maprow):
+            for j in range(0, self.mapcol):
+                value2 = other.map_matrix[i, j]
+                if value2 == industrial:
+                    parent2.append("I" + str(iindex))
+                    iindex += 1
+                elif value2 == commercial:
+                    parent2.append("C" + str(cindex))
+                    cindex += 1
+                elif value2 == residential:
+                    parent2.append("R" + str(rindex))
+                    rindex += 1
+                else:
+                    parent2.append("B" + str(bindex))
+                    bindex += 1
+
+        start = random.randint(0, len(parent1))
+        end = random.randint(0, len(parent1))
+
+        child1 = parent1
+        child2 = parent2
+
+        for i in range(start, end):
+            x = parent1.index(parent2[i])
+            y = parent2.index(parent1[i])
+
+            child1[i] = parent2[i]
+            child2[i] = parent1[i]
+
+            child1[x] = parent2[y]
+            child2[y] = parent1[x]
+
+        counter = 0
+        for i in range(0, self.maprow):
+            for j in range(0, self.mapcol):
+                if "I" in child1[counter]:
+                    first_new_map[i, j] = industrial
+                elif "C" in child1[counter]:
+                    first_new_map[i, j] = commercial
+                elif "R" in child1[counter]:
+                    first_new_map[i, j] = residential
+                else:
+                    first_new_map[i, j] = 0
+
+                if "I" in child2[counter]:
+                    second_new_map[i, j] = industrial
+                elif "C" in child2[counter]:
+                    second_new_map[i, j] = commercial
+                elif "R" in child2[counter]:
+                    second_new_map[i, j] = residential
+                else:
+                    second_new_map[i, j] = 0
+
+                counter += 1
+
+        first = map(self.maprow, self.mapcol, self.original_map, first_new_map, self.num_i, self.num_c, self.num_r)
+        second = map(self.maprow, self.mapcol, self.original_map, second_new_map, self.num_i, self.num_c, self.num_r)
         result_list = []
         result_list.append(first)
         result_list.append(second)
@@ -313,4 +393,4 @@ def randomly_form_generation(original_map,industrial_number,residential_number,c
             continue
         map_status[random_row, random_col] = "C"
         k += 1
-    return map(maprow, mapcol,original_map, map_status)
+    return map(maprow, mapcol,original_map, map_status, industrial_number, commercial_number, residential_number)
