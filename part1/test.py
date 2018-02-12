@@ -1,4 +1,4 @@
-import astar
+from part1 import astar
 import random
 
 def run_astar():
