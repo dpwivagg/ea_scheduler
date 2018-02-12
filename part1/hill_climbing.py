@@ -52,7 +52,6 @@ def hill_climbing(status):
     best_answers = [] 
     attackedQueens = heuristic_function(status) 
     
-    #
     for key,value in successor.items():  
         if value < attackedQueens:  
             attackedQueens = value  
@@ -60,7 +59,8 @@ def hill_climbing(status):
     for key,value in successor.items():  
         if value == attackedQueens:  
             best_answers.append(key)  
-  
+    
+    # Choose a status randomly from the answer list with smallest heuristic.
     if len(best_answers) > 0:  
         x = random.randint(0,len(best_answers)-1)  
         col = best_answers[x][0]  
@@ -68,17 +68,20 @@ def hill_climbing(status):
         cost = 10 + abs(status[col] - row)**2
         status[col] = row  
     
+    # Check if the smallest heuristic in the current status is less than the heuristic in previous status or not.
+    # If the heuristic is increasing, restart to get a new board status.
     if heuristic_function(status_copy) < heuristic_function(status):
         restart(status)
         print("Restart because heuristic is increasing!")
     
+    # If the heuristic is more than 80% of the maximum heuristic, restart.
     if heuristic_function(status) > (max_heuristic(status)*0.8):
         restart(status)
         print("Restart because heuristic is too high!")
   
     return status, cost
 
-
+# Print what the board looks like.
 def __str__(status):
     string = ""
     for row in range(0, len(status)):
@@ -89,7 +92,8 @@ def __str__(status):
             else:
                 string = string + " |"
     return string
-    
+
+# Run with hill climbing
 def Queens(status):  
     status = board
     cost = 0
@@ -107,7 +111,7 @@ def Queens(status):
         expansion += ((len(status))**2-len(status))
         path += 1
         
-        #Sideways
+        # If stucks in sideways, need to restart to help it out.
         if heuristic_now == heuristic_function(status):
             sideways_count += 1
             if sideways_count > len(status):
