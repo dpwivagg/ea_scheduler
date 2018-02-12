@@ -1,5 +1,7 @@
 import random
 
+# Input to define the board size.
+# It won't permit the number of queens less than 4, because 3-queens problem will not have a solution.
 def take_input():
 
     while True:
@@ -14,6 +16,7 @@ def take_input():
         except ValueError:
             print("Invalid value entered. Enter again")           
 
+# Create the initial board randomly.
 def get_board(size):
     board = []
     for i in range(size):
