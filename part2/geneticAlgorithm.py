@@ -199,6 +199,8 @@ class map():
                 elif value == residential:
                     parent1.append("R" + str(rindex))
                     rindex += 1
+                elif value == "X":
+                    parent1.append("X")
                 else:
                     parent1.append("B" + str(bindex))
                     bindex += 1
@@ -220,6 +222,8 @@ class map():
                 elif value2 == residential:
                     parent2.append("R" + str(rindex))
                     rindex += 1
+                elif value == "X":
+                    parent1.append("X")
                 else:
                     parent2.append("B" + str(bindex))
                     bindex += 1
@@ -231,6 +235,8 @@ class map():
         child2 = parent2
 
         for i in range(start, end):
+            if parent1[i] == "X" or parent2[i] == "X":
+                continue
             x = parent1.index(parent2[i])
             y = parent2.index(parent1[i])
 
