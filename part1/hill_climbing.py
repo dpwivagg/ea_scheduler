@@ -68,9 +68,9 @@ def hill_climbing(status):
         cost = 10 + abs(status[col] - row)**2
         status[col] = row  
     
-    # Check if the smallest heuristic in the current status is less than the heuristic in previous status or not.
+    # Check if a new status with a lower heuristic exists or not.
     # If the heuristic is increasing, restart to get a new board status.
-    if heuristic_function(status_copy) < heuristic_function(status):
+    if len(best_answers) == 0:
         restart(status)
         print("Restart because heuristic is increasing!")
     
