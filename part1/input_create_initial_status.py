@@ -24,7 +24,7 @@ def take_input():
                 print('Invalid value entered. Enter again')
         while True:
             try:
-                algorithm = str(input('What algorithm do you want to use? a. AStat b.hill_climb\n'))
+                algorithm = str(input('What algorithm do you want to use? a. AStar b.hill_climb\n'))
                 if algorithm != 'a'and algorithm != 'b':
                     print('Enter a value from a or b')
                     continue
