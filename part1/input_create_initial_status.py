@@ -18,11 +18,8 @@ def take_input():
 
 # Create the initial board randomly.
 def get_board(size):
-    board = []
-    for i in range(size):
-        k = random.sample(range(0,size-1),1)
-        board = board + k
-        i += 1
+    board = [random.randint(0, int(size) - 1) for i in range(0, int(size))]
+    print("Generated starting baord:")
     print(board)
     return board
     
