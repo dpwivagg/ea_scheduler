@@ -376,13 +376,18 @@ def probability_distribution(map_list):
     for map in map_list:
         if map.fitness_score<min:
             min = map.fitness_score
-    print("Min " + str(min))
     for map in map_list:
         total_count += (map.fitness_score-min)
     count = 0
-    for map in map_list:
-        probability_list[count] = (map.fitness_score-min)/total_count  # Calculate the probability of
-        count += 1
+    if total_count ==0:
+        for map in map_list:
+            probability_list[count] = 1 / len(map_list)  # Calculate the probability of
+            count += 1
+    else:
+        for map in map_list:
+            probability_list[count] = (map.fitness_score - min) / total_count  # Calculate the probability of
+            count += 1
+
     return probability_list
 # randomly form a new map based on the counts of different terrain
 def randomly_form_generation(original_map,industrial_number,residential_number,commercial_number, maprow, mapcol):
