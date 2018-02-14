@@ -7,18 +7,52 @@ import random
 from copy import deepcopy
 from datetime import datetime
 
-#define the length and width of map and the number of waste and view sites
-def map_size ():
-    
-    maprow = int(input("How many rows in the map? \n"))
-    mapcol = int(input("How many cols in the map? \n"))
-    waste = int(input("How many waste sites in the map? \n"))
-    view = int(input("How many view sites in the map? \n"))
-    
-    return maprow, mapcol,waste, view
 
 #randomly generate an urban map including "X" and "S"
-def initial_map (maprow, mapcol):
+# randomly set the location of industrial, residential and commercial tiles as initial status
+def get_map_status(maprow, mapcol, initial_map, i_number, r_number, c_number):
+    m = 0
+    h = 0
+    k = 0
+
+    # industrial_number = int(input("How many industrial tiles on the map? \n"))
+    # residential_number = int(input("How many residential tiles on the map? \n"))
+    # commercial_number = int(input("How many commercial tiles on the map? \n"))
+
+    map_status = {}
+
+    for i in range(maprow):
+        for j in range(mapcol):
+            map_status[i, j] = 0
+
+    while m < i_number:
+        random_row = random.randint(0, maprow - 1)
+        random_col = random.randint(0, mapcol - 1)
+        if initial_map[random_row, random_col] == "X":
+            continue
+        map_status[random_row, random_col] = "I"
+        m += 1
+
+    while h < r_number:
+        random_row = random.randint(0, maprow - 1)
+        random_col = random.randint(0, mapcol - 1)
+        if map_status[random_row, random_col] != 0 or initial_map[random_row, random_col] == "X":
+            continue
+        map_status[random_row, random_col] = "R"
+        h += 1
+
+    while k < c_number:
+        random_row = random.randint(0, maprow - 1)
+        random_col = random.randint(0, mapcol - 1)
+        if map_status[random_row, random_col] != 0 or initial_map[random_row, random_col] == "X":
+            continue
+        map_status[random_row, random_col] = "C"
+        k += 1
+
+    return map_status
+
+
+def initial_map (maprow, mapcol,num_waste,num_view):
     matrix = {}
     
     for i in range(maprow):
@@ -26,13 +60,13 @@ def initial_map (maprow, mapcol):
             k = random.randint(0,9)
             matrix[i,j] = k   
 
-    for i in range(waste):
+    for i in range(num_waste):
         random_row = random.randint(0,maprow-1)
         random_col = random.randint(0,mapcol-1)
         matrix[random_row, random_col] = "X"
  
     m=0
-    while m < view:
+    while m < num_view:
         random_row = random.randint(0,maprow-1)
         random_col = random.randint(0,mapcol-1)
         if matrix[random_row, random_col] == "X":
@@ -42,15 +76,15 @@ def initial_map (maprow, mapcol):
     
     return matrix
 
-mapsize = map_size()
-maprow = mapsize[0]
-mapcol = mapsize[1]
-waste = mapsize[2]
-view = mapsize[3]
-initial_map = initial_map(maprow, mapcol)
+# mapsize = map_size()
+# maprow = mapsize[0]
+# mapcol = mapsize[1]
+# waste = mapsize[2]
+# view = mapsize[3]
+# initial_map = initial_map(maprow, mapcol)
 
 #print map in a matrix format
-def __str__(map, maprow, mapcol):
+def print_board(map, maprow, mapcol):
         string = ""
         for row in range(0, maprow):
             string = string + "\n|"
@@ -62,69 +96,7 @@ def __str__(map, maprow, mapcol):
 
         return string
 
-format=__str__(initial_map, maprow, mapcol)
-print(format)
-
 #get the number of industrial tiles, residential tiles and commercial tiles
-def input_site():
-
-    industrial_number = int(input("How many industrial tiles on the map? \n"))
-    residential_number = int(input("How many residential tiles on the map? \n"))
-    commercial_number = int(input("How many commercial tiles on the map? \n"))
-
-    return industrial_number, residential_number, commercial_number
-
-input_value = input_site()
-i_number = input_value[0]
-r_number = input_value[1]
-c_number = input_value[2]
-
-#randomly set the location of industrial, residential and commercial tiles as initial status
-def get_map_status (maprow, mapcol, initial_map, i_number, r_number, c_number):
-    
-    m=0
-    h=0
-    k=0
-    
-    # industrial_number = int(input("How many industrial tiles on the map? \n"))
-    # residential_number = int(input("How many residential tiles on the map? \n"))
-    # commercial_number = int(input("How many commercial tiles on the map? \n"))
-    
-    map_status = {}
-    
-    for i in range(maprow):
-        for j in range(mapcol):
-            map_status[i,j]=0
-    
-    while m < i_number:
-        random_row = random.randint(0,maprow-1)
-        random_col = random.randint(0,mapcol-1)
-        if initial_map[random_row, random_col] == "X":
-            continue
-        map_status[random_row, random_col] = "I"
-        m += 1
-    
-    while h < r_number:
-        random_row = random.randint(0,maprow-1)
-        random_col = random.randint(0,mapcol-1)
-        if map_status[random_row, random_col] != 0 or initial_map[random_row, random_col] == "X":
-            continue
-        map_status[random_row, random_col] = "R"
-        h += 1
-        
-    while k < c_number:
-        random_row = random.randint(0,maprow-1)
-        random_col = random.randint(0,mapcol-1)
-        if map_status[random_row, random_col] != 0 or initial_map[random_row, random_col] == "X":
-            continue
-        map_status[random_row, random_col] = "C"
-        k += 1
-        
-    return map_status
-
-map_status = get_map_status (maprow, mapcol, initial_map, i_number, r_number, c_number)
-format=__str__(map_status, maprow, mapcol)
-print(format)
 
 #define the heuristic function
 #Fitness= -build difficulty + bonus - penalty
@@ -283,7 +255,7 @@ def hill_climbing (maprow, mapcol, map_status, initial_map):
     return map_status, fitness
 
 #test module
-def urban_planning(maprow, mapcol, map_status, initial_map):
+def urban_planning(maprow, mapcol, map_status, initial_map,i_number,r_number,c_number,time):
 
     initial_copy = deepcopy(initial_map)
     initial_status = deepcopy(map_status)
@@ -304,7 +276,7 @@ def urban_planning(maprow, mapcol, map_status, initial_map):
                 initial_copy[(row, col)] = "R"
 
     print("The start status:")
-    format=__str__(initial_copy, maprow, mapcol)
+    format=print_board(initial_copy, maprow, mapcol)
     print(format)
     print("Fitness: "+str(fitness))
 
@@ -312,19 +284,19 @@ def urban_planning(maprow, mapcol, map_status, initial_map):
     
     one_move = hill_climbing(maprow, mapcol, map_status, initial_map)
     print("one move:")
-    format=__str__(one_move[0], maprow, mapcol)
+    format=print_board(one_move[0], maprow, mapcol)
     print(format)
     print("Fitness: "+ str(one_move[1]) )
 
 
-    while time_cost < 10:
+    while time_cost < time:
         
         while one_move[1] > fitness:
             map_status = one_move[0]
             fitness = one_move[1]
             one_move = hill_climbing(maprow, mapcol, map_status, initial_map)
             print("one move:")
-            format=__str__(one_move[0], maprow, mapcol)
+            format=print_board(one_move[0], maprow, mapcol)
             print(format)
             print("Fitness: " + str(one_move[1]) )
 
@@ -335,7 +307,7 @@ def urban_planning(maprow, mapcol, map_status, initial_map):
         one_move = hill_climbing(maprow, mapcol, map_status, initial_map)
         
         print("Restart to try again, new status is: ")
-        format=__str__(map_status, maprow, mapcol)
+        format=print_board(map_status, maprow, mapcol)
         print(format)
         print("Fitness: "+str(one_move[1]))
        
@@ -357,23 +329,7 @@ def urban_planning(maprow, mapcol, map_status, initial_map):
     return  time_cost, local_best[0]
 
 
-h = urban_planning(maprow, mapcol, map_status, initial_map)
-for row in range(maprow):
-        for col in range(mapcol):
-            if h[1][0][(row, col)] == "I":
-                initial_map[(row, col)] = "I"
 
-            if h[1][0][(row, col)] == "C":
-                initial_map[(row, col)] = "C"
-
-            if h[1][0][(row, col)] == "R":
-                initial_map[(row, col)] = "R"
-print("\n")
-print("Final Urban Planning: ")
-format=__str__(initial_map, maprow, mapcol)
-print(format)
-print("Fitness:" + str(h[1][1]))
-print("Urban planning time: " + str(h[0]))
 
 
 

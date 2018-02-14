@@ -1,37 +1,47 @@
 import random
 from part2 import geneticAlgorithm
+from part2.hill_climbing import urban_planning, print_board
 
 
 def map_size ():
     
     maprow = int(input("How many rows in the map? \n"))
     mapcol = int(input("How many cols in the map? \n"))
-    
-    return maprow, mapcol
+    num_waste = int(input("How many waste sites in the map? \n"))
+    num_view = int(input("How many view sites in the map? \n"))
+    return maprow, mapcol,num_waste,num_view
 
 
-def initial_map (maprow, mapcol):
+def init_map (maprow, mapcol,num_waste,num_view):
     matrix = {}
     for i in range(maprow):
         for j in range(mapcol):
             k = random.randint(0,9)
             matrix[i,j] = k
-    
-    matrix[0,0] = "X"
-    matrix[1,1] = "S"
-    
+    matrix = {}
+
+    for i in range(maprow):
+        for j in range(mapcol):
+            k = random.randint(0, 9)
+            matrix[i, j] = k
+
+    for i in range(num_waste):
+        random_row = random.randint(0, maprow - 1)
+        random_col = random.randint(0, mapcol - 1)
+        matrix[random_row, random_col] = "X"
+
+    m = 0
+    while m < num_view:
+        random_row = random.randint(0, maprow - 1)
+        random_col = random.randint(0, mapcol - 1)
+        if matrix[random_row, random_col] == "X":
+            continue
+        matrix[random_row, random_col] = "S"
+        m += 1
     return matrix
 
 
-mapsize = map_size()
-maprow = mapsize[0]
-mapcol = mapsize[1]
-
-initial_map = initial_map(maprow, mapcol)
-
 # print(initial_map)
-
-
 def map_status (maprow, mapcol, initial_map):
     
     i=0
@@ -44,54 +54,83 @@ def map_status (maprow, mapcol, initial_map):
     residential_number = int(input("How many residential tiles on the map? \n"))
     commercial_number = int(input("How many commercial tiles on the map? \n"))
     last_time = int(input("How long do you want it to run ? \n"))
-    geneticAlgorithm.geneticRun(initial_map, maprow, mapcol, industrial_number, residential_number, commercial_number, last_time)
-    map_status = {}
-    
-    for i in range(maprow):
-        for j in range(mapcol):
-            map_status[i,j]=0
-    
+    algorithm = input('What algorithm do you want to use? a. Genetic b.Hill Climb\n')
+    while algorithm!='a' and  algorithm!='b':
+        algorithm = input('Invalid input! What algorithm do you want to use? a. Genetic b.Hill Climb\n')
+    if algorithm == 'a':
+        geneticAlgorithm.geneticRun(initial_map, maprow, mapcol, industrial_number, residential_number, commercial_number, last_time)
+    elif algorithm =='b':
+        map_status = {}
+        for i in range(maprow):
+            for j in range(mapcol):
+                map_status[i, j] = 0
+        while m < industrial_number:
+            random_row = random.randint(0, maprow - 1)
+            random_col = random.randint(0, mapcol - 1)
+            if initial_map[random_row, random_col] == "X":
+                continue
+            map_status[random_row, random_col] = "I"
+            m += 1
 
-    
-    while m < industrial_number:
-        random_row = random.randint(0,maprow-1)
-        random_col = random.randint(0,mapcol-1)
-        if initial_map[random_row, random_col] == "X":
-            continue
-        map_status[random_row, random_col] = "I"
-        m += 1
+        while h < residential_number:
+            random_row = random.randint(0, maprow - 1)
+            random_col = random.randint(0, mapcol - 1)
+            if map_status[random_row, random_col] != 0 or initial_map[random_row, random_col] == "X":
+                continue
+            map_status[random_row, random_col] = "R"
+            h += 1
 
-    
-    while h < residential_number:
-        random_row = random.randint(0,maprow-1)
-        random_col = random.randint(0,mapcol-1)
-        if map_status[random_row, random_col] != 0 or initial_map[random_row, random_col] == "X":
-            continue
-        map_status[random_row, random_col] = "R"
-        h += 1
-        
-    while k < commercial_number:
-        random_row = random.randint(0,maprow-1)
-        random_col = random.randint(0,mapcol-1)
-        if map_status[random_row, random_col] != 0 or initial_map[random_row, random_col] == "X":
-            continue
-        map_status[random_row, random_col] = "C"
-        k += 1
+        while k < commercial_number:
+            random_row = random.randint(0, maprow - 1)
+            random_col = random.randint(0, mapcol - 1)
+            if map_status[random_row, random_col] != 0 or initial_map[random_row, random_col] == "X":
+                continue
+            map_status[random_row, random_col] = "C"
+            k += 1
+        for i in range(maprow):
+            for j in range(mapcol):
+                map_status[i, j] = 0
 
-    return map_status
+        h = urban_planning(maprow, mapcol, map_status, initial_map,industrial_number,residential_number,commercial_number,last_time)
+        for row in range(maprow):
+            for col in range(mapcol):
+                if h[1][0][(row, col)] == "I":
+                    initial_map[(row, col)] = "I"
 
-#initial_map1 = {(0, 0): 9, (0, 1): 8, (0, 2): 8, (0, 3): 5, (0, 4): 3, (0, 5): 9, (0, 6): 3, (0, 7): 7, (1, 0): 9, (1, 1): 3, (1, 2): 9, (1, 3): 7, (1, 4): 1, (1, 5): 9, (1, 6): 6, (1, 7): 2, (2, 0): 9, (2, 1): 6, (2, 2): 4, (2, 3): 'S', (2, 4): 4, (2, 5): 5, (2, 6): 7, (2, 7): 4, (3, 0): 9, (3, 1): 5, (3, 2): 8, (3, 3): 2, (3, 4): 8, (3, 5): 1, (3, 6): 1, (3, 7): 1, (4, 0): 4, (4, 1): 3, (4, 2): 2, (4, 3): 7, (4, 4): 2, (4, 5): 8, (4, 6): 0, (4, 7): 3, (5, 0): 7, (5, 1): 8, (5, 2): 2, (5, 3): 4, (5, 4): 7, (5, 5): 4, (5, 6): 'X', (5, 7): 6, (6, 0): 9, (6, 1): 4, (6, 2): 1, (6, 3): 6, (6, 4): 0, (6, 5): 1, (6, 6): 5, (6, 7): 8, (7, 0): 8, (7, 1): 1, (7, 2): 3, (7, 3): 4, (7, 4): 4, (7, 5): 5, (7, 6): 2, (7, 7): 8}
-# # map_status = {(0, 0): 'I', (0, 1): 'R', (0, 2): 'C', (0, 3): 0, (0, 4): 0, (0, 5): 0, (0, 6): 0, (1, 0): 0, (1, 1): 'R', (1, 2): 0, (1, 3): 0, (1, 4): 'R', (1, 5): 0, (1, 6): 0, (2, 0): 'R', (2, 1): 0, (2, 2): 'C', (2, 3): 0, (2, 4): 0, (2, 5): 0, (2, 6): 0, (3, 0): 0, (3, 1): 0, (3, 2): 0, (3, 3): 0, (3, 4): 0, (3, 5): 0, (3, 6): 0, (4, 0): 'C', (4, 1): 0, (4, 2): 'R', (4, 3): 0, (4, 4): 0, (4, 5): 0, (4, 6): 'C', (5, 0): 0, (5, 1): 0, (5, 2): 0, (5, 3): 0, (5, 4): 'I', (5, 5): 0, (5, 6): 0, (6, 0): 0, (6, 1): 0, (6, 2): 'I', (6, 3): 0, (6, 4): 'I', (6, 5): 0, (6, 6): 'C'}
-# # new_map = map(maprow, mapcol, initial_map, map_status)
-# # ori_map = map(maprow, mapcol, initial_map, initial_map)
-# # print(ori_map)
-# # #print(new_map)
-# # test_map = map(maprow, mapcol, initial_map, new_map.create_map())
-# # new_map.fitness()
-# # #print(new_map.fitness())
-# # print(test_map)
-# #print(str(test_map.find_terrain_in_distance(new_map.create_map(),3,'C',2,2)))
-# geneticAlgorithm.geneticRun(initial_map, 7, 7, 3, 6, 5, 10)
-map_status(maprow,mapcol,initial_map)
+                if h[1][0][(row, col)] == "C":
+                    initial_map[(row, col)] = "C"
+
+                if h[1][0][(row, col)] == "R":
+                    initial_map[(row, col)] = "R"
+        print("\n")
+        print("Final Urban Planning: ")
+        format = print_board(initial_map, maprow, mapcol)
+        print(format)
+        print("Fitness:" + str(h[1][1]))
+        print("Urban planning time: " + str(h[0]))
+    pass
+
+def take_input():
+    maprow = 0
+    mapcol = 0
+    num_waste = 0
+    num_view = 0
+    while True:
+        mapsize = map_size()
+        maprow = mapsize[0]
+        mapcol = mapsize[1]
+        num_waste = mapsize[2]
+        num_view = mapsize[3]
+        initial_map = init_map(maprow, mapcol, num_waste, num_view)
+        map_status(maprow, mapcol, initial_map)
+        ans = str(input('Do you want to play again? Y/N\n'))
+        while ans!='Y'and ans!='N':
+            ans= str(input('Please type in the correct value. Do you want to play again? Y/N \n'))
+        if ans == 'N':
+            break
+    pass
+
+take_input()
+
 
 

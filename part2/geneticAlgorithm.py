@@ -236,7 +236,7 @@ class map():
                 elif value2 == residential:
                     parent2.append("R" + str(rindex))
                     rindex += 1
-                elif value == "X":
+                elif value2 == "X":
                     parent1.append("X")
                 else:
                     parent2.append("B" + str(bindex))
@@ -361,10 +361,10 @@ def geneticRun(originalMap, maprow, mapcol, num_I, num_R, num_C, lastTime):
             # print(children[1])
             gen_list = gen_list + children
         gen_list.sort(key=lambda x: x.fitness_score,reverse = True)
-        diff = int(time.time() - start_time)
-        print(gen_list[0])
-        print("fitness score " + str(gen_list[0].fitness_score))
-
+        diff = float(time.time() - start_time)
+    print(gen_list[0])
+    print("fitness score " + str(gen_list[0].fitness_score))
+    print("actual time spent " + str(diff))
     pass
 # form a probability distribution
 # TODO consider negetive values
