@@ -1,6 +1,6 @@
 from copy import deepcopy
 import datetime
-
+import random
 # Create the heuristic function for hill climbing.
 def heuristic_function (board):
     h = 10
@@ -19,7 +19,6 @@ def heuristic_function (board):
     
     return h
 
-heuristic_function(board)
 
 # Restart to get a new status randomly.
 def restart(status):
@@ -94,7 +93,7 @@ def __str__(status):
     return string
 
 # Run with hill climbing
-def Queens(status):  
+def Queens(board):
     status = board
     cost = 0
     expansion = 0
@@ -131,4 +130,13 @@ def Queens(status):
     print ("The number of nodes expanded:" + str(expansion))
     print ("Cost time:" + str(endtime - starttime))
 
-Queens(board)
+def get_board(size):
+    board = []
+    for i in range(size):
+        k = random.sample(range(0,size-1),1)
+        board = board + k
+        i += 1
+    print(board)
+    return board
+
+
