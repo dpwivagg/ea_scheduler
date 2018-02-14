@@ -362,7 +362,8 @@ def geneticRun(originalMap, maprow, mapcol, num_I, num_R, num_C, lastTime):
             gen_list = gen_list + children
         gen_list.sort(key=lambda x: x.fitness_score,reverse = True)
         diff = float(time.time() - start_time)
-    print(gen_list[0].create_map())
+    print("Final state is:")
+    print( map(maprow,mapcol,original_map,gen_list[0].create_map()))
     print("fitness score " + str(gen_list[0].fitness_score))
     print("actual time spent " + str(diff))
     pass

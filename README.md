@@ -13,3 +13,4 @@ For part 2 Urban planning:
          residential number and time to run)
     3.Choose desired algorithm
     4.Read the output
+    5.For the printed board ," " empty string means score 0 or nothing.
