@@ -123,12 +123,13 @@ def Queens(board):
         print (heuristic_function(status))  
     
     endtime = datetime.datetime.now()
-    print ("The final status is:" + str(status))
+    print ("The final status is: " + str(status))
     print(__str__(status))
-    print ("The length of the solution path:" + str(path))
-    print ("The total cost is:" + str(cost))
-    print ("The number of nodes expanded:" + str(expansion))
-    print ("Cost time:" + str(endtime - starttime))
+    print ("The length of the solution path: " + str(path))
+    print ("The total cost is: " + str(cost))
+    print ("The number of nodes expanded: " + str(expansion))
+    print ("The branching factor: " + str(expansion/path))
+    print ("Cost time: " + str(endtime - starttime))
 
 def get_board(size):
     board = []
