@@ -53,13 +53,15 @@ def map_status (maprow, mapcol, initial_map):
     industrial_number = int(input("How many industrial tiles on the map? \n"))
     residential_number = int(input("How many residential tiles on the map? \n"))
     commercial_number = int(input("How many commercial tiles on the map? \n"))
-    last_time = int(input("How long do you want it to run ? \n"))
-    algorithm = input('What algorithm do you want to use? a. Genetic b.Hill Climb\n')
+    last_time = float(input("How long do you want it to run ? \n"))
+    algorithm = str(input('What algorithm do you want to use? a. Genetic b.Hill Climb\n'))
     while algorithm!='a' and  algorithm!='b':
         algorithm = input('Invalid input! What algorithm do you want to use? a. Genetic b.Hill Climb\n')
     if algorithm == 'a':
+        print("Running Genetic Algorithm for "+ str(last_time)+ " second(s)!")
         geneticAlgorithm.geneticRun(initial_map, maprow, mapcol, industrial_number, residential_number, commercial_number, last_time)
     elif algorithm =='b':
+        print("Running Hill Climb for "+ str(last_time)+ " second(s)!")
         map_status = {}
         for i in range(maprow):
             for j in range(mapcol):

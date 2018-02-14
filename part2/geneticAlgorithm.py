@@ -362,7 +362,7 @@ def geneticRun(originalMap, maprow, mapcol, num_I, num_R, num_C, lastTime):
             gen_list = gen_list + children
         gen_list.sort(key=lambda x: x.fitness_score,reverse = True)
         diff = float(time.time() - start_time)
-    print(gen_list[0])
+    print(gen_list[0].create_map())
     print("fitness score " + str(gen_list[0].fitness_score))
     print("actual time spent " + str(diff))
     pass
@@ -370,12 +370,13 @@ def geneticRun(originalMap, maprow, mapcol, num_I, num_R, num_C, lastTime):
 # TODO consider negetive values
 def probability_distribution(map_list):
     total_count = 0
-    min = 0
+    min = map_list[0].fitness_score
     probability_list = [None]*len(map_list)
+
     for map in map_list:
         if map.fitness_score<min:
             min = map.fitness_score
-
+    print("Min " + str(min))
     for map in map_list:
         total_count += (map.fitness_score-min)
     count = 0
