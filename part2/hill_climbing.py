@@ -299,9 +299,16 @@ def urban_planning(maprow, mapcol, map_status, initial_map,i_number,r_number,c_n
             format=print_board(one_move[0], maprow, mapcol)
             print(format)
             print("Fitness: " + str(one_move[1]) )
+            time_now = datetime.now()
+            time_cost=(time_now - start_time).total_seconds()
+            print ("Time cost:" + str(time_cost))
+            if time_cost >= time:
+                break
 
 #   stuck on local optima, store the local optima status in local_best, then restart hill climbing
         local_best.append([map_status, fitness])
+        if time_cost >= 10:
+            break
         fitness = heuristic_function(maprow, mapcol, initial_status, initial_map)
         map_status = get_map_status(maprow, mapcol, initial_map, i_number, r_number, c_number)
         one_move = hill_climbing(maprow, mapcol, map_status, initial_map)
