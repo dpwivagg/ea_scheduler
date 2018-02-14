@@ -354,7 +354,7 @@ def urban_planning(maprow, mapcol, map_status, initial_map):
                 local_best[j][1] = first
                 local_best[j][0] = first_m
 
-return  time_cost, local_best[0]
+    return  time_cost, local_best[0]
 
 
 h = urban_planning(maprow, mapcol, map_status, initial_map)
