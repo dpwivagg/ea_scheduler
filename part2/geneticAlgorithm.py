@@ -30,7 +30,7 @@ class map():
                 # else:
                 #     string = string + str(self.map_matrix[row, column]) + "|"
                 if self.map_matrix[row, column] == 0:
-                    string = string + " |"
+                    string = string + "0|"
                 else:
                     string = string + str(self.map_matrix[row, column]) + "|"
 

@@ -159,8 +159,7 @@ def astarRun(passBoard, ID):
                 for newBoard in board.getChildren():
                     if newBoard not in explored:
                         explored.add(newBoard)
-                        if (newBoard.actionCost < limit):
-                            heapq.heappush(frontier, newBoard)
+                        heapq.heappush(frontier, newBoard)
                 # endtime = datetime.datetime.now()
                 # print(endtime - starttime)
 

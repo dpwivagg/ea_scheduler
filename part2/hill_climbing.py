@@ -275,18 +275,18 @@ def urban_planning(maprow, mapcol, map_status, initial_map,i_number,r_number,c_n
             if map_status[(row, col)] == "R":
                 initial_copy[(row, col)] = "R"
 
-    print("The start status:")
-    format=print_board(initial_copy, maprow, mapcol)
-    print(format)
-    print("Fitness: "+str(fitness))
+    # print("The start status:")
+    # format=print_board(initial_copy, maprow, mapcol)
+    # print(format)
+    # print("Fitness: "+str(fitness))
 
     start_time = datetime.now()
     
     one_move = hill_climbing(maprow, mapcol, map_status, initial_map)
-    print("one move:")
-    format=print_board(one_move[0], maprow, mapcol)
-    print(format)
-    print("Fitness: "+ str(one_move[1]) )
+    # print("one move:")
+    # format=print_board(one_move[0], maprow, mapcol)
+    # print(format)
+    # print("Fitness: "+ str(one_move[1]) )
 
 
     while time_cost < time:
@@ -295,14 +295,15 @@ def urban_planning(maprow, mapcol, map_status, initial_map,i_number,r_number,c_n
             map_status = one_move[0]
             fitness = one_move[1]
             one_move = hill_climbing(maprow, mapcol, map_status, initial_map)
-            print("one move:")
+            # print("one move:")
             format=print_board(one_move[0], maprow, mapcol)
-            print(format)
-            print("Fitness: " + str(one_move[1]) )
+            # print(format)
+            # print("Fitness: " + str(one_move[1]) )
             time_now = datetime.now()
             time_cost=(time_now - start_time).total_seconds()
-            print ("Time cost:" + str(time_cost))
+
             if time_cost >= time:
+                #print ("Time cost:" + str(time_cost))
                 break
 
 #   stuck on local optima, store the local optima status in local_best, then restart hill climbing
@@ -313,10 +314,10 @@ def urban_planning(maprow, mapcol, map_status, initial_map,i_number,r_number,c_n
         map_status = get_map_status(maprow, mapcol, initial_map, i_number, r_number, c_number)
         one_move = hill_climbing(maprow, mapcol, map_status, initial_map)
         
-        print("Restart to try again, new status is: ")
-        format=print_board(map_status, maprow, mapcol)
-        print(format)
-        print("Fitness: "+str(one_move[1]))
+        # print("Restart to try again, new status is: ")
+        # format=print_board(map_status, maprow, mapcol)
+        # print(format)
+        # print("Fitness: "+str(one_move[1]))
        
         end_time = datetime.now()
         time_cost = (end_time - start_time).total_seconds()
