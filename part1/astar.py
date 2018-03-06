@@ -7,7 +7,6 @@ from copy import deepcopy
 Heapq.heappush: Add an item to the priority queue
 Heapq.heappop: Remove the smallest item from the queue
 """
-## aaaa
 
 class gameBoard():
     def __init__(self, positionArray, actionCost=0,parentBoard = None,heuristicOriginal = 0):
