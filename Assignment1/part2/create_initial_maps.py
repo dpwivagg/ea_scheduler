@@ -23,7 +23,7 @@ def init_map (maprow, mapcol,num_waste,num_view):
     for i in range(maprow):
         for j in range(mapcol):
             k = random.randint(0, 9)
-            matrix[i, j] = k
+            matrix[i, j, 1] = k
 
     for i in range(num_waste):
         random_row = random.randint(0, maprow - 1)
