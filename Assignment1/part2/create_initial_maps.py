@@ -1,6 +1,6 @@
 import random
-from part2 import geneticAlgorithm
-from part2.hill_climbing import urban_planning, print_board
+from Assignment1.part2 import geneticAlgorithm
+from Assignment1.part2.hill_climbing import urban_planning, print_board
 
 
 def map_size ():

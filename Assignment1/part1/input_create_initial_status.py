@@ -1,9 +1,8 @@
 import random
-from part1 import astar
-from part1 import hill_climbing
+from Assignment1.part1 import astar
 # Input to define the board size.
 # It won't permit the number of queens less than 4, because 3-queens problem will not have a solution.
-from part1.hill_climbing import Queens
+from Assignment1.part1.hill_climbing import Queens
 
 
 def take_input():
