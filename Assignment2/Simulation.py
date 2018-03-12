@@ -5,8 +5,8 @@ class NB(Enum):
     good=1
 
 class AM(Enum):
-    lots=1
-    little=0
+    lots=0
+    little=1
 
 class SIZ(Enum):
     small=0
@@ -14,17 +14,17 @@ class SIZ(Enum):
     large=2
 
 class LOC(Enum):
-    good=1
-    bad=0
+    good=0
+    bad=1
     ugly=2
 
 class CHI(Enum):
-    bad=0
-    good=1
+    bad=1
+    good=0
 
 class SCH(Enum):
-    bad=0
-    good=1
+    bad=1
+    good=0
 
 class AGE(Enum):
     old=0
