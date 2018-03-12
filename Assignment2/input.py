@@ -3,9 +3,10 @@ def set_evidence_node():
     evidence_number = int(input("How many evidence node do you want?\n"))
     nodes = []
     evidence_list = {}
+    count=0
 
-    for i in range(evidence_number):
-        print("For the " + str(i+1) + " evidence node, please choose one evidence node from 0 to 7:")
+    while count < evidence_number:
+        print("For the " + str(count+1) + " evidence node, please choose one evidence node from 0 to 7:")
         node = "0. amenities \n" \
                "1. neighborhood \n" \
                "2. location \n" \
@@ -20,9 +21,14 @@ def set_evidence_node():
                 evidence = int(input(node + "\nSet evidence node: \n"))
                 if evidence not in range(8):
                     print('Invalid value entered. Please enter again. \n')
+                    continue
+                if evidence == h[0]:
+                    print('This is your Query Node! please enter again. \n')
+                    continue
                 if evidence in nodes:
                     print('You have selected this node. Please enter again. \n')
                     continue
+                count +=1
                 break
             except ValueError:
                 print('Invalid value entered. Please enter again.')
@@ -164,7 +170,7 @@ def set_evidence_node():
     print("\nEvidence nodes have been selected:\n" + str(evidence_list) + "\n")
     return nodes, evidence_list
 
-h = set_evidence_node()
+
 
 def get_query_node():
     node = "0. amenities \n" \
@@ -176,18 +182,19 @@ def get_query_node():
            "6. age \n" \
            "7. price \n"
     all_nodes = ["amenities", "neighborhood", "location", "children", "size", "school", "age", "price"]
-    evidence_node_list = h[0]
     while True:
         try:
             query_n = int(input(node + "\nSelect query node: \n"))
-            if query_n in evidence_node_list:
-                print('This is an evidence node. Please select again. \n')
+            if query_n not in range(8):
+                print('Invalid input! Please select again. \n')
                 continue
             break
         except ValueError:
             print('Invalid value entered. Please enter again.')
     query_node = all_nodes[query_n]
     print("The query node is:" + query_node)
-    return query_node
+    return query_n, query_node
 
-get_query_node()
+h = get_query_node()
+
+set_evidence_node()
