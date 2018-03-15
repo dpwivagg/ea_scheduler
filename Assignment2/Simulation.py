@@ -1,47 +1,55 @@
 # This is for the simulation of gibbs samplin
 from enum import Enum
 from Assignment2.node import Node
+
+
+# --------------------------------------This set up the CPT------------------------------------------------------------
 class NB(Enum):
+    identity = "neighborhood"
     good = 0
     bad = 1
     list = [good, bad]
 
 class AM(Enum):
+    identity = "amenities"
     lots = 0
     little = 1
     list = [lots, little]
 
 class SIZ(Enum):
+    identity = "size"
     small = 0
     medium = 1
     large=2
     list = [small, medium, large]
 
 class LOC(Enum):
+    identity = "location"
     good = 0
     bad = 1
     ugly = 2
     list = [good, bad, ugly]
 
 class CHI(Enum):
+    identity = "children"
     good = 0
     bad = 1
     list = [good, bad]
-
-
 
 class SCH(Enum):
+    identity = "school"
     good = 0
     bad = 1
     list = [good, bad]
 
-
 class AGE(Enum):
+    identity = "age"
     old = 0
     new = 1
     list = [old, new]
 
 class PRI(Enum):
+    identity = "price"
     cheap = 0
     ok = 1
     expensive = 2
@@ -213,4 +221,39 @@ nodeSCH = Node(SCH.identity, SCH.list, school)
 nodeAGE = Node(AGE.identity, AGE.list, age)
 nodePRI = Node(PRI.identity, PRI.list, price)
 
+# --------------------------------------This set up the CPT------------------------------------------------------------
 
+# -----------------------------This set up the relationship------------------------------------------------------------
+# For Amenities child and parent
+nodeAM.addChild(nodeLOC)
+
+# For location child and parent
+nodeLOC.addParent(nodeAM)
+nodeLOC.addParent(nodeNB)
+nodeLOC.addChild(nodeAGE)
+nodeLOC.addChild(nodePRI)
+
+# For neighborhood child and parent
+nodeNB.addChild(nodeLOC)
+nodeNB.addChild(nodeCHI)
+
+# For children child and parent
+nodeCHI.addParent(nodeNB)
+nodeCHI.addChild(nodeSCH)
+
+# For schools child and parent
+nodeSCH.addParent(nodeCHI)
+nodeSCH.addChild(nodePRI)
+
+# For size child and parent
+nodeSIZ.addChild(nodePRI)
+
+# For age child and parent
+nodeAGE.addParent(nodeLOC)
+nodeAGE.addChild(nodePRI)
+
+# For price child and parent
+nodePRI.addParent(nodeAGE)
+nodePRI.addParent(nodeLOC)
+nodePRI.addParent(nodeSIZ)
+nodePRI.addParent(nodeSCH)
