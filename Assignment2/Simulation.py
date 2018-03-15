@@ -55,7 +55,7 @@ class PRI(Enum):
     expensive = 2
     list = [cheap, ok, expensive]
 
-amentities={AM.lots:0.3, AM.little:0.7}
+amentities={AM.lots.value:0.3, AM.little.value:0.7}
 
 neighborhood={NB.bad:0.4, NB.good:0.6}
 
@@ -66,7 +66,7 @@ children={}
 children[CHI.bad.value,NB.bad.value]=0.6
 children[CHI.bad.value,NB.good.value]=0.3
 children[CHI.good.value,NB.bad.value]=0.4
-children[CHI.good.value,NB.bad.value]=0.7
+children[CHI.good.value,NB.good.value]=0.7
 
 #school children
 school={}
@@ -212,14 +212,15 @@ price[PRI.expensive.value, LOC.ugly.value, AGE.new.value, SCH.good.value, SIZ.sm
 price[PRI.expensive.value, LOC.ugly.value, AGE.new.value, SCH.good.value, SIZ.medium.value]=0.2
 price[PRI.expensive.value, LOC.ugly.value, AGE.new.value, SCH.good.value, SIZ.large.value]=0.3
 
-nodeNB = Node(NB.identity, NB.list, neighborhood)
-nodeAM = Node(AM.identity, AM.list, amentities)
-nodeSIZ = Node(SIZ.identity, SIZ.list, size)
-nodeLOC = Node(LOC.identity, LOC.list, location)
-nodeCHI = Node(CHI.identity, CHI.list, children)
-nodeSCH = Node(SCH.identity, SCH.list, school)
-nodeAGE = Node(AGE.identity, AGE.list, age)
-nodePRI = Node(PRI.identity, PRI.list, price)
+locationList =[0,1,2]
+nodeNB = Node(NB.identity.value, NB.list.value, neighborhood)
+nodeAM = Node(AM.identity.value, AM.list.value, amentities)
+nodeSIZ = Node(SIZ.identity.value, SIZ.list.value, size)
+nodeLOC = Node(LOC.identity.value, LOC.list.value, location)
+nodeCHI = Node(CHI.identity.value, CHI.list.value, children)
+nodeSCH = Node(SCH.identity.value, SCH.list.value, school)
+nodeAGE = Node(AGE.identity.value, AGE.list.value, age)
+nodePRI = Node(PRI.identity.value, PRI.list.value, price)
 
 # --------------------------------------This set up the CPT------------------------------------------------------------
 
@@ -253,7 +254,16 @@ nodeAGE.addParent(nodeLOC)
 nodeAGE.addChild(nodePRI)
 
 # For price child and parent
-nodePRI.addParent(nodeAGE)
+
 nodePRI.addParent(nodeLOC)
-nodePRI.addParent(nodeSIZ)
+nodePRI.addParent(nodeAGE)
 nodePRI.addParent(nodeSCH)
+nodePRI.addParent(nodeSIZ)
+
+
+
+print(children[0,0])
+nodeLOC.getMBProbability()
+# nodeCHI.getMBProbability()
+
+
