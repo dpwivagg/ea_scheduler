@@ -45,14 +45,18 @@ class Node:
             s = i
             self.state = s ##This will run through all states to find their probability
             p = self.getNormalProbabilty()
+            print(p)
             for child in self.children:
-                p = p * child.getNormalProbabilty
+                print(str(p)+"*"+str(child.getNormalProbabilty()))
+                p = p * child.getNormalProbabilty()
+
+            print("\n")
             weight.append(p) ## this will sets the probability for all states
             pSum = pSum + p
         ratio = 1 / pSum
         for i in range(len(weight)):## run through the
             weight[i] = weight[i] * ratio
-        print(self.identity+" State:"+str(self.state)+" Probability:"+str(weight[i]))
+            print(self.identity + " State:" + str(self.stateList[i]) + " Probability:" + str(weight[i]))
         self.state = random.choices(self.stateList, weights=weight, k=1)
 
 

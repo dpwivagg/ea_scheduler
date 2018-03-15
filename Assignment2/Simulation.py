@@ -66,7 +66,7 @@ children={}
 children[CHI.bad.value,NB.bad.value]=0.6
 children[CHI.bad.value,NB.good.value]=0.3
 children[CHI.good.value,NB.bad.value]=0.4
-children[CHI.good.value,NB.bad.value]=0.7
+children[CHI.good.value,NB.good.value]=0.7
 
 #school children
 school={}
@@ -213,14 +213,14 @@ price[PRI.expensive.value, LOC.ugly.value, AGE.old.value, SCH.good.value, SIZ.me
 price[PRI.expensive.value, LOC.ugly.value, AGE.old.value, SCH.good.value, SIZ.large.value]=0.3
 
 locationList =[0,1,2]
-nodeNB = Node(NB.identity, NB.list, neighborhood)
-nodeAM = Node(AM.identity, AM.list, amentities)
-nodeSIZ = Node(SIZ.identity, SIZ.list, size)
-nodeLOC = Node(LOC.identity, locationList, location)
-nodeCHI = Node(CHI.identity, CHI.list, children)
-nodeSCH = Node(SCH.identity, SCH.list, school)
-nodeAGE = Node(AGE.identity, AGE.list, age)
-nodePRI = Node(PRI.identity, PRI.list, price)
+nodeNB = Node(NB.identity.value, NB.list.value, neighborhood)
+nodeAM = Node(AM.identity.value, AM.list.value, amentities)
+nodeSIZ = Node(SIZ.identity.value, SIZ.list.value, size)
+nodeLOC = Node(LOC.identity.value, LOC.list.value, location)
+nodeCHI = Node(CHI.identity.value, CHI.list.value, children)
+nodeSCH = Node(SCH.identity.value, SCH.list.value, school)
+nodeAGE = Node(AGE.identity.value, AGE.list.value, age)
+nodePRI = Node(PRI.identity.value, PRI.list.value, price)
 
 # --------------------------------------This set up the CPT------------------------------------------------------------
 
@@ -254,13 +254,16 @@ nodeAGE.addParent(nodeLOC)
 nodeAGE.addChild(nodePRI)
 
 # For price child and parent
-nodePRI.addParent(nodeAGE)
-nodePRI.addParent(nodeLOC)
-nodePRI.addParent(nodeSIZ)
-nodePRI.addParent(nodeSCH)
 
-print(AM.lots)
-print(amentities[0])
-#nodeLOC.getMBProbability()
+nodePRI.addParent(nodeLOC)
+nodePRI.addParent(nodeAGE)
+nodePRI.addParent(nodeSCH)
+nodePRI.addParent(nodeSIZ)
+
+
+
+print(children[0,0])
+nodeLOC.getMBProbability()
+# nodeCHI.getMBProbability()
 
 
