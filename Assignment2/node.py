@@ -46,13 +46,13 @@ class Node:
             self.state = s ##This will run through all states to find their probability
             p = self.getNormalProbabilty()
             for child in self.children:
-                p = p*child.getNormalProbabilty
+                p = p * child.getNormalProbabilty
             weight.append(p) ## this will sets the probability for all states
             pSum = pSum + p
         ratio = 1 / pSum
         for i in range(len(weight)):## run through the
             weight[i] = weight[i] * ratio
-        self.state = random.choices(self.stateList,weights=weight,k=1)
+        self.state = random.choices(self.stateList, weights=weight, k=1)
 
 
 
