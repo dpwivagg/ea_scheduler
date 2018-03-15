@@ -1,39 +1,50 @@
 # This is for the simulation of gibbs samplin
 from enum import Enum
 class NB(Enum):
-    bad=0
-    good=1
+    bad = 0
+    good = 1
+    list = [bad, good]
 
 class AM(Enum):
-    lots=0
-    little=1
+    lots = 0
+    little = 1
+    list = [lots, little]
 
 class SIZ(Enum):
-    small=0
-    medium=1
+    small = 0
+    medium = 1
     large=2
+    list = [small, medium, large]
 
 class LOC(Enum):
-    good=0
-    bad=1
-    ugly=2
+    good = 0
+    bad = 1
+    ugly = 2
+    list = [good, bad, ugly]
 
 class CHI(Enum):
-    bad=1
-    good=0
+    good = 0
+    bad = 1
+    list = [good, bad]
+
+
 
 class SCH(Enum):
-    bad=1
-    good=0
+    good = 0
+    bad = 1
+    list = [good, bad]
+
 
 class AGE(Enum):
-    old=0
-    new=1
+    old = 0
+    new = 1
+    list = [old, new]
 
 class PRI(Enum):
-    cheap=0
-    ok=1
-    expensive=2
+    cheap = 0
+    ok = 1
+    expensive = 2
+    list = [cheap, ok, expensive]
 
 amentities={AM.lots:0.3, AM.little:0.7}
 
@@ -191,3 +202,5 @@ price[PRI.expensive,LOC.ugly,AGE.old,SCH.bad,SIZ.large]=0.07
 price[PRI.expensive,LOC.ugly,AGE.old,SCH.good,SIZ.small]=0.1
 price[PRI.expensive,LOC.ugly,AGE.old,SCH.good,SIZ.medium]=0.2
 price[PRI.expensive,LOC.ugly,AGE.old,SCH.good,SIZ.large]=0.3
+
+
