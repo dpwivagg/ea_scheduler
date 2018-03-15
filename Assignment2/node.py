@@ -1,7 +1,7 @@
 # This is the Node for Gibbs sampling
 import random
 class Node:
-    def __init__(self, identity,stateList, cpt):
+    def __init__(self, identity, stateList, cpt):
         self.identity = identity
         self.cpt = cpt
         self.state = 0
@@ -52,6 +52,7 @@ class Node:
         ratio = 1 / pSum
         for i in range(len(weight)):## run through the
             weight[i] = weight[i] * ratio
+            print(self.identity+" State:"+str(self.state)+" Probability:"+str(weight[i]))
         self.state = random.choices(self.stateList,weights=weight,k=1)
 
 

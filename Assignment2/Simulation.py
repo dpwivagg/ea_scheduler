@@ -55,7 +55,7 @@ class PRI(Enum):
     expensive = 2
     list = [cheap, ok, expensive]
 
-amentities={AM.lots:0.3, AM.little:0.7}
+amentities={AM.lots.value:0.3, AM.little.value:0.7}
 
 neighborhood={NB.bad:0.4, NB.good:0.6}
 
@@ -212,10 +212,11 @@ price[PRI.expensive,LOC.ugly,AGE.old,SCH.good,SIZ.small]=0.1
 price[PRI.expensive,LOC.ugly,AGE.old,SCH.good,SIZ.medium]=0.2
 price[PRI.expensive,LOC.ugly,AGE.old,SCH.good,SIZ.large]=0.3
 
+locationList =[0,1,2]
 nodeNB = Node(NB.identity, NB.list, neighborhood)
 nodeAM = Node(AM.identity, AM.list, amentities)
 nodeSIZ = Node(SIZ.identity, SIZ.list, size)
-nodeLOC = Node(LOC.identity, LOC.list, location)
+nodeLOC = Node(LOC.identity, locationList, location)
 nodeCHI = Node(CHI.identity, CHI.list, children)
 nodeSCH = Node(SCH.identity, SCH.list, school)
 nodeAGE = Node(AGE.identity, AGE.list, age)
@@ -257,3 +258,9 @@ nodePRI.addParent(nodeAGE)
 nodePRI.addParent(nodeLOC)
 nodePRI.addParent(nodeSIZ)
 nodePRI.addParent(nodeSCH)
+
+print(AM.lots)
+print(amentities[0])
+#nodeLOC.getMBProbability()
+
+
