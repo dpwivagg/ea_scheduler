@@ -1,46 +1,51 @@
 # This is for the simulation of gibbs samplin
 from enum import Enum
 class NB(Enum):
+    identity = "neighborhood"
     bad = 0
     good = 1
     list = [bad, good]
 
 class AM(Enum):
+    identity = "amenities"
     lots = 0
     little = 1
     list = [lots, little]
 
 class SIZ(Enum):
+    identity = "size"
     small = 0
     medium = 1
     large=2
     list = [small, medium, large]
 
 class LOC(Enum):
+    identity = "location"
     good = 0
     bad = 1
     ugly = 2
     list = [good, bad, ugly]
 
 class CHI(Enum):
+    identity = "children"
     good = 0
     bad = 1
     list = [good, bad]
-
-
 
 class SCH(Enum):
+    identity = "school"
     good = 0
     bad = 1
     list = [good, bad]
 
-
 class AGE(Enum):
+    identity = "age"
     old = 0
     new = 1
     list = [old, new]
 
 class PRI(Enum):
+    identity = "price"
     cheap = 0
     ok = 1
     expensive = 2
