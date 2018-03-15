@@ -1,9 +1,10 @@
 # This is for the simulation of gibbs samplin
 from enum import Enum
+from Assignment2.node import Node
 class NB(Enum):
-    bad = 0
-    good = 1
-    list = [bad, good]
+    good = 0
+    bad = 1
+    list = [good, bad]
 
 class AM(Enum):
     lots = 0
@@ -202,5 +203,14 @@ price[PRI.expensive,LOC.ugly,AGE.old,SCH.bad,SIZ.large]=0.07
 price[PRI.expensive,LOC.ugly,AGE.old,SCH.good,SIZ.small]=0.1
 price[PRI.expensive,LOC.ugly,AGE.old,SCH.good,SIZ.medium]=0.2
 price[PRI.expensive,LOC.ugly,AGE.old,SCH.good,SIZ.large]=0.3
+
+nodeNB = Node(NB.identity, NB.list, neighborhood)
+nodeAM = Node(AM.identity, AM.list, amentities)
+nodeSIZ = Node(SIZ.identity, SIZ.list, size)
+nodeLOC = Node(LOC.identity, LOC.list, location)
+nodeCHI = Node(CHI.identity, CHI.list, children)
+nodeSCH = Node(SCH.identity, SCH.list, school)
+nodeAGE = Node(AGE.identity, AGE.list, age)
+nodePRI = Node(PRI.identity, PRI.list, price)
 
 
