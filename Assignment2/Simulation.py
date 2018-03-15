@@ -94,10 +94,10 @@ location[LOC.bad.value,AM.lots.value,NB.bad.value]=0.4
 location[LOC.bad.value,AM.lots.value,NB.good.value]=0.15
 location[LOC.bad.value,AM.little.value,NB.bad.value]=0.4
 location[LOC.bad.value,AM.little.value,NB.good.value]=0.35
-location[LOC.ugly.value,AM.lots.value,NB.bad.value]=0.35
-location[LOC.ugly.value,AM.lots.value,NB.good.value]=0.35
-location[LOC.ugly.value,AM.little.value,NB.bad.value]=0.35
-location[LOC.ugly.value,AM.little.value,NB.good.value]=0.35
+location[LOC.ugly.value,AM.lots.value,NB.bad.value]=0.3
+location[LOC.ugly.value,AM.lots.value,NB.good.value]=0.05
+location[LOC.ugly.value,AM.little.value,NB.bad.value]=0.4
+location[LOC.ugly.value,AM.little.value,NB.good.value]=0.15
 
 #price location age school size
 price={}
