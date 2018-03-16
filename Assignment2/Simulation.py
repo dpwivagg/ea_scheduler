@@ -320,24 +320,24 @@ def createTables():
         ylist.append(i)
         pnode = cnode
     for i in range(len(graphList)):
-        plt.plot(graphList[i], ylist, label="line "+str(i))
-    for a in range(len(prob)):
-        for b in graphList[a]:
-            print (b)
-        print("break")
+        plt.plot(ylist, graphList[i], label="State "+str(i))
+    print(prob)
+    # for a in range(len(prob)):
+    #     for b in graphList[a]:
+    #         print (b)
+    #     print("break")
 
-    print("end here")
     # naming the x axis
-    plt.xlabel('x - axis')
+    plt.xlabel('Iterations')
     # naming the y axis
-    plt.ylabel('y - axis')
+    plt.ylabel('Probability')
     # giving a title to my graph
     plt.title('Two lines on same graph!')
     # show a legend on the plot
-    # plt.legend()
+    plt.legend()
     # function to show the plot
     plt.show()
-    print(result)
+
 
     # for i in range(drops):
     #     node = nodeList.random.ran
