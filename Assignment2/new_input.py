@@ -34,4 +34,4 @@ def input_line():
             evidence_node[s_split[0]] = state
     print(evidence_node)
 
-    return query_node, evidence_node, update_number, drop_number
+    return query_node, evidence_node, int(update_number), int(drop_number)

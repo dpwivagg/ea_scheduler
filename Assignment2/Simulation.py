@@ -1,5 +1,6 @@
 # This is for the simulation of gibbs samplin
 from enum import Enum
+import random
 from Assignment2.node import Node
 from Assignment2.new_input import input_line
 
@@ -262,16 +263,18 @@ def createTables():
     nodePRI.addParent(nodeSIZ)
     # print(children[0,0])
     (queryNode,evidenceNodeList, iterations,drops) = input_line()
-    print(evidenceNodeList)
-    print("Q:"+queryNode+" I:"+iterations+" D:"+drops)
+    print("Q:"+queryNode+" I:"+str(iterations)+" D:"+str(drops))
 
     nodeList = [nodeAM, nodeAGE, nodeSIZ, nodePRI, nodeSCH, nodeCHI, nodeLOC, nodeNB]
     actualList = list()
     ##
+
     for node in nodeList:
+        print(node)
         if node.identity == queryNode:
             result = [len(node.stateList)]
             actualList.append(node)
+            qnode = node
             continue
         for key in evidenceNodeList.keys():
             if node.identity == key:
@@ -281,9 +284,22 @@ def createTables():
         if not node.isEvidence:
             actualList.append(node)
 
-    for node in actualList:
-        print(node)
+    for a in result:
+        a = 0
+
     pnode = None
+    for i in range(drops):
+        cnode = actualList[random.randint(0,len(actualList))]
+        while cnode == pnode:
+            cnode = actualList[random.randint(0, len(actualList))]
+        cnode.getMBProbability()
+        result[qnode.state] = result[qnode.state] + 1
+
+    print(result)
+
+
+
+
     # for i in range(drops):
     #     node = nodeList.random.ran
 
