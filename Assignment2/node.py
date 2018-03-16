@@ -15,6 +15,8 @@ class Node:
 
     def addChild(self,child):
         self.children.append(child)
+    def __str__(self):
+        return self.identity + " State:" + str(self.state) + " Is evidence:" + str(self.isEvidence)
 
     def getNormalProbabilty(self):
         p = 1
@@ -57,7 +59,7 @@ class Node:
         for i in range(len(weight)):## run through the
             weight[i] = weight[i] * ratio
             print(self.identity + " State:" + str(self.stateList[i]) + " Probability:" + str(weight[i]))
-        self.state = random.choices(self.stateList, weights=weight, k=1)
+        self.state = random.choices(self.stateList, weights=weight, k=1)[0]
 
 
 
