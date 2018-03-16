@@ -35,5 +35,3 @@ def input_line():
     print('Drop number:' + '\t' + str(drop_number))
 
     return query_node, evidence_node, update_number, drop_number
-
-input_line()

@@ -260,43 +260,43 @@ def createTables():
     nodePRI.addParent(nodeAGE)
     nodePRI.addParent(nodeSCH)
     nodePRI.addParent(nodeSIZ)
-    # print(children[0,0])
-    (queryNode,evidenceNodeList, iterations,drops) = input_line()
-    print(evidenceNodeList)
-    print("Q:"+queryNode+" I:"+iterations+" D:"+drops)
 
-    nodeList = [nodeAM, nodeAGE, nodeSIZ, nodePRI, nodeSCH, nodeCHI, nodeLOC, nodeNB]
-    actualList = list()
-    ##
-    for node in nodeList:
-        if node.identity == queryNode:
-            result = [len(node.stateList)]
-            actualList.append(node)
-            continue
-        for key in evidenceNodeList.keys():
-            if node.identity == key:
-                node.isEvidence = True
-                node.state = evidenceNodeList.get(key)
-                continue
-        if not node.isEvidence:
-            actualList.append(node)
+    nodeAGE.state = AGE.new.value
 
-    for node in actualList:
-        print(node)
-    pnode = None
+    nodeAGE.getMBProbability()
+    print(nodeAGE)
+
+    # # print(children[0,0])
+    # (queryNode,evidenceNodeList, iterations,drops) = input_line()
+    # print(evidenceNodeList)
+    # print("Q:"+queryNode+" I:"+iterations+" D:"+drops)
+    #
+    # nodeList = [nodeAM, nodeAGE, nodeSIZ, nodePRI, nodeSCH, nodeCHI, nodeLOC, nodeNB]
+    # actualList = list()
+    # ##
+    # for node in nodeList:
+    #     if node.identity == queryNode:
+    #         result = [len(node.stateList)]
+    #         actualList.append(node)
+    #         continue
+    #     for key in evidenceNodeList.keys():
+    #         if node.identity == key:
+    #             node.isEvidence = True
+    #             node.state = evidenceNodeList.get(key)
+    #             continue
+    #     if not node.isEvidence:
+    #         actualList.append(node)
+    #
+    # for node in actualList:
+    #     print(node)
+    # pnode = None
     # for i in range(drops):
     #     node = nodeList.random.ran
-
-
-
-
 
 
 createTables()
 # nodeLOC.getMBProbability()
 # print(nodeLOC)
 # nodeCHI.getMBProbability()
-
-
 
 
