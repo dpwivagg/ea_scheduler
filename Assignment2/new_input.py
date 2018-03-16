@@ -25,12 +25,18 @@ def input_line():
         if '=' in s:
             s_split = s.split('=')
             # evidence_node[s_split[0]]=s_split[1]
-            if s_split[1] == 'good' or 'lots' or 'small' or 'old' or 'cheap':
+            input_state = str(s_split[1])
+            print(input_state)
+
+            if input_state in ['good', 'lots', 'small', 'old', 'cheap']:
                 state = 0
-            if s_split[1] == 'bad' or 'little' or 'medium' or 'new' or 'ok':
+
+            elif input_state in ['bad', 'little', 'medium', 'new', 'ok']:
                 state = 1
-            if s_split[1] == 'large' or 'ugly' or 'expensive':
+
+            elif input_state in ['large', 'ugly', 'expensive']:
                 state = 2
+
             evidence_node[s_split[0]] = state
     print(evidence_node)
 
