@@ -192,7 +192,7 @@ def get_query_node():
         except ValueError:
             print('Invalid value entered. Please enter again.')
     query_node = all_nodes[query_n]
-    print("The query node is:" + query_node)
+    print("The query node is:" + query_node + '\n')
     return query_n, query_node
 
 h = get_query_node()
