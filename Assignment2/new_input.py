@@ -29,9 +29,10 @@ def input_line():
                 state = 2
             evidence_node[s_split[0]] = state
 
-    print('Query node:' + '\t' + str(query_node))
-    print('Evidence nodes:' + '\t' + str(evidence_node))
-    print('Update number:' + '\t' + str(update_number))
-    print('Drop number:' + '\t' + str(drop_number))
+    # print('Query node:' + '\t' + str(query_node))
+    # print('Evidence nodes:' + '\t' + str(evidence_node))
+    # print('Update number:' + '\t' + str(update_number))
+    # print('Drop number:' + '\t' + str(drop_number))
+    return query_node, evidence_node, int(update_number), int(drop_number)
 
-    return query_node, evidence_node, update_number, drop_number
+
