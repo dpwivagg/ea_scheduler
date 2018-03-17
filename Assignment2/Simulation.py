@@ -40,7 +40,7 @@ class CHI(Enum):
     list = [good, bad]
 
 class SCH(Enum):
-    identity = "school"
+    identity = "schools"
     good = 0
     bad = 1
     list = [good, bad]
@@ -272,7 +272,7 @@ def createTables():
     ##
 
     for node in nodeList:
-        print(node)
+        # print(node)
         if node.identity == queryNode:
             result = [0]*len(node.stateList)
 
@@ -291,6 +291,9 @@ def createTables():
                 continue
         if not node.isEvidence:
             actualList.append(node)
+        print(node)
+
+
 
     pnode = None
     for i in range(drops):
