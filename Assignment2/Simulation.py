@@ -294,11 +294,10 @@ def createTables():
             if node.identity == key:
                 node.isEvidence = True
                 node.state = evidenceNodeList.get(key)
-                print(key, node.state)
+                # print(key, node.state)
                 continue
         if not node.isEvidence:
             actualList.append(node)
-
 
 
     pnode = None
@@ -311,6 +310,7 @@ def createTables():
         cnode.getMBProbability()
         pnode = cnode
     ylist = list()
+
     for i in range(iterations-drops):
         randIndex = random.randint(0,len(actualList)-1)
         cnode = actualList[randIndex]
@@ -328,6 +328,7 @@ def createTables():
             graphList[a].append(prob[a])
         ylist.append(i)
         pnode = cnode
+
     for i in range(len(graphList)):
         plt.plot(ylist, graphList[i], label="State "+str(i))
 
@@ -358,7 +359,7 @@ def createTables():
     # naming the y axis
     plt.ylabel('Probability')
     # giving a title to my graph
-    plt.title('Two lines on same graph!')
+    plt.title('Gibbs Sampling')
     # show a legend on the plot
     plt.legend()
     # function to show the plot
