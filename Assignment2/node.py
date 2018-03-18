@@ -20,7 +20,7 @@ class Node:
         return self.identity + " State:" + str(self.state) + " Is evidence:" + str(self.isEvidence)
 
     def getNormalProbabilty(self):
-        p = 1
+        p=1
         if len(self.parents) == 0:
             p = self.cpt[self.state]
         if len(self.parents) == 1:
