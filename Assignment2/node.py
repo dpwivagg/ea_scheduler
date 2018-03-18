@@ -20,6 +20,8 @@ class Node:
 
     def getNormalProbabilty(self):
         p = 1
+        if len(self.parents) == 0:
+            p = self.cpt[self.state]
         if len(self.parents) == 1:
             a = self.parents[0].state
             p = self.cpt[self.state,a]

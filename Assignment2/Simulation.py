@@ -40,7 +40,7 @@ class CHI(Enum):
     list = [good, bad]
 
 class SCH(Enum):
-    identity = "school"
+    identity = "schools"
     good = 0
     bad = 1
     list = [good, bad]
@@ -272,10 +272,9 @@ def createTables():
     ##
 
     for node in nodeList:
-        print(node)
+        # print(node)
         if node.identity == queryNode:
             result = [0]*len(node.stateList)
-
             graphList = []
             for i in range(len(node.stateList)):
                 graphList.append([])
@@ -288,6 +287,7 @@ def createTables():
             if node.identity == key:
                 node.isEvidence = True
                 node.state = evidenceNodeList.get(key)
+                print(key, node.state)
                 continue
         if not node.isEvidence:
             actualList.append(node)
@@ -338,10 +338,8 @@ def createTables():
     # function to show the plot
     plt.show()
 
-
     # for i in range(drops):
     #     node = nodeList.random.ran
-
 
 createTables()
 # nodeLOC.getMBProbability()
