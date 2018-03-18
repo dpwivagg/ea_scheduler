@@ -12,12 +12,14 @@ class NB(Enum):
     good = 0
     bad = 1
     list = [good, bad]
+    list2=["good","bad"]
 
 class AM(Enum):
     identity = "amenities"
     lots = 0
     little = 1
     list = [lots, little]
+    list2=["lots","little"]
 
 class SIZ(Enum):
     identity = "size"
@@ -25,6 +27,7 @@ class SIZ(Enum):
     medium = 1
     large=2
     list = [small, medium, large]
+    list2=["small","medium","large"]
 
 class LOC(Enum):
     identity = "location"
@@ -32,24 +35,28 @@ class LOC(Enum):
     bad = 1
     ugly = 2
     list = [good, bad, ugly]
+    list2=["good","bad","ugly"]
 
 class CHI(Enum):
     identity = "children"
     good = 0
     bad = 1
     list = [good, bad]
+    list2=["good","bad"]
 
 class SCH(Enum):
     identity = "schools"
     good = 0
     bad = 1
     list = [good, bad]
+    list2=["good","bad"]
 
 class AGE(Enum):
     identity = "age"
     old = 0
     new = 1
     list = [old, new]
+    list2 =["old","new"]
 
 class PRI(Enum):
     identity = "price"
@@ -57,7 +64,7 @@ class PRI(Enum):
     ok = 1
     expensive = 2
     list = [cheap, ok, expensive]
-
+    list2=["cheap","ok","expensive"]
 
 def createTables():
     amentities={AM.lots.value:0.3, AM.little.value:0.7}
@@ -266,7 +273,7 @@ def createTables():
 
     # print(children[0,0])
     (queryNode,evidenceNodeList, iterations,drops) = input_line()
-    print("Q:"+queryNode+" I:"+str(iterations)+" D:"+str(drops))
+    # print("Q:"+queryNode+" I:"+str(iterations)+" D:"+str(drops))
     nodeList = [nodeAM, nodeAGE, nodeSIZ, nodePRI, nodeSCH, nodeCHI, nodeLOC, nodeNB]
     actualList = list()
     ##
@@ -279,7 +286,7 @@ def createTables():
             for i in range(len(node.stateList)):
                 graphList.append([])
             prob = [0]*len(node.stateList)
-            print("result length:"+str(len(node.stateList)))
+            # print("result length:"+str(len(node.stateList)))
             actualList.append(node)
             qnode = node
             continue
@@ -291,6 +298,8 @@ def createTables():
                 continue
         if not node.isEvidence:
             actualList.append(node)
+
+
 
     pnode = None
     for i in range(drops):
@@ -321,7 +330,24 @@ def createTables():
         pnode = cnode
     for i in range(len(graphList)):
         plt.plot(ylist, graphList[i], label="State "+str(i))
-    print(prob)
+
+    for j in range(len(prob)):
+        if queryNode=="price":
+            print("P("+str(queryNode)+" = " + str(PRI.list2.value[j]) + ") = " + str(prob[j]))
+        elif queryNode=="amenities":
+            print("P("+str(queryNode) + " = " + str(AM.list2.value[j]) + ") = " + str(prob[j]))
+        elif queryNode == "schools":
+            print("P(" + str(queryNode) + " = " + str(SCH.list2.value[j]) + ") = " + str(prob[j]))
+        elif queryNode == "size":
+            print("P(" + str(queryNode) + " = " + str(SIZ.list2.value[j]) + ") = " + str(prob[j]))
+        elif queryNode == "location":
+            print("P(" + str(queryNode) + " = " + str(LOC.list2.value[j]) + ") = " + str(prob[j]))
+        elif queryNode == "children":
+            print("P(" + str(queryNode) + " = " + str(CHI.list2.value[j]) + ") = " + str(prob[j]))
+        elif queryNode == "neighborhood":
+            print("P(" + str(queryNode) + " = " + str(NB.list2.value[j]) + ") = " + str(prob[j]))
+        elif queryNode == "age":
+            print("P(" + str(queryNode) + " = " + str(AGE.list2.value[j]) + ") = " + str(prob[j]))
     # for a in range(len(prob)):
     #     for b in graphList[a]:
     #         print (b)
