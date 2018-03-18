@@ -43,6 +43,7 @@ class Node:
             p = self.cpt[self.state, a, b, c, d]
         return p
 
+
     def getMBProbability(self): ##This is for the gibbs sampling which will go through its markov blanket and find the probability
         weight = []
         pSum = 0
