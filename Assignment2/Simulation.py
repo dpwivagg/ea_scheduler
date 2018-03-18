@@ -281,7 +281,6 @@ def createTables():
         # print(node)
         if node.identity == queryNode:
             result = [0]*len(node.stateList)
-
             graphList = []
             for i in range(len(node.stateList)):
                 graphList.append([])
@@ -294,10 +293,10 @@ def createTables():
             if node.identity == key:
                 node.isEvidence = True
                 node.state = evidenceNodeList.get(key)
+                # print(key, node.state)
                 continue
         if not node.isEvidence:
                 actualList.append(node)
-
 
 
 
@@ -313,6 +312,7 @@ def createTables():
         cnode.getMBProbability()
         pnode = cnode
     ylist = list()
+
     for i in range(iterations-drops):
         SweepIndex = i % len(actualList)
         cnode = actualList[SweepIndex]
@@ -331,6 +331,7 @@ def createTables():
             graphList[a].append(prob[a])
         ylist.append(i)
         pnode = cnode
+
 
     # # sample randomly
     # for i in range(drops):
@@ -359,6 +360,7 @@ def createTables():
     #         graphList[a].append(prob[a])
     #     ylist.append(i)
     #     pnode = cnode
+
 
     for i in range(len(graphList)):
         plt.plot(ylist, graphList[i], label="State "+str(i))
@@ -390,16 +392,16 @@ def createTables():
     # naming the y axis
     plt.ylabel('Probability')
     # giving a title to my graph
-    plt.title('sweep through nodes ')
+
+    plt.title('Gibbs Sampling')
+
     # show a legend on the plot
     plt.legend()
     # function to show the plot
     plt.show()
 
-
     # for i in range(drops):
     #     node = nodeList.random.ran
-
 
 createTables()
 # nodeLOC.getMBProbability()
