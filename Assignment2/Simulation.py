@@ -302,18 +302,18 @@ def createTables():
 
     pnode = None
     #sweep through the node
-    for i in range(drops):
-        SweepIndex = i % len(actualList)
-        cnode = actualList[SweepIndex]
-        while cnode == pnode:
-            i = i+1
-            SweepIndex = i % len(actualList)
-            cnode = actualList[SweepIndex]
-        cnode.getMBProbability()
-        pnode = cnode
+    # for i in range(drops):
+    #     SweepIndex = i % len(actualList)
+    #     cnode = actualList[SweepIndex]
+    #     while cnode == pnode:
+    #         i = i+1
+    #         SweepIndex = i % len(actualList)
+    #         cnode = actualList[SweepIndex]
+    #     cnode.getMBProbability()
+    #     pnode = cnode
     ylist = list()
 
-    for i in range(iterations-drops):
+    for i in range(iterations):
         SweepIndex = i % len(actualList)
         cnode = actualList[SweepIndex]
         while cnode == pnode:
@@ -327,9 +327,11 @@ def createTables():
             sum = sum +a
         for a in range(len(result)):
             prob[a] = result[a] / sum
-        for a in range(len(prob)):
-            graphList[a].append(prob[a])
-        ylist.append(i)
+        if i > drops:
+            for a in range(len(prob)):
+                graphList[a].append(prob[a])
+            ylist.append(i)
+
         pnode = cnode
 
 
