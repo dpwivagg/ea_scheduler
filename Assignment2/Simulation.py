@@ -281,6 +281,7 @@ def createTables():
         # print(node)
         if node.identity == queryNode:
             result = [0]*len(node.stateList)
+            dropResult = [0]*len(node.stateList)
             graphList = []
             for i in range(len(node.stateList)):
                 graphList.append([])
@@ -322,19 +323,29 @@ def createTables():
             cnode = actualList[SweepIndex]
         cnode.getMBProbability()
         result[qnode.state] = result[qnode.state] + 1
+        if i<drops:
+            dropResult[qnode.state] = dropResult[qnode.state] + 1
         sum = 0
         for a in result:
             sum = sum +a
         for a in range(len(result)):
             prob[a] = result[a] / sum
-        if i>drops:
+
+
+        if i>=drops:
             for a in range(len(prob)):
                 graphList[a].append(prob[a])
             ylist.append(i)
 
         pnode = cnode
 
-
+    for i in range(len(result)):
+        result[i] = result[i] - dropResult[i]
+    sum = 0
+    for a in result:
+        sum = sum + a
+    for a in range(len(result)):
+        prob[a] = result[a] / sum
     # # sample randomly
     # for i in range(drops):
     #     randIndex = random.randint(0,len(actualList)-1)
