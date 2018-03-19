@@ -287,6 +287,7 @@ def createTables():
                 graphList.append([])
             prob = [0]*len(node.stateList)
             # print("result length:"+str(len(node.stateList)))
+            node.randomState()
             actualList.append(node)
             qnode = node
             continue
@@ -297,7 +298,8 @@ def createTables():
                 # print(key, node.state)
                 continue
         if not node.isEvidence:
-                actualList.append(node)
+            node.randomState()
+            actualList.append(node)
 
     pnode = None
     ylist = list()

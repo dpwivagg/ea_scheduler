@@ -15,7 +15,8 @@ class Node:
 
     def addChild(self,child):
         self.children.append(child)
-
+    def randomState(self):
+        self.state = self.stateList[random.randint(0,len(self.stateList)-1)]
     def __str__(self):
         return self.identity + " State:" + str(self.state) + " Is evidence:" + str(self.isEvidence)
 
