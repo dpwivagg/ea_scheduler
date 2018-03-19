@@ -299,8 +299,6 @@ def createTables():
         if not node.isEvidence:
                 actualList.append(node)
 
-
-
     pnode = None
 
     # # sweep through the node
@@ -331,6 +329,8 @@ def createTables():
     #     ylist.append(i)
     #     pnode = cnode
 
+
+
     # sample randomly
     for i in range(drops):
         randIndex = random.randint(0,len(actualList)-1)
@@ -338,9 +338,10 @@ def createTables():
         while cnode == pnode:
             randIndex = random.randint(0, len(actualList)-1)
             cnode = actualList[randIndex]
-            cnode.getMBProbability()
-            pnode = cnode
+        cnode.getMBProbability()
+        pnode = cnode
     ylist = list()
+
     for i in range(iterations-drops):
         randIndex = random.randint(0,len(actualList)-1)
         cnode = actualList[randIndex]
@@ -358,7 +359,6 @@ def createTables():
             graphList[a].append(prob[a])
         ylist.append(i)
         pnode = cnode
-
 
 
     for i in range(len(graphList)):
@@ -393,7 +393,9 @@ def createTables():
     plt.ylim(0,1)
     # giving a title to my graph
 
-    plt.title('gibbs schools amenities=little size=small location=ugly -u 50000 -d 0')
+
+    plt.title('"gibbs sampling"')
+
 
     # show a legend on the plot
     plt.legend()
