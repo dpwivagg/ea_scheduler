@@ -327,36 +327,32 @@ def createTables():
     #     pnode = cnode
 
     # sample randomly
-    for i in range(iterations):
-        RandomIndex = random.randint(0,len(actualList)-1)
-        cnode = actualList[RandomIndex]
+    for i in range(drops):
+        randIndex = random.randint(0,len(actualList)-1)
+        cnode = actualList[randIndex]
         while cnode == pnode:
-            i = i + 1
-            RandomIndex = random.randint(0,len(actualList)-1)
-            cnode = actualList[RandomIndex]
+            randIndex = random.randint(0, len(actualList)-1)
+            cnode = actualList[randIndex]
+        cnode.getMBProbability()
+        pnode = cnode
+    ylist = list()
+    for i in range(iterations-drops):
+        randIndex = random.randint(0,len(actualList)-1)
+        cnode = actualList[randIndex]
+        while cnode == pnode:
+            randIndex = random.randint(0, len(actualList)-1)
+            cnode = actualList[randIndex]
         cnode.getMBProbability()
         result[qnode.state] = result[qnode.state] + 1
-        if i < drops:
-            dropResult[qnode.state] = dropResult[qnode.state] + 1
         sum = 0
         for a in result:
-            sum = sum + a
+            sum = sum +a
         for a in range(len(result)):
             prob[a] = result[a] / sum
-
-        if i >= drops:
-            for a in range(len(prob)):
-                graphList[a].append(prob[a])
-            ylist.append(i)
+        for a in range(len(prob)):
+            graphList[a].append(prob[a])
+        ylist.append(i)
         pnode = cnode
-
-    for i in range(len(result)):
-        result[i] = result[i] - dropResult[i]
-    sum = 0
-    for a in result:
-        sum = sum + a
-    for a in range(len(result)):
-        prob[a] = result[a] / sum
 
     for i in range(len(graphList)):
         plt.plot(ylist, graphList[i], label="State "+str(i))
@@ -389,7 +385,7 @@ def createTables():
     plt.ylabel('Probability')
     # giving a title to my graph
 
-    plt.title('"gibbs location school=bad price=expensive amenities=lots -u 30000 -d 0"')
+    plt.title('"gibbs sampling"')
 
     # show a legend on the plot
     plt.legend()
