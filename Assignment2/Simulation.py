@@ -302,31 +302,36 @@ def createTables():
             actualList.append(node)
 
     pnode = None
-    ylist = list()
 
     # # sweep through the node
-    # for i in range(iterations):
+    # for i in range(drops):
     #     SweepIndex = i % len(actualList)
     #     cnode = actualList[SweepIndex]
     #     while cnode == pnode:
-    #         i = i + 1
+    #         SweepIndex = i % len(actualList)
+    #         cnode = actualList[SweepIndex]
+    #         cnode.getMBProbability()
+    #         pnode = cnode
+    # ylist = list()
+    # for i in range(iterations-drops):
+    #     SweepIndex = i % len(actualList)
+    #     cnode = actualList[SweepIndex]
+    #     while cnode == pnode:
     #         SweepIndex = i % len(actualList)
     #         cnode = actualList[SweepIndex]
     #     cnode.getMBProbability()
     #     result[qnode.state] = result[qnode.state] + 1
-    #     if i<drops:
-    #         dropResult[qnode.state] = dropResult[qnode.state] + 1
     #     sum = 0
     #     for a in result:
     #         sum = sum +a
     #     for a in range(len(result)):
     #         prob[a] = result[a] / sum
-    #
-    #     if i>=drops:
-    #         for a in range(len(prob)):
-    #             graphList[a].append(prob[a])
-    #         ylist.append(i)
+    #     for a in range(len(prob)):
+    #         graphList[a].append(prob[a])
+    #     ylist.append(i)
     #     pnode = cnode
+
+
 
     # sample randomly
     for i in range(drops):
@@ -338,6 +343,7 @@ def createTables():
         cnode.getMBProbability()
         pnode = cnode
     ylist = list()
+
     for i in range(iterations-drops):
         randIndex = random.randint(0,len(actualList)-1)
         cnode = actualList[randIndex]
@@ -355,6 +361,7 @@ def createTables():
             graphList[a].append(prob[a])
         ylist.append(i)
         pnode = cnode
+
 
     for i in range(len(graphList)):
         plt.plot(ylist, graphList[i], label="State "+str(i))
@@ -385,9 +392,12 @@ def createTables():
     plt.xlabel('Iterations')
     # naming the y axis
     plt.ylabel('Probability')
+    plt.ylim(0,1)
     # giving a title to my graph
 
+
     plt.title('"gibbs sampling"')
+
 
     # show a legend on the plot
     plt.legend()
