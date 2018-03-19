@@ -299,59 +299,57 @@ def createTables():
         if not node.isEvidence:
                 actualList.append(node)
 
-
-
     pnode = None
     ylist = list()
-    # sweep through the node
+
+    # # sweep through the node
+    # for i in range(iterations):
+    #     SweepIndex = i % len(actualList)
+    #     cnode = actualList[SweepIndex]
+    #     while cnode == pnode:
+    #         i = i + 1
+    #         SweepIndex = i % len(actualList)
+    #         cnode = actualList[SweepIndex]
+    #     cnode.getMBProbability()
+    #     result[qnode.state] = result[qnode.state] + 1
+    #     if i<drops:
+    #         dropResult[qnode.state] = dropResult[qnode.state] + 1
+    #     sum = 0
+    #     for a in result:
+    #         sum = sum +a
+    #     for a in range(len(result)):
+    #         prob[a] = result[a] / sum
+    #
+    #     if i>=drops:
+    #         for a in range(len(prob)):
+    #             graphList[a].append(prob[a])
+    #         ylist.append(i)
+    #     pnode = cnode
+
+    # sample randomly
     for i in range(iterations):
-        SweepIndex = i % len(actualList)
-        cnode = actualList[SweepIndex]
+        RandomIndex = random.randint(0,len(actualList)-1)
+        cnode = actualList[RandomIndex]
         while cnode == pnode:
             i = i + 1
-            SweepIndex = i % len(actualList)
-            cnode = actualList[SweepIndex]
+            RandomIndex = random.randint(0,len(actualList)-1)
+            cnode = actualList[RandomIndex]
         cnode.getMBProbability()
         result[qnode.state] = result[qnode.state] + 1
-        if i<drops:
+        if i < drops:
             dropResult[qnode.state] = dropResult[qnode.state] + 1
         sum = 0
         for a in result:
-            sum = sum +a
+            sum = sum + a
         for a in range(len(result)):
             prob[a] = result[a] / sum
 
-        if i>=drops:
+        if i >= drops:
             for a in range(len(prob)):
                 graphList[a].append(prob[a])
             ylist.append(i)
         pnode = cnode
 
-
-    # # sample randomly
-    # for i in range(iterations):
-    #     RandomIndex = random.randint(0,len(actualList)-1)
-    #     cnode = actualList[RandomIndex]
-    #     while cnode == pnode:
-    #         i = i + 1
-    #         RandomIndex = random.randint(0,len(actualList)-1)
-    #         cnode = actualList[RandomIndex]
-    #     cnode.getMBProbability()
-    #     result[qnode.state] = result[qnode.state] + 1
-    #     if i < drops:
-    #         dropResult[qnode.state] = dropResult[qnode.state] + 1
-    #     sum = 0
-    #     for a in result:
-    #         sum = sum + a
-    #     for a in range(len(result)):
-    #         prob[a] = result[a] / sum
-    #
-    #     if i >= drops:
-    #         for a in range(len(prob)):
-    #             graphList[a].append(prob[a])
-    #         ylist.append(i)
-    #     pnode = cnode
-    #
     for i in range(len(result)):
         result[i] = result[i] - dropResult[i]
     sum = 0
@@ -360,8 +358,6 @@ def createTables():
     for a in range(len(result)):
         prob[a] = result[a] / sum
 
-
-    print (graphList)
     for i in range(len(graphList)):
         plt.plot(ylist, graphList[i], label="State "+str(i))
 
@@ -393,7 +389,7 @@ def createTables():
     plt.ylabel('Probability')
     # giving a title to my graph
 
-    plt.title('"gibbs location age=old price=expensive -u 50000 -d 1000"')
+    plt.title('"gibbs location school=bad price=expensive amenities=lots -u 30000 -d 0"')
 
     # show a legend on the plot
     plt.legend()
