@@ -303,53 +303,22 @@ def createTables():
 
     pnode = None
 
-    # # sweep through the node
-    # for i in range(drops):
-    #     SweepIndex = i % len(actualList)
-    #     cnode = actualList[SweepIndex]
-    #     while cnode == pnode:
-    #         SweepIndex = i % len(actualList)
-    #         cnode = actualList[SweepIndex]
-    #         cnode.getMBProbability()
-    #         pnode = cnode
-    # ylist = list()
-    # for i in range(iterations-drops):
-    #     SweepIndex = i % len(actualList)
-    #     cnode = actualList[SweepIndex]
-    #     while cnode == pnode:
-    #         SweepIndex = i % len(actualList)
-    #         cnode = actualList[SweepIndex]
-    #     cnode.getMBProbability()
-    #     result[qnode.state] = result[qnode.state] + 1
-    #     sum = 0
-    #     for a in result:
-    #         sum = sum +a
-    #     for a in range(len(result)):
-    #         prob[a] = result[a] / sum
-    #     for a in range(len(prob)):
-    #         graphList[a].append(prob[a])
-    #     ylist.append(i)
-    #     pnode = cnode
-
-
-
-    # sample randomly
+    # sweep through the node
     for i in range(drops):
-        randIndex = random.randint(0,len(actualList)-1)
-        cnode = actualList[randIndex]
+        SweepIndex = i % len(actualList)
+        cnode = actualList[SweepIndex]
         while cnode == pnode:
-            randIndex = random.randint(0, len(actualList)-1)
-            cnode = actualList[randIndex]
-        cnode.getMBProbability()
-        pnode = cnode
+            SweepIndex = i % len(actualList)
+            cnode = actualList[SweepIndex]
+            cnode.getMBProbability()
+            pnode = cnode
     ylist = list()
-
     for i in range(iterations-drops):
-        randIndex = random.randint(0,len(actualList)-1)
-        cnode = actualList[randIndex]
+        SweepIndex = i % len(actualList)
+        cnode = actualList[SweepIndex]
         while cnode == pnode:
-            randIndex = random.randint(0, len(actualList)-1)
-            cnode = actualList[randIndex]
+            SweepIndex = i % len(actualList)
+            cnode = actualList[SweepIndex]
         cnode.getMBProbability()
         result[qnode.state] = result[qnode.state] + 1
         sum = 0
@@ -361,6 +330,37 @@ def createTables():
             graphList[a].append(prob[a])
         ylist.append(i)
         pnode = cnode
+
+
+
+    # # sample randomly
+    # for i in range(drops):
+    #     randIndex = random.randint(0,len(actualList)-1)
+    #     cnode = actualList[randIndex]
+    #     while cnode == pnode:
+    #         randIndex = random.randint(0, len(actualList)-1)
+    #         cnode = actualList[randIndex]
+    #     cnode.getMBProbability()
+    #     pnode = cnode
+    # ylist = list()
+    #
+    # for i in range(iterations-drops):
+    #     randIndex = random.randint(0,len(actualList)-1)
+    #     cnode = actualList[randIndex]
+    #     while cnode == pnode:
+    #         randIndex = random.randint(0, len(actualList)-1)
+    #         cnode = actualList[randIndex]
+    #     cnode.getMBProbability()
+    #     result[qnode.state] = result[qnode.state] + 1
+    #     sum = 0
+    #     for a in result:
+    #         sum = sum +a
+    #     for a in range(len(result)):
+    #         prob[a] = result[a] / sum
+    #     for a in range(len(prob)):
+    #         graphList[a].append(prob[a])
+    #     ylist.append(i)
+    #     pnode = cnode
 
 
     for i in range(len(graphList)):
