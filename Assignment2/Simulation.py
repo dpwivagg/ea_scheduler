@@ -276,7 +276,7 @@ def createTables():
     # print("Q:"+queryNode+" I:"+str(iterations)+" D:"+str(drops))
     nodeList = [nodeAM, nodeAGE, nodeSIZ, nodePRI, nodeSCH, nodeCHI, nodeLOC, nodeNB]
     actualList = list()
-    ##
+    # Set up the evidence node and query node
     for node in nodeList:
         # print(node)
         if node.identity == queryNode:
@@ -287,7 +287,7 @@ def createTables():
                 graphList.append([])
             prob = [0]*len(node.stateList)
             # print("result length:"+str(len(node.stateList)))
-            node.randomState()
+            node.randomState()# Random the Initial State
             actualList.append(node)
             qnode = node
             continue
@@ -298,7 +298,7 @@ def createTables():
                 # print(key, node.state)
                 continue
         if not node.isEvidence:
-            node.randomState()
+            node.randomState() # Random the initial state for none evidence node
             actualList.append(node)
 
     pnode = None
