@@ -137,9 +137,10 @@ class basic_em_class:
         #     print(log_likelihood)
         #     log_likelihood = self.iterate_once()
         for i in range(0, 50):
-            print("Log Likelihood:", self.iterate_once())
+            log_likelihood = self.iterate_once()
 
         self.plot_data()
+        return (self.mu_1, self.mu_2, self.mu_3, self.sigma_1, self.sigma_2, self.sigma_3, log_likelihood)
 
 
     def plot_data(self):
