@@ -102,7 +102,7 @@ class basic_em_class:
             point1 = np.subtract(point, self.mu_1)
             point2 = np.subtract(point, self.mu_2)
             point3 = np.subtract(point, self.mu_3)
-            # print(point1, point2, point3)
+
             self.sigma_1 = np.add(self.sigma_1, (self.array_data[i, 2] / self.m_1) * np.dot(point1, np.transpose(point1)))
             self.sigma_2 = np.add(self.sigma_2, (self.array_data[i, 3] / self.m_2) * np.dot(point2, np.transpose(point2)))
             self.sigma_3 = np.add(self.sigma_3, (self.array_data[i, 4] / self.m_3) * np.dot(point3, np.transpose(point3)))
@@ -132,7 +132,7 @@ class basic_em_class:
         # Does all iterations until log likelihood converges
         # last_log_likelihood = self.iterate_once()
         # log_likelihood = self.iterate_once()
-        # while log_likelihood - last_log_likelihood < 0.00001:
+        # while log_likelihood - last_log_likelihood > 0.001:
         #     last_log_likelihood = log_likelihood
         #     print(log_likelihood)
         #     log_likelihood = self.iterate_once()
@@ -157,9 +157,9 @@ class basic_em_class:
                 green_array = np.append(green_array, [[self.array_data[i, 0], self.array_data[i, 1]]], axis = 0)
 
 
-        plt.scatter(red_array[:, 0], red_array[:, 1], c='red', s=3)
-        plt.scatter(green_array[:, 0], green_array[:, 1], c='green', s=3)
-        plt.scatter(blue_array[:, 0], blue_array[:, 1], c='blue', s=3)
+        plt.scatter(red_array[:, 0], red_array[:, 1], c='red', s=7, edgecolors="none")
+        plt.scatter(green_array[:, 0], green_array[:, 1], c='green', s=7, edgecolors="none")
+        plt.scatter(blue_array[:, 0], blue_array[:, 1], c='blue', s=7, edgecolors="none")
 
         plt.show()
 
