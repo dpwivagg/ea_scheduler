@@ -117,14 +117,14 @@ class basic_em_class:
 
 
     def calc_log_likelihood(self):
-        a = np.sum(self.array_data[:, 2])
-        b = np.sum(self.array_data[:, 3])
-        c = np.sum(self.array_data[:, 4])
-        log1 = np.log(a)
-        log2 = np.log(b)
-        log3 = np.log(c)
+        a = np.sum(np.log(self.array_data[:, 2]))
+        b = np.sum(np.log(self.array_data[:, 3]))
+        c = np.sum(np.log(self.array_data[:, 4]))
+        # log1 = np.log(a)
+        # log2 = np.log(b)
+        # log3 = np.log(c)
 
-        log_likelihood = log1 + log2 + log3
+        log_likelihood = a+b+c
         return log_likelihood
 
 
@@ -138,6 +138,7 @@ class basic_em_class:
         #     log_likelihood = self.iterate_once()
         for i in range(0, 50):
             log_likelihood = self.iterate_once()
+            print("Log likelihood: ", log_likelihood)
 
         self.plot_data()
         return (self.mu_1, self.mu_2, self.mu_3, self.sigma_1, self.sigma_2, self.sigma_3, log_likelihood)
