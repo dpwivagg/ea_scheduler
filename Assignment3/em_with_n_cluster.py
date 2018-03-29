@@ -92,16 +92,17 @@ class basic_em_class:
 
     def iterate_once(self):
         self.calc_all_expectations()
+        ll = self.calc_log_likelihood()
         self.normalize_array_data()
         self.maximize_likelihoods()
-        return self.calc_log_likelihood()
+        return ll
 
     def calc_log_likelihood(self):
-
+        ll = np.sum(np.log(np.sum(self.array_data2[:, 2:],1)))
         log_likelihood = 0
         for i in range(self.num):
             log_likelihood = log_likelihood + np.sum(np.log(self.array_data2[:, 2+i]))
-        return log_likelihood
+        return ll
 
     def run(self):
         # Does all iterations until log likelihood converges
