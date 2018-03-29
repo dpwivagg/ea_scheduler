@@ -107,12 +107,14 @@ class basic_em_class:
     # Does ONE iteration of updating likelihoods and then maximizing
     def iterate_once(self):
         self.calc_all_expectations()
+        ll = self.calc_log_likelihood()
         self.normalize_array_data()
         self.maximize_likelihoods()
-        return self.calc_log_likelihood()
+        return ll
 
 
     def calc_log_likelihood(self):
+        ll = np.sum(np.log(np.sum(self.array_data[:, [2,3,4]],1)))
         a = np.sum(np.log(self.array_data[:, 2]))
         b = np.sum(np.log(self.array_data[:, 3]))
         c = np.sum(np.log(self.array_data[:, 4]))
@@ -121,7 +123,7 @@ class basic_em_class:
         # log3 = np.log(c)
 
         log_likelihood = a+b+c
-        return log_likelihood
+        return ll
 
 
     def run(self):
