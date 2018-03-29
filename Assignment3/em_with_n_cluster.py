@@ -20,7 +20,7 @@ class basic_em_class:
             else:
                 self.muArray = np.append(self.muArray, mu, axis=1)
         for i in range(self.num):
-            sigma = np.cov(np.transpose(self.array_data2[:, [0, 1]])) / 6
+            sigma = np.cov(np.transpose(self.array_data2[:, [0, 1]])) / 8
             sigma = np.reshape(sigma,(1,4))
 
             if i == 0:
@@ -106,7 +106,7 @@ class basic_em_class:
 
     def run(self):
         # Does all iterations until log likelihood converges
-        for i in range(0, 100):
+        for i in range(0, 25):
             log_likelihood = self.iterate_once()
             print("Log likelihood: ", log_likelihood)
 

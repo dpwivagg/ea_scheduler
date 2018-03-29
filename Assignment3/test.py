@@ -1,5 +1,5 @@
 # test input: em sample_EM_data_v2.csv 3
-from Assignment3.basic_em_class import basic_em_class
+from Assignment3.em_with_n_cluster import basic_em_class
 from Assignment3.input import input_line
 
 a = basic_em_class('sample_EM_data_v2.csv')
