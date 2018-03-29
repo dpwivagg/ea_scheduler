@@ -9,7 +9,7 @@ class basic_em_class:
 
         # Randomly generate some probabilities for iteration 1
         (self.rows, self.cols) = self.array_data.shape
-        rand_matrix = np.random.rand(self.rows, 3)
+        rand_matrix = np.ones((self.rows, 3)) / 3
         self.array_data = np.append(self.array_data, rand_matrix, axis=1)
 
         # Normalize the starting (random) data
@@ -25,18 +25,14 @@ class basic_em_class:
         self.mu_3 = np.array([[self.array_data[c, 0]], [self.array_data[c, 1]]])
 
         # Sigma represents covariance
-        self.sigma_1 = np.cov(np.transpose(self.array_data[:, [0, 1]])) / 4
+        self.sigma_1 = np.cov(np.transpose(self.array_data[:, [0, 1]])) / 6
         self.sigma_2 = self.sigma_1
         self.sigma_3 = self.sigma_1
 
         # Pi represents likelihood of each cluster
-        self.pi_1 = np.random.random()
-        self.pi_2 = np.random.random()
-        self.pi_3 = np.random.random()
-        total = self.pi_1 + self.pi_2 + self.pi_3
-        self.pi_1 = self.pi_1/total
-        self.pi_2 = self.pi_2/total
-        self.pi_3 = self.pi_3/total
+        self.pi_1 = 1/3
+        self.pi_2 = 1/3
+        self.pi_3 = 1/3
 
 
     def normalize_array_data(self):
@@ -164,4 +160,6 @@ class basic_em_class:
         plt.scatter(blue_array[:, 0], blue_array[:, 1], c='blue', s=7, edgecolors="none")
 
         plt.show()
+
+
 
