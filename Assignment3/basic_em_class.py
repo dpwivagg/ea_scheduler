@@ -136,7 +136,7 @@ class basic_em_class:
         #     last_log_likelihood = log_likelihood
         #     print(log_likelihood)
         #     log_likelihood = self.iterate_once()
-        for i in range(0, 50):
+        for i in range(0, 100):
             log_likelihood = self.iterate_once()
             print("Log likelihood: ", log_likelihood)
 
