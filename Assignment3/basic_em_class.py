@@ -9,11 +9,11 @@ class basic_em_class:
 
         # Randomly generate some probabilities for iteration 1
         (self.rows, self.cols) = self.array_data.shape
-        rand_matrix = np.random.rand(self.rows, 3)
+        rand_matrix = np.ones((self.rows, 3)) / 3
         self.array_data = np.append(self.array_data, rand_matrix, axis=1)
 
         # Normalize the starting (random) data
-        self.normalize_array_data()
+        # self.normalize_array_data()
 
         ## Create necessary EM data
         # Mu represents average
@@ -25,22 +25,18 @@ class basic_em_class:
         self.mu_3 = np.array([[self.array_data[c, 0]], [self.array_data[c, 1]]])
 
         # Sigma represents covariance
-        self.sigma_1 = np.cov(np.transpose(self.array_data[:, [0, 1]])) / 4
+        self.sigma_1 = np.cov(np.transpose(self.array_data[:, [0, 1]])) / 8
         self.sigma_2 = self.sigma_1
         self.sigma_3 = self.sigma_1
 
         # Pi represents likelihood of each cluster
-        self.pi_1 = np.random.random()
-        self.pi_2 = np.random.random()
-        self.pi_3 = np.random.random()
-        total = self.pi_1 + self.pi_2 + self.pi_3
-        self.pi_1 = self.pi_1/total
-        self.pi_2 = self.pi_2/total
-        self.pi_3 = self.pi_3/total
+        self.pi_1 = 1/3
+        self.pi_2 = 1/3
+        self.pi_3 = 1/3
 
 
     def normalize_array_data(self):
-        for i in range(0, self.rows - 1):
+        for i in range(0, self.rows):
             total = self.array_data[i, 2] + self.array_data[i, 3] + self.array_data[i, 4]
             self.array_data[i, 2] = self.array_data[i, 2] / total
             self.array_data[i, 3] = self.array_data[i, 3] / total
@@ -64,7 +60,7 @@ class basic_em_class:
 
     # Calcluate the likelihood that EACH POINT belongs to EACH DISTRIBUTION and update the probabilities
     def calc_all_expectations(self):
-        for i in range(0, self.rows - 1):
+        for i in range(0, self.rows):
             point = np.array([[self.array_data[i, 0]], [self.array_data[i, 1]]])
             self.array_data[i, 2] = self.calc_one_expectation(point, self.mu_1, self.sigma_1, self.pi_1)
             self.array_data[i, 3] = self.calc_one_expectation(point, self.mu_2, self.sigma_2, self.pi_2)
@@ -90,14 +86,14 @@ class basic_em_class:
         self.sigma_2 = np.zeros((2, 2))
         self.sigma_3 = np.zeros((2, 2))
 
-        for i in range(0, self.rows - 1):
+        for i in range(0, self.rows):
             point = np.array([[self.array_data[i, 0]], [self.array_data[i, 1]]])
             self.mu_1 = np.add(self.mu_1, (self.array_data[i, 2] / self.m_1) * point)
             self.mu_2 = np.add(self.mu_2, (self.array_data[i, 3] / self.m_2) * point)
             self.mu_3 = np.add(self.mu_3, (self.array_data[i, 4] / self.m_3) * point)
 
 
-        for i in range(0, self.rows - 1):
+        for i in range(0, self.rows):
             point = np.array([[self.array_data[i, 0]], [self.array_data[i, 1]]])
             point1 = np.subtract(point, self.mu_1)
             point2 = np.subtract(point, self.mu_2)
@@ -111,21 +107,24 @@ class basic_em_class:
     # Does ONE iteration of updating likelihoods and then maximizing
     def iterate_once(self):
         self.calc_all_expectations()
+        ll = self.calc_log_likelihood()
         self.normalize_array_data()
         self.maximize_likelihoods()
-        return self.calc_log_likelihood()
+        return ll
 
 
     def calc_log_likelihood(self):
+        ll = np.sum(np.log(np.sum(self.array_data[:, [2,3,4]],1)))
         a = np.sum(np.log(self.array_data[:, 2]))
         b = np.sum(np.log(self.array_data[:, 3]))
         c = np.sum(np.log(self.array_data[:, 4]))
+        log_likelihood = a + b + c
         # log1 = np.log(a)
         # log2 = np.log(b)
         # log3 = np.log(c)
 
-        log_likelihood = a+b+c
-        return log_likelihood
+        # log_likelihood = np.sum(np.log(a))
+        return ll
 
 
     def run(self):
@@ -136,7 +135,7 @@ class basic_em_class:
         #     last_log_likelihood = log_likelihood
         #     print(log_likelihood)
         #     log_likelihood = self.iterate_once()
-        for i in range(0, 50):
+        for i in range(0, 25):
             log_likelihood = self.iterate_once()
             print("Log likelihood: ", log_likelihood)
 
@@ -150,7 +149,7 @@ class basic_em_class:
         blue_array = np.empty((1, 2))
         green_array = np.empty((1, 2))
 
-        for i in range(0, self.rows - 1):
+        for i in range(0, self.rows):
             if self.array_data[i, 2] > self.array_data[i, 3] and self.array_data[i, 2] > self.array_data[i, 4]:
                 red_array = np.append(red_array, [[self.array_data[i, 0], self.array_data[i, 1]]], axis = 0)
             elif self.array_data[i, 3] > self.array_data[i, 2] and self.array_data[i, 3] > self.array_data[i, 4]:

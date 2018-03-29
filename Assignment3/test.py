@@ -2,7 +2,7 @@
 from basic_em_class import basic_em_class
 from input import input_line
 
-a = basic_em_class(input_line()[0])
+a = basic_em_class('sample_EM_data_v2.csv')
 vars = a.run()
 
 print("First distribution: \n")
