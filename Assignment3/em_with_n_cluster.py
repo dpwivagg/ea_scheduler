@@ -105,7 +105,7 @@ class basic_em_class:
 
     def run(self):
         # Does all iterations until log likelihood converges
-        for i in range(0, 50):
+        for i in range(0, 100):
             log_likelihood = self.iterate_once()
             print("Log likelihood: ", log_likelihood)
 
