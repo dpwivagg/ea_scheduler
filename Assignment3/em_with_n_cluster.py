@@ -115,21 +115,32 @@ class basic_em_class:
 
     def plot_data(self):
         # Plot data for visualization purposes
-        red_array = np.empty((1, 2))
-        blue_array = np.empty((1, 2))
-        green_array = np.empty((1, 2))
+        cluster={}
+        colorlist = ["red", "green",'blue',"yellow", "black"]
+        for i in range(0, self.num):
+            cluster[i]=np.empty((1,2))
 
-        for i in range(0, self.rows):
-            if self.array_data2[i, 2] > self.array_data2[i, 3] and self.array_data2[i, 2] > self.array_data2[i, 4]:
-                red_array = np.append(red_array, [[self.array_data2[i, 0], self.array_data2[i, 1]]], axis = 0)
-            elif self.array_data2[i, 3] > self.array_data2[i, 2] and self.array_data2[i, 3] > self.array_data2[i, 4]:
-                blue_array = np.append(blue_array, [[self.array_data2[i, 0], self.array_data2[i, 1]]], axis = 0)
-            else:
-                green_array = np.append(green_array, [[self.array_data2[i, 0], self.array_data2[i, 1]]], axis = 0)
+        for i in range(0, self.rows-1):
+            x = list()
+            for n in range(0, self.num):
+                x=np.append(x, self.array_data2[i,n+2])
+                # print(x)
+            j=int(x.argmax())
+            # print(j)
+            cluster[j]=np.append(cluster[j],[[self.array_data2[i, 0], self.array_data2[i, 1]]], axis = 0)
+
+            # if self.array_data2[i, 2] > self.array_data2[i, 3] and self.array_data2[i, 2] > self.array_data2[i, 4] and self.array_data2[i, 2] > self.array_data2[i, 5]:
+            #     red_array = np.append(red_array, [[self.array_data2[i, 0], self.array_data2[i, 1]]], axis = 0)
+            # elif self.array_data2[i, 3] > self.array_data2[i, 2] and self.array_data2[i, 3] > self.array_data2[i, 4] and self.array_data2[i, 3] > self.array_data2[i, 5]:
+            #     blue_array = np.append(blue_array, [[self.array_data2[i, 0], self.array_data2[i, 1]]], axis = 0)
+            # elif self.array_data2[i, 4] > self.array_data2[i, 2] and self.array_data2[i, 4] > self.array_data2[i, 3] and self.array_data2[i, 4] > self.array_data2[i, 5]:
+            #     green_array = np.append(green_array, [[self.array_data2[i, 0], self.array_data2[i, 1]]], axis = 0)
+            # else:
+            #     yellow_array = np.append(yellow_array, [[self.array_data2[i, 0], self.array_data2[i, 1]]], axis = 0)
+
+        for i in range(0,self.num):
+            plt.scatter(cluster[i][:,0],cluster[i][:,1],c=colorlist[i],s=7,edgecolors="none")
 
 
-        plt.scatter(red_array[:, 0], red_array[:, 1], c='red', s=7, edgecolors="none")
-        plt.scatter(green_array[:, 0], green_array[:, 1], c='green', s=7, edgecolors="none")
-        plt.scatter(blue_array[:, 0], blue_array[:, 1], c='blue', s=7, edgecolors="none")
 
         plt.show()
