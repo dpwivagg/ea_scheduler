@@ -13,7 +13,7 @@ class basic_em_class:
         self.array_data = np.append(self.array_data, rand_matrix, axis=1)
 
         # Normalize the starting (random) data
-        self.normalize_array_data()
+        # self.normalize_array_data()
 
         ## Create necessary EM data
         # Mu represents average
@@ -25,7 +25,7 @@ class basic_em_class:
         self.mu_3 = np.array([[self.array_data[c, 0]], [self.array_data[c, 1]]])
 
         # Sigma represents covariance
-        self.sigma_1 = np.cov(np.transpose(self.array_data[:, [0, 1]])) / 6
+        self.sigma_1 = np.cov(np.transpose(self.array_data[:, [0, 1]])) / 8
         self.sigma_2 = self.sigma_1
         self.sigma_3 = self.sigma_1
 
@@ -36,7 +36,7 @@ class basic_em_class:
 
 
     def normalize_array_data(self):
-        for i in range(0, self.rows - 1):
+        for i in range(0, self.rows):
             total = self.array_data[i, 2] + self.array_data[i, 3] + self.array_data[i, 4]
             self.array_data[i, 2] = self.array_data[i, 2] / total
             self.array_data[i, 3] = self.array_data[i, 3] / total
@@ -60,7 +60,7 @@ class basic_em_class:
 
     # Calcluate the likelihood that EACH POINT belongs to EACH DISTRIBUTION and update the probabilities
     def calc_all_expectations(self):
-        for i in range(0, self.rows - 1):
+        for i in range(0, self.rows):
             point = np.array([[self.array_data[i, 0]], [self.array_data[i, 1]]])
             self.array_data[i, 2] = self.calc_one_expectation(point, self.mu_1, self.sigma_1, self.pi_1)
             self.array_data[i, 3] = self.calc_one_expectation(point, self.mu_2, self.sigma_2, self.pi_2)
@@ -86,14 +86,14 @@ class basic_em_class:
         self.sigma_2 = np.zeros((2, 2))
         self.sigma_3 = np.zeros((2, 2))
 
-        for i in range(0, self.rows - 1):
+        for i in range(0, self.rows):
             point = np.array([[self.array_data[i, 0]], [self.array_data[i, 1]]])
             self.mu_1 = np.add(self.mu_1, (self.array_data[i, 2] / self.m_1) * point)
             self.mu_2 = np.add(self.mu_2, (self.array_data[i, 3] / self.m_2) * point)
             self.mu_3 = np.add(self.mu_3, (self.array_data[i, 4] / self.m_3) * point)
 
 
-        for i in range(0, self.rows - 1):
+        for i in range(0, self.rows):
             point = np.array([[self.array_data[i, 0]], [self.array_data[i, 1]]])
             point1 = np.subtract(point, self.mu_1)
             point2 = np.subtract(point, self.mu_2)
@@ -118,11 +118,11 @@ class basic_em_class:
         a = np.sum(np.log(self.array_data[:, 2]))
         b = np.sum(np.log(self.array_data[:, 3]))
         c = np.sum(np.log(self.array_data[:, 4]))
+        log_likelihood = a + b + c
         # log1 = np.log(a)
         # log2 = np.log(b)
         # log3 = np.log(c)
 
-        log_likelihood = a+b+c
         return ll
 
 
@@ -134,7 +134,7 @@ class basic_em_class:
         #     last_log_likelihood = log_likelihood
         #     print(log_likelihood)
         #     log_likelihood = self.iterate_once()
-        for i in range(0, 100):
+        for i in range(0, 25):
             log_likelihood = self.iterate_once()
             print("Log likelihood: ", log_likelihood)
 
@@ -148,7 +148,7 @@ class basic_em_class:
         blue_array = np.empty((1, 2))
         green_array = np.empty((1, 2))
 
-        for i in range(0, self.rows - 1):
+        for i in range(0, self.rows):
             if self.array_data[i, 2] > self.array_data[i, 3] and self.array_data[i, 2] > self.array_data[i, 4]:
                 red_array = np.append(red_array, [[self.array_data[i, 0], self.array_data[i, 1]]], axis = 0)
             elif self.array_data[i, 3] > self.array_data[i, 2] and self.array_data[i, 3] > self.array_data[i, 4]:
