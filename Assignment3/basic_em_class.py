@@ -123,7 +123,6 @@ class basic_em_class:
         # log2 = np.log(b)
         # log3 = np.log(c)
 
-        # log_likelihood = np.sum(np.log(a))
         return ll
 
 
@@ -163,4 +162,6 @@ class basic_em_class:
         plt.scatter(blue_array[:, 0], blue_array[:, 1], c='blue', s=7, edgecolors="none")
 
         plt.show()
+
+
 

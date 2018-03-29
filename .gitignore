@@ -1,3 +1,4 @@
 .idea
-./__pycache__
+/__pycache__
 venv/*
+Assignment3/__pycache__
