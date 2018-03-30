@@ -144,6 +144,6 @@ class basic_em_class:
 
     def compute_bic(self):
         D = 2
-        bic_value = self.log_likelihood - 0.5 * ((self.num-1) + self.num * (D + 1/2 * D * (D + 1))) * (np.log(1119))
+        bic_value = (-2) * self.log_likelihood + ((self.num-1) + self.num * (D + 1/2 * D * (D + 1))) * (np.log(1119))
         return bic_value
 
