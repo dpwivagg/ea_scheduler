@@ -2,7 +2,8 @@
 from Assignment3.em_with_n_cluster import basic_em_class
 from Assignment3.input import input_line
 
-a = basic_em_class('sample_EM_data_v2.csv')
+input = input_line()
+a = basic_em_class(input[0],int(input[1]))
 vars = a.run()
 
 # print("First distribution: \n")

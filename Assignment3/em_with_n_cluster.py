@@ -3,8 +3,8 @@ import matplotlib.pyplot as plt
 
 class basic_em_class:
 
-    def __init__(self, filename):
-        self.num = 3
+    def __init__(self, filename, num):
+        self.num = num
         # Import the data to a numpy array
         self.array_data2 = np.genfromtxt(filename, delimiter=',')
         # Randomly generate some probabilities for iteration 1
@@ -110,9 +110,11 @@ class basic_em_class:
             log_likelihood = self.iterate_once()
             print("Log likelihood: ", log_likelihood)
 
+        for i in range(self.num):
+            print("Mean of cluster "+str(i+1)+": ",self.muArray[:,i])
+            print("Variance of cluster "+str(i+1)+": \n",self.sigmaArray[i])
+        print("Log likelihood: ", log_likelihood)
         self.plot_data()
-        # return (self.mu_1, self.mu_2, self.mu_3, self.sigma_1, self.sigma_2, self.sigma_3, log_likelihood)
-
 
     def plot_data(self):
         # Plot data for visualization purposes
@@ -130,18 +132,7 @@ class basic_em_class:
             # print(j)
             cluster[j]=np.append(cluster[j],[[self.array_data2[i, 0], self.array_data2[i, 1]]], axis = 0)
 
-            # if self.array_data2[i, 2] > self.array_data2[i, 3] and self.array_data2[i, 2] > self.array_data2[i, 4] and self.array_data2[i, 2] > self.array_data2[i, 5]:
-            #     red_array = np.append(red_array, [[self.array_data2[i, 0], self.array_data2[i, 1]]], axis = 0)
-            # elif self.array_data2[i, 3] > self.array_data2[i, 2] and self.array_data2[i, 3] > self.array_data2[i, 4] and self.array_data2[i, 3] > self.array_data2[i, 5]:
-            #     blue_array = np.append(blue_array, [[self.array_data2[i, 0], self.array_data2[i, 1]]], axis = 0)
-            # elif self.array_data2[i, 4] > self.array_data2[i, 2] and self.array_data2[i, 4] > self.array_data2[i, 3] and self.array_data2[i, 4] > self.array_data2[i, 5]:
-            #     green_array = np.append(green_array, [[self.array_data2[i, 0], self.array_data2[i, 1]]], axis = 0)
-            # else:
-            #     yellow_array = np.append(yellow_array, [[self.array_data2[i, 0], self.array_data2[i, 1]]], axis = 0)
-
         for i in range(0,self.num):
             plt.scatter(cluster[i][:,0],cluster[i][:,1],c=colorlist[i],s=7,edgecolors="none")
-
-
 
         plt.show()
