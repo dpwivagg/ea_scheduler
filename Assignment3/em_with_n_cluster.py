@@ -118,7 +118,8 @@ class basic_em_class:
 
         bic_value = self.compute_bic()
         print("BIC value: " + str(bic_value))
-        self.plot_data()
+        # self.plot_data()
+        return bic_value
 
     def plot_data(self):
         # Plot data for visualization purposes
@@ -142,5 +143,6 @@ class basic_em_class:
         plt.show()
 
     def compute_bic(self):
-        bic_value = self.log_likelihood * (-2) + (7 * self.num) * (np.log(1119))
+        bic_value = self.log_likelihood * (-2) + 3 * self.num * (np.log(1119))
         return bic_value
+

@@ -1,11 +1,11 @@
-# input line should be like "em data.txt 3"
+# input line should be like "em sample_EM_data_v2.csv 3"
 
 def input_line():
 
     line = input()
     line_split = line.split(" ")
     file_name = str
-    cluster_number = int
+    cluster_number = str or int
 
     for i in range(len(line_split)):
         if i == 1:
