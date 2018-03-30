@@ -9,7 +9,8 @@ input = input_line()
 bic_list = []
 
 if input[1] == "X":
-    for i in range(2, 10):
+    clusterNum_list = range(1, 20)
+    for i in clusterNum_list:
         a = basic_em_class(input[0], i)
         vars = a.run()
         bic_list = np.append(bic_list, vars)
@@ -17,7 +18,8 @@ if input[1] == "X":
     number = int(bic_list.argmax()) + 2
     print("Best cluster number: " + str(number))
 
-    plt.plot(range(2, 10), bic_list)
+    plt.plot(clusterNum_list, bic_list)
+    plt.xticks(np.arange(min(clusterNum_list), max(clusterNum_list) + 1, 1.0))
     plt.ylabel("BIC Value")
     plt.show()
 else:

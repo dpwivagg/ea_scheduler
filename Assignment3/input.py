@@ -5,7 +5,7 @@ def input_line():
     line = input()
     line_split = line.split(" ")
     file_name = str
-    cluster_number = str or int
+    cluster_number = str
 
     for i in range(len(line_split)):
         if i == 1:
