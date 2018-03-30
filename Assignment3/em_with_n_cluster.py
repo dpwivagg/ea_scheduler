@@ -107,9 +107,9 @@ class basic_em_class:
 
     def run(self):
         # Does all iterations until log likelihood converges
-        for i in range(0, 50):
-            self.log_likelihood = self.iterate_once()
-            # print("Log likelihood: ", self.log_likelihood)
+        while abs(self.iterate_once()-self.log_likelihood) > 0.05:
+            self.log_likelihood=self.iterate_once()
+            loglikelihoodlist.append(self.log_likelihood)
 
         for i in range(self.num):
             print("Mean of cluster "+str(i+1)+": ",self.muArray[:,i])
