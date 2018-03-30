@@ -109,7 +109,7 @@ class basic_em_class:
         # Does all iterations until log likelihood converges
         for i in range(0, 50):
             self.log_likelihood = self.iterate_once()
-            print("Log likelihood: ", self.log_likelihood)
+            # print("Log likelihood: ", self.log_likelihood)
 
         for i in range(self.num):
             print("Mean of cluster "+str(i+1)+": ",self.muArray[:,i])
@@ -143,6 +143,7 @@ class basic_em_class:
         plt.show()
 
     def compute_bic(self):
-        bic_value = self.log_likelihood * (-2) + 3 * self.num * (np.log(1119))
+        D = 2
+        bic_value = self.log_likelihood - 0.5 * ((self.num-1) + self.num * (D + 1/2 * D * (D + 1))) * (np.log(1119))
         return bic_value
 
