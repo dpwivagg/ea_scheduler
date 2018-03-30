@@ -5,7 +5,7 @@ class basic_em_class:
 
     def __init__(self, filename, num):
         self.num = num
-        self.log_likelihood = float
+        self.log_likelihood = 0.00
         # Import the data to a numpy array
         self.array_data2 = np.genfromtxt(filename, delimiter=',')
         # Randomly generate some probabilities for iteration 1
@@ -107,9 +107,8 @@ class basic_em_class:
 
     def run(self):
         # Does all iterations until log likelihood converges
-        while abs(self.iterate_once()-self.log_likelihood) > 0.05:
+        while abs(self.iterate_once()-float(self.log_likelihood)) > 0.05:
             self.log_likelihood=self.iterate_once()
-            loglikelihoodlist.append(self.log_likelihood)
 
         for i in range(self.num):
             print("Mean of cluster "+str(i+1)+": ",self.muArray[:,i])
@@ -117,7 +116,7 @@ class basic_em_class:
         print("Log likelihood: ", self.log_likelihood)
 
         bic_value = self.compute_bic()
-        print("BIC value: " + str(bic_value))
+        # print("BIC value: " + str(bic_value))
         # self.plot_data()
         return bic_value
 
@@ -144,6 +143,6 @@ class basic_em_class:
 
     def compute_bic(self):
         D = 2
-        bic_value = (-2) * self.log_likelihood + ((self.num-1) + self.num * (D + 1/2 * D * (D + 1))) * (np.log(1119))
+        bic_value = (-2) * self.log_likelihood + ((self.num-1) + self.num * (D + 1/2 * D * (D + 1))) * (np.log(self.rows))
         return bic_value
 

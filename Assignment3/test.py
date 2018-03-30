@@ -3,26 +3,31 @@ from Assignment3.em_with_n_cluster import basic_em_class
 from Assignment3.input import input_line
 import matplotlib.pyplot as plt
 import numpy as np
-import types
 
 input = input_line()
 bic_list = []
 
 if input[1] == "X":
     clusterNum_list = range(1, 20)
-    for i in clusterNum_list:
+    pBIC = 0.00
+    BIC = 0.00
+    i = 1
+    # for i in clusterNum_list:
+    while pBIC ==0 or (pBIC-BIC) > 0:
+        pBIC = BIC
         a = basic_em_class(input[0], i)
         output = a.run()
-        print("BIC value is: " + str(output[0]))
-        bic_list = np.append(bic_list, output[0])
+        print("BIC value is: " + str(output))
+        bic_list = np.append(bic_list, output)
+        BIC = output
+        i = i + 1
+        print("\n")
     number = int(bic_list.argmin()) + 1
     print("Best cluster number: " + str(number))
-    plt.plot(clusterNum_list, bic_list)
-    plt.xticks(np.arange(min(clusterNum_list), max(clusterNum_list) + 1, 1.0))
-    plt.xlabel("Cluster Number")
-    plt.ylabel("BIC Value")
-    plt.title("Model Performance with Different Cluster Numbers")
-    plt.show()
+    a = basic_em_class(input[0], number)
+    mBIC = a.run()
+    print("BIC Value is "+ str(mBIC))
+    print("")
 else:
     a = basic_em_class(input[0], int(input[1]))
     a.run()
