@@ -5,6 +5,7 @@ class basic_em_class:
 
     def __init__(self, filename, num):
         self.num = num
+        self.log_likelihood = float
         # Import the data to a numpy array
         self.array_data2 = np.genfromtxt(filename, delimiter=',')
         # Randomly generate some probabilities for iteration 1
@@ -99,21 +100,24 @@ class basic_em_class:
 
     def calc_log_likelihood(self):
         ll = np.sum(np.log(np.sum(self.array_data2[:, 2:],1)))
-        log_likelihood = 0
-        for i in range(self.num):
-            log_likelihood = log_likelihood + np.sum(np.log(self.array_data2[:, 2+i]))
+        # log_likelihood = 0
+        # for i in range(self.num):
+        #     log_likelihood = log_likelihood + np.sum(np.log(self.array_data2[:, 2+i]))
         return ll
 
     def run(self):
         # Does all iterations until log likelihood converges
-        for i in range(0, 25):
-            log_likelihood = self.iterate_once()
-            print("Log likelihood: ", log_likelihood)
+        for i in range(0, 50):
+            self.log_likelihood = self.iterate_once()
+            print("Log likelihood: ", self.log_likelihood)
 
         for i in range(self.num):
             print("Mean of cluster "+str(i+1)+": ",self.muArray[:,i])
             print("Variance of cluster "+str(i+1)+": \n",self.sigmaArray[i])
-        print("Log likelihood: ", log_likelihood)
+        print("Log likelihood: ", self.log_likelihood)
+
+        bic_value = self.compute_bic()
+        print("BIC value: " + str(bic_value))
         self.plot_data()
 
     def plot_data(self):
@@ -136,3 +140,7 @@ class basic_em_class:
             plt.scatter(cluster[i][:,0],cluster[i][:,1],c=colorlist[i],s=7,edgecolors="none")
 
         plt.show()
+
+    def compute_bic(self):
+        bic_value = self.log_likelihood * (-2) + (7 * self.num) * (np.log(1119))
+        return bic_value
