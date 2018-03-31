@@ -18,6 +18,6 @@ Here is an example of input:
     This will use the data in the sample_EM_data_v2.csv as the data file and separates the data into three clusters.
 
     When you input 'X' as the cluster number, our program will try different cluster numbers for this data set.
-    It stops when the difference between their BIC value is less than 0.05
+    It stops when BIC value stops decreasing.
 
 The random data set for question 5 in the write up is called new_data.csv
