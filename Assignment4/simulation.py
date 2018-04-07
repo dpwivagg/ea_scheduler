@@ -73,6 +73,14 @@ def actualMove(action):
                 move = (y_move*2, x_move*2)
     return current_state[0] + move[0], current_state[1] + move[1]
 
+def randomStart():
+    row = random.randint(0, board_rows-1)
+    column = random.randint(0,board_column-1)
+
+    while game_board[row,column].getType() == "p" or game_board[row,column].getType() == "g":
+        row = random.randint(0, board_rows - 1)
+        column = random.randint(0, board_column - 1)
+    return (row, column)
 
 board_rows = 6
 board_column = 7
