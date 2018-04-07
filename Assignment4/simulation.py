@@ -1,14 +1,8 @@
 import random
 from Assignment4.gameBoard import boardObject
 
-board_rows = 6
-board_column = 7
-optimistic_value = 20
-goal_value = 5
-pit_value = -1
-empty_value = 0
 
-def actualMove():
+def actualMove(action):
     move = int
     randomNum = random.randint(1, 100)
     print(randomNum)
@@ -24,10 +18,16 @@ def actualMove():
     elif randomNum in range(91, 100):
         # Moves forward 2 squares
         move = 4
-
     return move
 
 
+board_rows = 6
+board_column = 7
+optimistic_value = 20
+goal_value = 5
+pit_value = -1
+empty_value = 0
+current_state = None
 game_board = {}
 
 # This is for setting up the table.
@@ -43,7 +43,6 @@ game_board[3,5] = boardObject("p", optimistic_value, pit_value)
 game_board[4,2] = boardObject("p", optimistic_value, pit_value)
 game_board[4,3] = boardObject("p", optimistic_value, pit_value)
 game_board[4,4] = boardObject("p", optimistic_value, pit_value)
-
 game_board[3,2] = boardObject("g", optimistic_value, goal_value)
 
 for i in range(board_rows+1):
