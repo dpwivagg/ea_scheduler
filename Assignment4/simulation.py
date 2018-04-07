@@ -8,10 +8,14 @@ def actualMove(action):
     print(randomNum)
     if randomNum in range(1, 70):
         # Move as expected
-        move = 1
+        move = action
     elif randomNum in range(71, 80):
         # Moves 90 degrees to the right
-        move = 2
+        a = game_board.get((action[0], action[1]), None)
+        if a is None:
+            move = action
+        else:
+            move = a
     elif randomNum in range(81, 90):
         # Moves 90 degrees to the left
         move = 3
@@ -45,11 +49,8 @@ game_board[4,3] = boardObject("p", optimistic_value, pit_value)
 game_board[4,4] = boardObject("p", optimistic_value, pit_value)
 game_board[3,2] = boardObject("g", optimistic_value, goal_value)
 
-for i in range(board_rows+1):
-    game_board[i,7] = boardObject("b", optimistic_value, None)
 
-for i in range(board_column+1):
-    game_board[6,i] = boardObject("b", optimistic_value, None)
+
 
 
 
