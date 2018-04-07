@@ -15,6 +15,6 @@ class boardObject():
     def getReward(self):
         return self.reward
 
-    
+
 
 
