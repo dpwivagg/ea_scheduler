@@ -1,10 +1,10 @@
 import random
 
 class Sarsa:
-    def __init__(self, epsilon, actions):
+    def __init__(self, epsilon, alpha, actions):
         self.q = {}
         self.epsilon = epsilon
-        self.alpha = 0.1
+        self.alpha = alpha
         self.gamma = 0.7
         self.actions = actions
 
