@@ -1,3 +1,4 @@
+import random
 from Assignment4.gameBoard import boardObject
 
 board_rows = 6
@@ -8,7 +9,23 @@ pit_value = -1
 empty_value = 0
 
 def actualMove():
-    return
+    move = int
+    randomNum = random.randint(1, 100)
+    print(randomNum)
+    if randomNum in range(1, 70):
+        # Move as expected
+        move = 1
+    elif randomNum in range(71, 80):
+        # Moves 90 degrees to the right
+        move = 2
+    elif randomNum in range(81, 90):
+        # Moves 90 degrees to the left
+        move = 3
+    elif randomNum in range(91, 100):
+        # Moves forward 2 squares
+        move = 4
+
+    return move
 
 
 game_board = {}
@@ -34,3 +51,7 @@ for i in range(board_rows+1):
 
 for i in range(board_column+1):
     game_board[6,i] = boardObject("b", optimistic_value, None)
+
+
+
+
