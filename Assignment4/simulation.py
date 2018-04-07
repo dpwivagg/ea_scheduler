@@ -88,7 +88,7 @@ def choose_action(state, epsilon):
         action = random.choice(actions)
     else:
         # TODO: Add try/catch to the line below
-        q = [game_board.get(actions, None).getCurrentUtility for a in actions]
+        q = [game_board.get(a, None).getCurrentUtility for a in actions]
         maxQ = max(q)
         count = q.count(maxQ)
         if count > 1:
