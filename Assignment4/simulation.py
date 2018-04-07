@@ -74,14 +74,6 @@ def actualMove(action):
                 move = (y_move*2, x_move*2)
     return current_state[0] + move[0], current_state[1] + move[1]
 
-def randomStart():
-    row = random.randint(0, board_rows-1)
-    column = random.randint(0,board_column-1)
-
-    while game_board[row,column].getType() == "p" or game_board[row,column].getType() == "g":
-        row = random.randint(0, board_rows - 1)
-        column = random.randint(0, board_column - 1)
-    return (row, column)
 
 def updateQ(state1, action1, reward, state2, action2):
     q_current = game_board.get((state1, action1))
@@ -109,9 +101,6 @@ def choose_action(state, epsilon):
 
     return action
 
-def attempt_move():
-    # TODO: Fill this in
-    pass
 
 (goal_value, pit_value, eachmove, giveup, numiteration, epsilon) = input_line()
 
@@ -150,7 +139,7 @@ while current_state is None:
 for i in range(0, numiteration):
     while game_board[current_state].getType() != "g":
         desired_action = choose_action(current_state, epsilon)
-        new_state = attempt_move(current_state, desired_action)
+        new_state = actualMove(current_state - desired_action)
         if last_action is not None:
             updateQ(last_state, last_action, game_board[last_state].getReward(), current_state, desired_action)
         last_state = current_state
