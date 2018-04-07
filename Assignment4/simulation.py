@@ -1,9 +1,44 @@
 import random
 from Assignment4.gameBoard import boardObject
 
+def decideMove(y_move, x_move, left):
+    actualX = 0
+    actualY = 0
+    if left:
+        if y_move > 0:
+            actualX = +1
+            actualY = 0
+        elif y_move < 0:
+            actualX = -1
+            actualY = 0
+        elif x_move < 0:
+            actualX = 0
+            actualY = +1
+        elif x_move > 0:
+            actualX = 0
+            actualY = -1
+    else:
+        if y_move > 0:
+            actualX = -1
+            actualY = 0
+        elif y_move < 0:
+            actualX = +1
+            actualY = 0
+        elif x_move < 0:
+            actualX = 0
+            actualY = -1
+        elif x_move > 0:
+            actualX = 0
+            actualY = +1
+    return actualY, actualX
+
 
 def actualMove(action):
-    move = int
+    x_move = action[1]
+    y_move = action[0]
+    x_current = current_state[1]
+    y_current = current_state[0]
+    move = None
     randomNum = random.randint(1, 100)
     print(randomNum)
     if randomNum in range(1, 70):
@@ -11,18 +46,32 @@ def actualMove(action):
         move = action
     elif randomNum in range(71, 80):
         # Moves 90 degrees to the right
-        a = game_board.get((action[0], action[1]), None)
+        y_move, x_move = decideMove(y_move,x_move, False)
+        a = game_board.get((y_current + y_move, x_current + x_move), None)
         if a is None:
             move = action
         else:
-            move = a
+            move = (y_move, x_move)
     elif randomNum in range(81, 90):
         # Moves 90 degrees to the left
-        move = 3
+        y_move, x_move = decideMove(y_move, x_move, True)
+        a = game_board.get((y_current + y_move, x_current + x_move), None)
+        if a is None:
+            move = action
+        else:
+            move = (y_move, x_move)
     elif randomNum in range(91, 100):
         # Moves forward 2 squares
-        move = 4
-    return move
+        a = game_board.get((y_current+ y_move, x_current + x_move), None)
+        if a.getType() == "g" or a.getType() == "p":
+            move = action
+        else:
+            a = game_board.get((y_current + 2*y_move, x_current + 2*x_move), None)
+            if a is None:
+                move = action
+            else:
+                move = (y_move*2, x_move*2)
+    return current_state[0] + move[0], current_state[1] + move[1]
 
 
 board_rows = 6
