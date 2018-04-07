@@ -12,4 +12,9 @@ class boardObject():
     def getCurrentUtility(self):
         return self.currentUtility
 
+    def getReward(self):
+        return self.reward
+
+    
+
 
