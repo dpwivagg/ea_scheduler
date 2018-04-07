@@ -102,6 +102,16 @@ def choose_action(state, epsilon):
     return action
 
 
+def randomStart():
+    row = random.randint(0, board_rows-1)
+    column = random.randint(0,board_column-1)
+    while game_board[row,column].getType() == "p" or game_board[row,column].getType() == "g":
+        row = random.randint(0, board_rows - 1)
+        column = random.randint(0, board_column - 1)
+
+    return (row, column)
+
+
 (goal_value, pit_value, eachmove, giveup, numiteration, epsilon) = input_line()
 
 board_rows = 6
@@ -111,32 +121,34 @@ optimistic_value = 20
 # pit_value = -1
 empty_value = 0
 current_state = None
+last_action = None
 game_board = {}
 
 # This is for setting up the table.
 
 for i in range(board_column):
     for j in range( board_rows):
-        game_board[j, i] = boardObject("n", optimistic_value, empty_value)
+        game_board[j, i] = boardObject("n", optimistic_value, empty_value - eachmove)
 
-game_board[2,2] = boardObject("p", optimistic_value, pit_value)
-game_board[2,3] = boardObject("p", optimistic_value, pit_value)
-game_board[3,1] = boardObject("p", optimistic_value, pit_value)
-game_board[3,5] = boardObject("p", optimistic_value, pit_value)
-game_board[4,2] = boardObject("p", optimistic_value, pit_value)
-game_board[4,3] = boardObject("p", optimistic_value, pit_value)
-game_board[4,4] = boardObject("p", optimistic_value, pit_value)
-game_board[3,2] = boardObject("g", optimistic_value, goal_value)
+game_board[2,2] = boardObject("p", optimistic_value, pit_value - eachmove)
+game_board[2,3] = boardObject("p", optimistic_value, pit_value - eachmove)
+game_board[3,1] = boardObject("p", optimistic_value, pit_value - eachmove)
+game_board[3,5] = boardObject("p", optimistic_value, pit_value - eachmove)
+game_board[4,2] = boardObject("p", optimistic_value, pit_value - eachmove)
+game_board[4,3] = boardObject("p", optimistic_value, pit_value - eachmove)
+game_board[4,4] = boardObject("p", optimistic_value, pit_value - eachmove)
+game_board[3,2] = boardObject("g", optimistic_value, goal_value - eachmove)
 
 
 
-while current_state is None:
-    current_state = random.choice(game_board.keys())
-    if game_board[current_state].getType() != "n":
-        current_state = None
+# while current_state is None:
+#     current_state = random.choice(game_board.keys())
+#     if game_board[current_state].getType() != "n":
+#         current_state = None
 
 
 for i in range(0, numiteration):
+    current_state = randomStart()
     while game_board[current_state].getType() != "g":
         desired_action = choose_action(current_state, epsilon)
         new_state = actualMove(current_state - desired_action)
