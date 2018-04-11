@@ -66,14 +66,17 @@ def actualMove(action):
     elif randomNum in range(91, 100):
         # Moves forward 2 squares
         a = game_board.get((y_current+ y_move, x_current + x_move), None)
-        if a.getType() == "g" or a.getType() == "p":
+        if a is None:
             move = action
         else:
-            a = game_board.get((y_current + 2*y_move, x_current + 2*x_move), None)
-            if a is None:
+            if a.getType() == "g" or a.getType() == "p":
                 move = action
             else:
-                move = (y_move*2, x_move*2)
+                a = game_board.get((y_current + 2*y_move, x_current + 2*x_move), None)
+                if a is None:
+                    move = action
+                else:
+                    move = (y_move*2, x_move*2)
     return current_state[0] + move[0], current_state[1] + move[1]
 
 
@@ -138,16 +141,16 @@ q_values = {}
 
 for i in range(board_column):
     for j in range( board_rows):
-        game_board[j, i] = boardObject("n", optimistic_value, empty_value - eachmove)
+        game_board[j, i] = boardObject("n", empty_value - eachmove)
 
-game_board[2,2] = boardObject("p", optimistic_value, pit_value - eachmove)
-game_board[2,3] = boardObject("p", optimistic_value, pit_value - eachmove)
-game_board[3,1] = boardObject("p", optimistic_value, pit_value - eachmove)
-game_board[3,5] = boardObject("p", optimistic_value, pit_value - eachmove)
-game_board[4,2] = boardObject("p", optimistic_value, pit_value - eachmove)
-game_board[4,3] = boardObject("p", optimistic_value, pit_value - eachmove)
-game_board[4,4] = boardObject("p", optimistic_value, pit_value - eachmove)
-game_board[3,2] = boardObject("g", optimistic_value, goal_value - eachmove)
+game_board[2,2] = boardObject("p", pit_value - eachmove)
+game_board[2,3] = boardObject("p", pit_value - eachmove)
+game_board[3,1] = boardObject("p", pit_value - eachmove)
+game_board[3,5] = boardObject("p", pit_value - eachmove)
+game_board[4,2] = boardObject("p", pit_value - eachmove)
+game_board[4,3] = boardObject("p", pit_value - eachmove)
+game_board[4,4] = boardObject("p", pit_value - eachmove)
+game_board[3,2] = boardObject("g", goal_value - eachmove)
 
 
 
