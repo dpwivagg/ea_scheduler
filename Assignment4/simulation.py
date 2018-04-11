@@ -83,6 +83,9 @@ def updateQ(state1, action1, reward, state2, action2):
     q_current = q_values.get((state1, action1),0)
     q_next = q_values.get((state2, action2),0)
     q_values[(state1, action1)] = q_current + 0.5*(reward + 0.7*q_next - q_current)
+    if q_values[(state1, action1)] < q_current + giveup:
+        return False
+    print(q_values[(state1,action1)])
 
 
 def choose_action(state, epsilon):
@@ -180,7 +183,10 @@ for i in range(0, numiteration):
             break
         desired_action = choose_action(current_state, epsilon)
         if last_action is not None:
-            updateQ(last_state, last_action, game_board[last_state].getReward(), current_state, desired_action)
+            new_q = updateQ(last_state, last_action, game_board[last_state].getReward(), current_state, desired_action)
+            if new_q is False:
+                print("Give up")
+                break
         last_state = current_state
         current_state = actualMove(tuple(np.subtract(desired_action, current_state)))
         last_action = desired_action
