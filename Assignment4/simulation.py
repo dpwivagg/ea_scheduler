@@ -93,7 +93,13 @@ def choose_action(state, epsilon):
         action = random.choice(actions)
     else:
         moves = [game_board.get(a, None) for a in actions]
-        q = [q_values.get((state,x),0) for x in moves if x is not None]
+        q = []
+        for x in moves:
+            if x is not None:
+                q.append(q_values.get((state,x),0))
+            else:
+                q.append(-5000000)
+        # q = [q_values.get((state,x),0) for x in moves]
         maxQ = max(q)
         count = q.count(maxQ)
         # if count > 1:
