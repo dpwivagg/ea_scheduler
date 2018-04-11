@@ -125,6 +125,8 @@ current_state = None
 last_action = None
 game_board = {}
 
+q_values = {}
+
 # This is for setting up the table.
 
 for i in range(board_column):
