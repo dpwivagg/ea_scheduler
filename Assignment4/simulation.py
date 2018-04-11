@@ -64,14 +64,17 @@ def actualMove(action):
     elif randomNum in range(91, 100):
         # Moves forward 2 squares
         a = game_board.get((y_current+ y_move, x_current + x_move), None)
-        if a.getType() == "g" or a.getType() == "p":
+        if a is None:
             move = action
         else:
-            a = game_board.get((y_current + 2*y_move, x_current + 2*x_move), None)
-            if a is None:
+            if a.getType() == "g" or a.getType() == "p":
                 move = action
             else:
-                move = (y_move*2, x_move*2)
+                a = game_board.get((y_current + 2*y_move, x_current + 2*x_move), None)
+                if a is None:
+                    move = action
+                else:
+                    move = (y_move*2, x_move*2)
     return current_state[0] + move[0], current_state[1] + move[1]
 
 
