@@ -174,7 +174,10 @@ pits = 0
 for i in range(0, numiteration):
     current_state = randomStart()
     type = game_board[current_state].getType()
+    last_action = None
     while 1:
+        if type == "g" or type == "p":
+            break
         desired_action = choose_action(current_state, epsilon)
         if last_action is not None:
             updateQ(last_state, last_action, game_board[last_state].getReward(), current_state, desired_action)
@@ -182,15 +185,6 @@ for i in range(0, numiteration):
         current_state = actualMove(tuple(np.subtract(desired_action, current_state)))
         last_action = desired_action
         # print("Moved from ", last_state, " to ", current_state)
-        if type == "g":
-            # print(pits)
-            # pits = 0
-            # print("Goal reached!")
-            break
-        elif type == "p":
-            # pits += 1
-            # print("Fallen into pit!")
-            break
         type = game_board[current_state].getType()
 
 
