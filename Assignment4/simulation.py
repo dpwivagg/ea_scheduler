@@ -1,6 +1,7 @@
 import random
 from Assignment4.gameBoard import boardObject
 from Assignment4.input import input_line
+import numpy as np
 
 def decideMove(y_move, x_move, left):
     actualX = 0
@@ -87,17 +88,16 @@ def choose_action(state, epsilon):
     if random.random() < epsilon:
         action = random.choice(actions)
     else:
-
         moves = [game_board.get(a, None) for a in actions]
-        q = [x.getCurrentUtility for x in moves if x is not None]
+        q = [x.getCurrentUtility() for x in moves if x is not None]
         maxQ = max(q)
         count = q.count(maxQ)
-        if count > 1:
-            best = [i for i in range(len(actions)) if q[i] == maxQ]
-            i = random.choice(best)
-        else:
-            i = q.index(maxQ)
-
+        # if count > 1:
+        #     best = [i for i in range(len(actions)) if q[i] == maxQ]
+        #     i = random.choice(best)
+        # else:
+        #     i = q.index(maxQ)
+        i = q.index(maxQ)
         action = actions[i]
 
     return action
@@ -152,7 +152,7 @@ for i in range(0, numiteration):
     current_state = randomStart()
     while game_board[current_state].getType() != "g":
         desired_action = choose_action(current_state, epsilon)
-        new_state = actualMove(current_state - desired_action)
+        new_state = actualMove(tuple(np.subtract(current_state, desired_action)))
         if last_action is not None:
             updateQ(last_state, last_action, game_board[last_state].getReward(), current_state, desired_action)
         last_state = current_state
