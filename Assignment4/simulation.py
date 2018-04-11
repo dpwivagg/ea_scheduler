@@ -3,6 +3,7 @@ from Assignment4.gameBoard import boardObject
 from Assignment4.input import input_line
 import numpy as np
 
+
 def decideMove(y_move, x_move, left):
     actualX = 0
     actualY = 0
@@ -77,9 +78,9 @@ def actualMove(action):
 
 
 def updateQ(state1, action1, reward, state2, action2):
-    q_current = game_board.get((state1, action1)).getCurrentUtility()
-    q_next = game_board.get((state2, action2)).getCurrentUtility()
-    game_board[(state1, action1)].currentUtility = q_current + 0.5*(reward + 0.7*q_next - q_current)
+    q_current = q_values.get((state1, action1),0)
+    q_next = q_values.get((state2, action2),0)
+    q_values[(state1, action1)] = q_current + 0.5*(reward + 0.7*q_next - q_current)
 
 
 def choose_action(state, epsilon):
@@ -89,7 +90,7 @@ def choose_action(state, epsilon):
         action = random.choice(actions)
     else:
         moves = [game_board.get(a, None) for a in actions]
-        q = [x.getCurrentUtility() for x in moves if x is not None]
+        q = [q_values.get((state,x),0) for x in moves if x is not None]
         maxQ = max(q)
         count = q.count(maxQ)
         # if count > 1:
@@ -104,13 +105,19 @@ def choose_action(state, epsilon):
 
 
 def randomStart():
-    row = random.randint(0, board_rows-1)
-    column = random.randint(0,board_column-1)
-    while game_board[row,column].getType() == "p" or game_board[row,column].getType() == "g":
-        row = random.randint(0, board_rows - 1)
-        column = random.randint(0, board_column - 1)
-
-    return (row, column)
+    current_state = None
+    while current_state is None:
+        current_state = random.choice(list(game_board.keys()))
+        if game_board[current_state].getType() != "n":
+            current_state = None
+    return current_state
+    # row = random.randint(0, board_rows-1)
+    # column = random.randint(0,board_column-1)
+    # while game_board[row,column].getType() == "p" or game_board[row,column].getType() == "g":
+    #     row = random.randint(0, board_rows - 1)
+    #     column = random.randint(0, board_column - 1)
+    #
+    # return (row, column)
 
 
 (goal_value, pit_value, eachmove, giveup, numiteration, epsilon) = input_line()
@@ -144,21 +151,20 @@ game_board[3,2] = boardObject("g", optimistic_value, goal_value - eachmove)
 
 
 
-# while current_state is None:
-#     current_state = random.choice(game_board.keys())
-#     if game_board[current_state].getType() != "n":
-#         current_state = None
+
 
 
 for i in range(0, numiteration):
     current_state = randomStart()
     while game_board[current_state].getType() != "g":
         desired_action = choose_action(current_state, epsilon)
+        print(tuple(np.subtract(current_state,desired_action)))
         new_state = actualMove(tuple(np.subtract(current_state, desired_action)))
         if last_action is not None:
             updateQ(last_state, last_action, game_board[last_state].getReward(), current_state, desired_action)
         last_state = current_state
         current_state = new_state
+        print(current_state)
         last_action = desired_action
 
         # TODO: add break for falling into pit and giving up
