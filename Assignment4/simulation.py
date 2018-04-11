@@ -131,16 +131,16 @@ q_values = {}
 
 for i in range(board_column):
     for j in range( board_rows):
-        game_board[j, i] = boardObject("n", optimistic_value, empty_value - eachmove)
+        game_board[j, i] = boardObject("n", empty_value - eachmove)
 
-game_board[2,2] = boardObject("p", optimistic_value, pit_value - eachmove)
-game_board[2,3] = boardObject("p", optimistic_value, pit_value - eachmove)
-game_board[3,1] = boardObject("p", optimistic_value, pit_value - eachmove)
-game_board[3,5] = boardObject("p", optimistic_value, pit_value - eachmove)
-game_board[4,2] = boardObject("p", optimistic_value, pit_value - eachmove)
-game_board[4,3] = boardObject("p", optimistic_value, pit_value - eachmove)
-game_board[4,4] = boardObject("p", optimistic_value, pit_value - eachmove)
-game_board[3,2] = boardObject("g", optimistic_value, goal_value - eachmove)
+game_board[2,2] = boardObject("p", pit_value - eachmove)
+game_board[2,3] = boardObject("p", pit_value - eachmove)
+game_board[3,1] = boardObject("p", pit_value - eachmove)
+game_board[3,5] = boardObject("p", pit_value - eachmove)
+game_board[4,2] = boardObject("p", pit_value - eachmove)
+game_board[4,3] = boardObject("p", pit_value - eachmove)
+game_board[4,4] = boardObject("p", pit_value - eachmove)
+game_board[3,2] = boardObject("g", goal_value - eachmove)
 
 
 
