@@ -42,10 +42,10 @@ def actualMove(action):
     move = None
     randomNum = random.randint(1, 100)
     print(randomNum)
-    if randomNum in range(1, 70):
+    if randomNum in range(1, 71):
         # Move as expected
         move = action
-    elif randomNum in range(71, 80):
+    elif randomNum in range(71, 81):
         # Moves 90 degrees to the right
         y_move, x_move = decideMove(y_move,x_move, False)
         a = game_board.get((y_current + y_move, x_current + x_move), None)
@@ -53,7 +53,7 @@ def actualMove(action):
             move = action
         else:
             move = (y_move, x_move)
-    elif randomNum in range(81, 90):
+    elif randomNum in range(81, 91):
         # Moves 90 degrees to the left
         y_move, x_move = decideMove(y_move, x_move, True)
         a = game_board.get((y_current + y_move, x_current + x_move), None)
@@ -61,7 +61,7 @@ def actualMove(action):
             move = action
         else:
             move = (y_move, x_move)
-    elif randomNum in range(91, 100):
+    elif randomNum in range(91, 101):
         # Moves forward 2 squares
         a = game_board.get((y_current+ y_move, x_current + x_move), None)
         if a is None:
@@ -152,6 +152,11 @@ game_board[3,2] = boardObject("g", goal_value - eachmove)
 #     if game_board[current_state].getType() != "n":
 #         current_state = None
 
+# current_state = (0,0)
+# action = (1,0)
+# for i in range(100):
+#     move = actualMove(action)
+#     print(move)
 
 for i in range(0, numiteration):
     current_state = randomStart()
