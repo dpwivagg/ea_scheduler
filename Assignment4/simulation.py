@@ -43,7 +43,8 @@ def actualMove(action):
     y_current = current_state[0]
     move = None
     randomNum = random.randint(1, 100)
-    print(randomNum)
+    # print(randomNum)
+    # randomNum = 92
     if randomNum in range(1, 71):
         # Move as expected
         move = action
@@ -147,26 +148,26 @@ q_values = {}
 
 for i in range(board_column):
     for j in range( board_rows):
-        game_board[j, i] = boardObject("n", empty_value - eachmove)
+        game_board[j, i] = boardObject("n", empty_value + eachmove)
 
-game_board[2,2] = boardObject("p", pit_value - eachmove)
-game_board[2,3] = boardObject("p", pit_value - eachmove)
-game_board[3,1] = boardObject("p", pit_value - eachmove)
-game_board[3,5] = boardObject("p", pit_value - eachmove)
-game_board[4,2] = boardObject("p", pit_value - eachmove)
-game_board[4,3] = boardObject("p", pit_value - eachmove)
-game_board[4,4] = boardObject("p", pit_value - eachmove)
-game_board[3,2] = boardObject("g", goal_value - eachmove)
-
-
+game_board[2,2] = boardObject("p", pit_value + eachmove)
+game_board[2,3] = boardObject("p", pit_value + eachmove)
+game_board[3,1] = boardObject("p", pit_value + eachmove)
+game_board[3,5] = boardObject("p", pit_value + eachmove)
+game_board[4,2] = boardObject("p", pit_value + eachmove)
+game_board[4,3] = boardObject("p", pit_value + eachmove)
+game_board[4,4] = boardObject("p", pit_value + eachmove)
+game_board[3,2] = boardObject("g", goal_value + eachmove)
 
 
 
-# current_state = (0,0)
+
+
+# current_state = (4,4)
 # action = (1,0)
-# for i in range(100):
-#     move = actualMove(action)
-#     print(move)
+# # for i in range(100):
+# move = actualMove(action)
+# print(move)
 
 for i in range(0, numiteration):
     current_state = randomStart()
