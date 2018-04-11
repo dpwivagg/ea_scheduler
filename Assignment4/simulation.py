@@ -76,9 +76,9 @@ def actualMove(action):
 
 
 def updateQ(state1, action1, reward, state2, action2):
-    q_current = game_board.get((state1, action1))
-    q_next = game_board.get((state2, action2))
-    game_board[(state1, action1)] = q_current + 0.5*(reward + 0.7*q_next - q_current)
+    q_current = game_board.get((state1, action1)).getCurrentUtility()
+    q_next = game_board.get((state2, action2)).getCurrentUtility()
+    game_board[(state1, action1)].currentUtility = q_current + 0.5*(reward + 0.7*q_next - q_current)
 
 
 def choose_action(state, epsilon):
@@ -87,7 +87,6 @@ def choose_action(state, epsilon):
     if random.random() < epsilon:
         action = random.choice(actions)
     else:
-        # TODO: Add try/catch to the line below
         moves = [game_board.get(a, None) for a in actions]
         q = [x.getCurrentUtility for x in moves if x is not None]
         maxQ = max(q)
