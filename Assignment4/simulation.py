@@ -43,7 +43,6 @@ def actualMove(action):
     y_current = current_state[0]
     move = None
     randomNum = random.randint(1, 100)
-    print(randomNum)
     if randomNum in range(1, 71):
         # Move as expected
         move = action
@@ -84,6 +83,7 @@ def updateQ(state1, action1, reward, state2, action2):
     q_current = q_values.get((state1, action1),0)
     q_next = q_values.get((state2, action2),0)
     q_values[(state1, action1)] = q_current + 0.5*(reward + 0.7*q_next - q_current)
+    print(q_values[(state1,action1)])
 
 
 def choose_action(state, epsilon):
@@ -91,6 +91,8 @@ def choose_action(state, epsilon):
     actions = [(i + 1, j), (i - 1, j), (i, j + 1), (i, j - 1)]
     if random.random() < epsilon:
         action = random.choice(actions)
+        while game_board.get(action, None) is None:
+            action = random.choice(actions)
     else:
         moves = [game_board.get(a, None) for a in actions]
         q = []
@@ -102,11 +104,11 @@ def choose_action(state, epsilon):
         # q = [q_values.get((state,x),0) for x in moves]
         maxQ = max(q)
         count = q.count(maxQ)
-        # if count > 1:
-        #     best = [i for i in range(len(actions)) if q[i] == maxQ]
-        #     i = random.choice(best)
-        # else:
-        #     i = q.index(maxQ)
+        if count > 1:
+            best = [i for i in range(len(actions)) if q[i] == maxQ]
+            i = random.choice(best)
+        else:
+            i = q.index(maxQ)
         i = q.index(maxQ)
         action = actions[i]
 
@@ -167,19 +169,52 @@ game_board[3,2] = boardObject("g", goal_value - eachmove)
 # for i in range(100):
 #     move = actualMove(action)
 #     print(move)
-
+pits = 0
 for i in range(0, numiteration):
     current_state = randomStart()
-    while game_board[current_state].getType() != "g":
+    type = game_board[current_state].getType()
+    while type != "g" and type != "p":
         desired_action = choose_action(current_state, epsilon)
-        print(tuple(np.subtract(current_state,desired_action)))
-        new_state = actualMove(tuple(np.subtract(current_state, desired_action)))
+        new_state = actualMove(tuple(np.subtract(desired_action, current_state)))
         if last_action is not None:
             updateQ(last_state, last_action, game_board[last_state].getReward(), current_state, desired_action)
         last_state = current_state
         current_state = new_state
-        print(current_state)
         last_action = desired_action
+        # print("Moved from ", last_state, " to ", current_state)
+        type = game_board[current_state].getType()
 
-        # TODO: add break for falling into pit and giving up
+    if type == "g":
+        print(pits)
+        pits = 0
+        print("Goal reached!")
+    elif type == "p":
+        pits += 1
+        # print("Fallen into pit!")
+
+# print(q_values)
+for i in range(0, board_rows):
+    for j in range(0, board_column):
+        if game_board[i,j].getType() == "p":
+            print("p", end=" | ")
+        elif game_board[i,j].getType() == "g":
+            print("g", end=" | ")
+        else:
+            current_state = (i,j)
+            desired_action = choose_action(current_state,0)
+            direction = tuple(np.subtract(desired_action, current_state))
+            if direction == (-1, 0):
+                print("^", end=" | ")
+            elif direction == (1, 0):
+                print("v", end=" | ")
+            elif direction == (0, 1):
+                print(">", end=" | ")
+            elif direction == (0, -1):
+                print("<", end=" | ")
+            else:
+                print("xxxxxxx")
+
+    print("\n")
+
+    # TODO: add giving up
 
