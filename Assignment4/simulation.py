@@ -87,7 +87,7 @@ def updateQ(state1, action1, reward, state2, action2):
         q_values[(state1, action1)] = reward
     else:
         # q_current + alpha*(reward + gamma*q_next - q_current)
-        q_values[(state1, action1)] = q_current + 0.1*(reward + 0.9*q_next - q_current)
+        q_values[(state1, action1)] = q_current + 0.5*(reward + 0.9*q_next - q_current)
 
 
 
@@ -193,7 +193,6 @@ for i in range(0, numiteration):
         if last_action is not None:
             if last_action == (0, 0):
                 updateQ(last_state, last_action, giveup, current_state, desired_action)
-
                 # print("Give up")
             else:
                 updateQ(last_state, last_action, game_board[current_state].getReward(), current_state, desired_action)
@@ -201,7 +200,6 @@ for i in range(0, numiteration):
             break
         last_state = current_state
         # current_state = actualMove(tuple(np.subtract(desired_action, current_state)))
-
         if desired_action != (0, 0):
             current_state = actualMove(desired_action)
             # print(game_board[current_state].getReward())
@@ -209,7 +207,8 @@ for i in range(0, numiteration):
         reward = reward + game_board[current_state].getReward()
         last_action = desired_action
         # print("Moved from ", last_state, " to ", current_state, " Action ", desired_action)
-
+        if desired_action == (0, 0):
+            reward = reward - 3
         type = game_board[current_state].getType()
     print(reward)
     reward_list.append(reward)
