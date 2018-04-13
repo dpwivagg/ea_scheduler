@@ -2,6 +2,7 @@ import random
 from Assignment4.gameBoard import boardObject
 from Assignment4.input import input_line
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 def decideMove(y_move, x_move, left):
@@ -203,13 +204,14 @@ for i in range(0, numiteration):
 
         if desired_action != (0, 0):
             current_state = actualMove(desired_action)
+            # print(game_board[current_state].getReward())
 
         reward = reward + game_board[current_state].getReward()
-        # print(reward)
         last_action = desired_action
         # print("Moved from ", last_state, " to ", current_state, " Action ", desired_action)
 
         type = game_board[current_state].getType()
+    print(reward)
     reward_list.append(reward)
 
 # print(len(reward_list))
@@ -239,3 +241,12 @@ for i in range(0, board_rows):
 
     print("\n")
 
+mean_list = [sum(x) / float(len(x))
+             for x in (reward_list[k : k + 50]
+                       for k in range(0, len(reward_list), 50))]
+
+plt.plot(range(len(mean_list)),mean_list)
+# plt.ylim((-200,10))
+plt.xlabel("number of trials")
+plt.ylabel("average reward")
+plt.show()
