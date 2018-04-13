@@ -79,21 +79,18 @@ def actualMove(action):
                     move = (y_move*2, x_move*2)
     return current_state[0] + move[0], current_state[1] + move[1]
 
-
 def updateQ(state1, action1, reward, state2, action2):
     q_current = q_values.get((state1, action1),None)
     q_next = q_values.get((state2, action2),0)
     if q_current is None:
         q_values[(state1, action1)] = reward
     else:
-        # q_current + alpha*(reward + gamma*q_next - q_current)
         q_values[(state1, action1)] = q_current + 0.5*(reward + 0.9*q_next - q_current)
 
 
 
 def choose_action(state, epsilon):
     (i, j) = state
-    # actions = [(i + 1, j), (i - 1, j), (i, j + 1), (i, j - 1)]
     actions = [(1, 0), (-1, 0), (0, 1), (0, -1),(0, 0)]
     if random.random() < epsilon:
         action = random.choice(actions)
@@ -115,13 +112,7 @@ def choose_action(state, epsilon):
         else:
             i = q.index(maxQ)
         action = actions[i]
-
-    # if q_values.get((state, action),0) < 0.5*giveup:
-    #     print("Give up")
-    #     return None
     return action
-    # return tuple(np.subtract(action, current_state))
-
 
 def randomStart():
     current_state = None
@@ -130,44 +121,12 @@ def randomStart():
         if game_board[current_state].getType() != "n":
             current_state = None
     return current_state
-    # row = random.randint(0, board_rows-1)
-    # column = random.randint(0,board_column-1)
-    # while game_board[row,column].getType() == "p" or game_board[row,column].getType() == "g":
-    #     row = random.randint(0, board_rows - 1)
-    #     column = random.randint(0, board_column - 1)
-    #
-    # return (row, column)
-
-def calulate_future_expected_reward(state):
-    reward = 0
-    this_state = state
-    desired_action = choose_action(this_state, 0)
-    next_state =state[0]+desired_action[0], state[1]+desired_action[1]
-    type = game_board.get(next_state).getType()
-    while 1:
-        if desired_action == (0,0):
-            reward = reward + giveup
-        else:
-            reward = reward +game_board.get(next_state).getReward()
-
-        if type =="g" or type =="p" or desired_action == (0,0):
-            break
-        this_state = next_state
-        desired_action = choose_action(this_state, 0)
-        next_state = this_state[0] + desired_action[0], this_state[1] + desired_action[1]
-        type = game_board.get(next_state).getType()
-    return reward
-
-
-
 
 (goal_value, pit_value, eachmove, giveup, numiteration, epsilon) = input_line()
 
 board_rows = 6
 board_column = 7
 optimistic_value = 20
-# goal_value = 5
-# pit_value = -1
 empty_value = 0
 current_state = None
 last_action = None
@@ -189,15 +148,6 @@ game_board[4,2] = boardObject("p", pit_value + eachmove)
 game_board[4,3] = boardObject("p", pit_value + eachmove)
 game_board[4,4] = boardObject("p", pit_value + eachmove)
 game_board[3,2] = boardObject("g", goal_value + eachmove)
-
-
-# current_state = (4,4)
-# action = (1,0)
-
-# for i in range(100):
-#     move = actualMove(action)
-#     print(move)
-pits = 0
 
 for i in range(0, numiteration):
     current_state = randomStart()
@@ -232,12 +182,13 @@ for i in range(0, numiteration):
         if desired_action == (0, 0):
             reward = reward - 3
         type = game_board[current_state].getType()
-    print(reward)
+    # print(reward)
     reward_list.append(reward)
 
 # print(len(reward_list))
 
 # print(q_values)
+print("Recommended Action:")
 for i in range(0, board_rows):
     for j in range(0, board_column):
         if game_board[i,j].getType() == "p":
@@ -261,29 +212,36 @@ for i in range(0, board_rows):
                 print("G", end=" | ")
 
     print("\n")
-
+print("Expect Reward:")
 for i in range(0, board_rows):
     for j in range(0, board_column):
+        state = (i, j)
         if game_board[i,j].getType() == "p":
-            print('{:.2f}'.format(pit_value), end=" | ")
+            print(state," | ","Pit"," | ",'{:.2f}'.format(pit_value), end=" ")
         elif game_board[i,j].getType() == "g":
-            print('{:.2f}'.format(goal_value), end=" | ")
+            print(state," | ","Pit"," | ",'{:.2f}'.format(pit_value), end=" ")
         else:
-            current_state = (i,j)
-            reward =calulate_future_expected_reward(current_state)
+            actions = [(1, 0), (-1, 0), (0, 1), (0, -1), (0, 0)]
+            print(state, end=" | ")
+            for x in actions:
+                direction = ""
+                if x == (-1, 0):
+                    direction = "^"
+                elif x == (1, 0):
+                    direction = "v"
+                elif x == (0, 1):
+                    direction = ">"
+                elif x == (0, -1):
+                    direction = "<"
+                elif x == (0, 0):
+                    direction = "G"
+                reward = q_values.get((state, x),0)
+                print(direction ," ",'{:.2f}'.format(reward), end=" | ")
             # direction = tuple(np.subtract(desired_action, current_state))
-            print('{:.2f}'.format(reward), end=" | ")
-    print("\n")
-
-
-# for a in q_values.keys():
-#     print(a, q_values.get(a))
-
-
+        print("\n")
 mean_list = [sum(x) / float(len(x))
              for x in (reward_list[k : k + 50]
                        for k in range(0, len(reward_list), 50))]
-
 plt.plot(range(len(mean_list)),mean_list)
 # plt.ylim((-200,10))
 plt.xlabel("number of trials")
