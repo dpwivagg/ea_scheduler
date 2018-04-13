@@ -85,6 +85,7 @@ def updateQ(state1, action1, reward, state2, action2):
     if q_current is None:
         q_values[(state1, action1)] = reward
     else:
+        # q_current + alpha*(reward + gamma*q_next - q_current)
         q_values[(state1, action1)] = q_current + 0.1*(reward + 0.9*q_next - q_current)
 
 
@@ -95,7 +96,7 @@ def choose_action(state, epsilon):
     actions = [(1, 0), (-1, 0), (0, 1), (0, -1),(0, 0)]
     if random.random() < epsilon:
         action = random.choice(actions)
-        while game_board.get(tuple(np.add(action,state)), None) is None and action !=(0,0):
+        while game_board.get(tuple(np.add(action,state)), None) is None or action == (0,0):
             action = random.choice(actions)
     else:
         q = []
@@ -190,7 +191,8 @@ for i in range(0, numiteration):
         if last_action is not None:
             if last_action == (0, 0):
                 updateQ(last_state, last_action, giveup, current_state, desired_action)
-                print("Give up")
+
+                # print("Give up")
             else:
                 updateQ(last_state, last_action, game_board[current_state].getReward(), current_state, desired_action)
         if type == "g" or type == "p" or last_action == (0, 0):
@@ -231,8 +233,3 @@ for i in range(0, board_rows):
 
     print("\n")
 
-
-for a in q_values.keys():
-    print(a, q_values.get(a))
-
-    # TODO: add giving up
