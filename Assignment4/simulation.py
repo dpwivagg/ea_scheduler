@@ -95,12 +95,12 @@ def choose_action(state, epsilon):
     actions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
     if random.random() < epsilon:
         action = random.choice(actions)
-        while game_board.get(tuple(np.add(action,current_state)), None) is None:
+        while game_board.get(tuple(np.add(action,state)), None) is None:
             action = random.choice(actions)
     else:
         q = []
         for x in actions:
-            if game_board.get(tuple(np.add(x,current_state)),None) is not None:
+            if game_board.get(tuple(np.add(x,state)),None) is not None:
                 q.append(q_values.get((state,x),0))
             else:
                 q.append(-5000000)
