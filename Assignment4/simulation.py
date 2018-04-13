@@ -92,10 +92,10 @@ def updateQ(state1, action1, reward, state2, action2):
 def choose_action(state, epsilon):
     (i, j) = state
     # actions = [(i + 1, j), (i - 1, j), (i, j + 1), (i, j - 1)]
-    actions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+    actions = [(1, 0), (-1, 0), (0, 1), (0, -1),(0, 0)]
     if random.random() < epsilon:
         action = random.choice(actions)
-        while game_board.get(tuple(np.add(action,state)), None) is None:
+        while game_board.get(tuple(np.add(action,state)), None) is None and action !=(0,0):
             action = random.choice(actions)
     else:
         q = []
@@ -188,12 +188,17 @@ for i in range(0, numiteration):
         if desired_action is None:
             break
         if last_action is not None:
-            updateQ(last_state, last_action, game_board[current_state].getReward(), current_state, desired_action)
-        if type == "g" or type == "p":
+            if last_action == (0, 0):
+                updateQ(last_state, last_action, giveup, current_state, desired_action)
+                print("Give up")
+            else:
+                updateQ(last_state, last_action, game_board[current_state].getReward(), current_state, desired_action)
+        if type == "g" or type == "p" or last_action == (0, 0):
             break
         last_state = current_state
         # current_state = actualMove(tuple(np.subtract(desired_action, current_state)))
-        current_state = actualMove(desired_action)
+        if desired_action != (0, 0):
+            current_state = actualMove(desired_action)
         last_action = desired_action
         # print("Moved from ", last_state, " to ", current_state, " Action ", desired_action)
 
@@ -211,7 +216,7 @@ for i in range(0, board_rows):
         else:
             current_state = (i,j)
             desired_action = choose_action(current_state, 0)
-            direction = tuple(np.subtract(desired_action, current_state))
+            # direction = tuple(np.subtract(desired_action, current_state))
             direction = desired_action
             if direction == (-1, 0):
                 print("^", end=" | ")
@@ -221,6 +226,8 @@ for i in range(0, board_rows):
                 print(">", end=" | ")
             elif direction == (0, -1):
                 print("<", end=" | ")
+            elif direction == (0, 0):
+                print("G", end=" | ")
 
     print("\n")
 
