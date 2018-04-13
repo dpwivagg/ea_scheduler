@@ -85,7 +85,8 @@ def updateQ(state1, action1, reward, state2, action2):
     if q_current is None:
         q_values[(state1, action1)] = reward
     else:
-        q_values[(state1, action1)] = q_current + 0.1*(reward + q_next - q_current)
+        q_values[(state1, action1)] = q_current + 0.5*(reward + q_next - q_current)
+
 
 
 def choose_action(state, epsilon):
