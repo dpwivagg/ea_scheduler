@@ -148,7 +148,7 @@ empty_value = 0
 current_state = None
 last_action = None
 game_board = {}
-
+reward_list = []
 q_values = {}
 
 # This is for setting up the table.
@@ -181,6 +181,7 @@ for i in range(0, numiteration):
     type = game_board[current_state].getType()
     last_action = None
     last_state = None
+    reward = 0
     while 1:
         # desired_action = choose_action(current_state, epsilon)
         desired_action = choose_action(current_state, epsilon)
@@ -194,12 +195,14 @@ for i in range(0, numiteration):
         last_state = current_state
         # current_state = actualMove(tuple(np.subtract(desired_action, current_state)))
         current_state = actualMove(desired_action)
+        reward =+ game_board[current_state].getReward()
         last_action = desired_action
         # print("Moved from ", last_state, " to ", current_state, " Action ", desired_action)
 
         type = game_board[current_state].getType()
+    reward_list.append(reward)
 
-
+print(len(reward_list))
 
 # print(q_values)
 for i in range(0, board_rows):
