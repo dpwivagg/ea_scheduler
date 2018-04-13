@@ -85,21 +85,22 @@ def updateQ(state1, action1, reward, state2, action2):
     if q_current is None:
         q_values[(state1, action1)] = reward
     else:
-        q_values[(state1, action1)] = q_current + 0.5*(reward + q_next - q_current)
+        q_values[(state1, action1)] = q_current + 0.1*(reward + 0.9*q_next - q_current)
 
 
 
 def choose_action(state, epsilon):
     (i, j) = state
-    actions = [(i + 1, j), (i - 1, j), (i, j + 1), (i, j - 1)]
+    # actions = [(i + 1, j), (i - 1, j), (i, j + 1), (i, j - 1)]
+    actions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
     if random.random() < epsilon:
         action = random.choice(actions)
-        while game_board.get(action, None) is None:
+        while game_board.get(tuple(np.add(action,current_state)), None) is None:
             action = random.choice(actions)
     else:
         q = []
         for x in actions:
-            if game_board.get(x,None) is not None:
+            if game_board.get(tuple(np.add(x,current_state)),None) is not None:
                 q.append(q_values.get((state,x),0))
             else:
                 q.append(-5000000)
@@ -116,8 +117,8 @@ def choose_action(state, epsilon):
     # if q_values.get((state, action),0) < 0.5*giveup:
     #     print("Give up")
     #     return None
-
     return action
+    # return tuple(np.subtract(action, current_state))
 
 
 def randomStart():
@@ -180,12 +181,10 @@ for i in range(0, numiteration):
     type = game_board[current_state].getType()
     last_action = None
     last_state = None
-    # last_state = current_state
-    # last_action = choose_action(last_state, epsilon)
-    # current_state = actualMove(tuple(np.subtract(last_action, last_state)))
-    # type = game_board[current_state].getType()
     while 1:
+        # desired_action = choose_action(current_state, epsilon)
         desired_action = choose_action(current_state, epsilon)
+        # desired_action = tuple(np.add(choose_action(current_state, epsilon), current_state))
         if desired_action is None:
             break
         if last_action is not None:
@@ -193,9 +192,11 @@ for i in range(0, numiteration):
         if type == "g" or type == "p":
             break
         last_state = current_state
-        current_state = actualMove(tuple(np.subtract(desired_action, current_state)))
+        # current_state = actualMove(tuple(np.subtract(desired_action, current_state)))
+        current_state = actualMove(desired_action)
         last_action = desired_action
-        # print("Moved from ", last_state, " to ", current_state)
+        # print("Moved from ", last_state, " to ", current_state, " Action ", desired_action)
+
         type = game_board[current_state].getType()
 
 
@@ -211,6 +212,7 @@ for i in range(0, board_rows):
             current_state = (i,j)
             desired_action = choose_action(current_state, 0)
             direction = tuple(np.subtract(desired_action, current_state))
+            direction = desired_action
             if direction == (-1, 0):
                 print("^", end=" | ")
             elif direction == (1, 0):
