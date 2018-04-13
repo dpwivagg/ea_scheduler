@@ -2,6 +2,7 @@ import random
 from Assignment4.gameBoard import boardObject
 from Assignment4.input import input_line
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 def decideMove(y_move, x_move, left):
@@ -85,7 +86,8 @@ def updateQ(state1, action1, reward, state2, action2):
     if q_current is None:
         q_values[(state1, action1)] = reward
     else:
-        q_values[(state1, action1)] = q_current + 0.1*(reward + 0.9*q_next - q_current)
+        # q_current + alpha*(reward + gamma*q_next - q_current)
+        q_values[(state1, action1)] = q_current + 0.5*(reward + 0.9*q_next - q_current)
 
 
 
@@ -95,7 +97,7 @@ def choose_action(state, epsilon):
     actions = [(1, 0), (-1, 0), (0, 1), (0, -1),(0, 0)]
     if random.random() < epsilon:
         action = random.choice(actions)
-        while game_board.get(tuple(np.add(action,state)), None) is None and action !=(0,0):
+        while game_board.get(tuple(np.add(action,state)), None) is None or action == (0,0):
             action = random.choice(actions)
     else:
         q = []
@@ -170,7 +172,7 @@ empty_value = 0
 current_state = None
 last_action = None
 game_board = {}
-
+reward_list = []
 q_values = {}
 
 # This is for setting up the table.
@@ -203,6 +205,7 @@ for i in range(0, numiteration):
     type = game_board[current_state].getType()
     last_action = None
     last_state = None
+    reward = 0
     while 1:
         # desired_action = choose_action(current_state, epsilon)
         desired_action = choose_action(current_state, epsilon)
@@ -221,12 +224,18 @@ for i in range(0, numiteration):
         # current_state = actualMove(tuple(np.subtract(desired_action, current_state)))
         if desired_action != (0, 0):
             current_state = actualMove(desired_action)
+            # print(game_board[current_state].getReward())
+
+        reward = reward + game_board[current_state].getReward()
         last_action = desired_action
         # print("Moved from ", last_state, " to ", current_state, " Action ", desired_action)
-
+        if desired_action == (0, 0):
+            reward = reward - 3
         type = game_board[current_state].getType()
+    print(reward)
+    reward_list.append(reward)
 
-
+# print(len(reward_list))
 
 # print(q_values)
 for i in range(0, board_rows):
@@ -269,4 +278,15 @@ for i in range(0, board_rows):
 
 # for a in q_values.keys():
 #     print(a, q_values.get(a))
+
+
+mean_list = [sum(x) / float(len(x))
+             for x in (reward_list[k : k + 50]
+                       for k in range(0, len(reward_list), 50))]
+
+plt.plot(range(len(mean_list)),mean_list)
+# plt.ylim((-200,10))
+plt.xlabel("number of trials")
+plt.ylabel("average reward")
+plt.show()
 
