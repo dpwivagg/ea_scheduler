@@ -80,9 +80,12 @@ def actualMove(action):
 
 
 def updateQ(state1, action1, reward, state2, action2):
-    q_current = q_values.get((state1, action1),0)
+    q_current = q_values.get((state1, action1),None)
     q_next = q_values.get((state2, action2),0)
-    q_values[(state1, action1)] = q_current + 0.5*(reward + 0.7*q_next - q_current)
+    if q_current is None:
+        q_values[(state1, action1)] = reward
+    else:
+        q_values[(state1, action1)] = q_current + 0.1*(reward + q_next - q_current)
 
 
 def choose_action(state, epsilon):
@@ -109,7 +112,9 @@ def choose_action(state, epsilon):
             i = q.index(maxQ)
         action = actions[i]
 
-    # if q_values.get((state, action)) < giveup
+    # if q_values.get((state, action),0) < 0.5*giveup:
+    #     print("Give up")
+    #     return None
 
     return action
 
@@ -160,9 +165,6 @@ game_board[4,4] = boardObject("p", pit_value + eachmove)
 game_board[3,2] = boardObject("g", goal_value + eachmove)
 
 
-
-
-
 # current_state = (4,4)
 # action = (1,0)
 
@@ -173,14 +175,22 @@ pits = 0
 
 for i in range(0, numiteration):
     current_state = randomStart()
+    # current_state = (5,0)
     type = game_board[current_state].getType()
     last_action = None
+    last_state = None
+    # last_state = current_state
+    # last_action = choose_action(last_state, epsilon)
+    # current_state = actualMove(tuple(np.subtract(last_action, last_state)))
+    # type = game_board[current_state].getType()
     while 1:
+        desired_action = choose_action(current_state, epsilon)
+        if desired_action is None:
+            break
+        if last_action is not None:
+            updateQ(last_state, last_action, game_board[current_state].getReward(), current_state, desired_action)
         if type == "g" or type == "p":
             break
-        desired_action = choose_action(current_state, epsilon)
-        if last_action is not None:
-            updateQ(last_state, last_action, game_board[last_state].getReward(), current_state, desired_action)
         last_state = current_state
         current_state = actualMove(tuple(np.subtract(desired_action, current_state)))
         last_action = desired_action
@@ -210,5 +220,9 @@ for i in range(0, board_rows):
                 print("<", end=" | ")
 
     print("\n")
+
+
+for a in q_values.keys():
+    print(a, q_values.get(a))
 
     # TODO: add giving up
