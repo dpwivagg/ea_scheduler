@@ -190,7 +190,7 @@ for i in range(0, numiteration):
         if last_action is not None:
             if last_action == (0, 0):
                 updateQ(last_state, last_action, giveup, current_state, desired_action)
-                print("Give up")
+                # print("Give up")
             else:
                 updateQ(last_state, last_action, game_board[current_state].getReward(), current_state, desired_action)
         if type == "g" or type == "p" or last_action == (0, 0):
