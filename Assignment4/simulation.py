@@ -199,18 +199,19 @@ for i in range(0, numiteration):
         if type == "g" or type == "p" or last_action == (0, 0):
             break
         last_state = current_state
+        last_action = desired_action
         # current_state = actualMove(tuple(np.subtract(desired_action, current_state)))
         if desired_action != (0, 0):
             current_state = actualMove(desired_action)
             # print(game_board[current_state].getReward())
 
-        reward = reward + game_board[current_state].getReward()
-        last_action = desired_action
         # print("Moved from ", last_state, " to ", current_state, " Action ", desired_action)
         if desired_action == (0, 0):
-            reward = reward - 3
+            reward = reward + giveup
+        else:
+            reward = reward + game_board[current_state].getReward()
         type = game_board[current_state].getType()
-    print(reward)
+    # print(reward)
     reward_list.append(reward)
 
 # print(len(reward_list))
@@ -245,7 +246,14 @@ mean_list = [sum(x) / float(len(x))
                        for k in range(0, len(reward_list), 50))]
 
 plt.plot(range(len(mean_list)),mean_list)
-# plt.ylim((-200,10))
+# plt.ylim((-100,10))
+# list2 = sum(([a]*10 for a in [sum(mean_list[i:i+10])//10 for i in range(0,len(mean_list),10)]), [])
+# plt.plot(range(len(list2)),list2,"r--")
+# trend line
+# z = np.polyfit(range(len(mean_list)),mean_list, 2)
+# p = np.poly1d(z)
+# plt.plot(range(len(mean_list)),p(range(len(mean_list))),"r--")
 plt.xlabel("number of trials")
 plt.ylabel("average reward")
+plt.title("sarsa 30 -2 -0.2 -3 10000 0")
 plt.show()
