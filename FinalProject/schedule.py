@@ -14,5 +14,9 @@ class Schedule():
             heuristic = heuristic + event.calc_heuristic()
         self.heuristic = heuristic
 
+    def form_possible_schedules(self):
+        # This should return the possible new formed schedule based on different algorithms
+        return
+
 
 
