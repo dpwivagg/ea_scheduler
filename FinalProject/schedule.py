@@ -1,8 +1,8 @@
 
 class Schedule():
-    def __init__(self, persons, events, heuristic):
+    def __init__(self, persons, events_avaibilities, heuristic):
         self.persons = persons
-        self.events = events
+        self.events_avaibilities = events_avaibilities
         self.heuristic = heuristic
 
 
@@ -10,8 +10,6 @@ class Schedule():
         heuristic = 0
         for person in self.persons:
             heuristic = heuristic+ person.calc_heuristic()
-        for event in self.events:
-            heuristic = heuristic + event.calc_heuristic()
         self.heuristic = heuristic
 
     def form_possible_schedules(self):
