@@ -6,3 +6,13 @@ class Schedule():
         self.heuristic = heuristic
 
 
+    def cal_heuristic(self):
+        heuristic = 0
+        for person in self.persons:
+            heuristic = heuristic+ person.calc_heuristic()
+        for event in self.events:
+            heuristic = heuristic + event.calc_heuristic()
+        self.heuristic = heuristic
+
+
+

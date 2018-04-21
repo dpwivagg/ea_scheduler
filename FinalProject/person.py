@@ -27,5 +27,6 @@ class Person():
         # Calculate number of lead/presenter roles
         h += 5 if self.roles.count("PRESENTER") <= 2 else -5
         h += 5 if self.roles.count("LEAD") <= 2 else -5
+        return h
 
 
