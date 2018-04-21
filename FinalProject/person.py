@@ -29,4 +29,6 @@ class Person():
         h += 5 if self.roles.count("LEAD") <= 2 else -5
         return h
 
+    def getRoles(self):
+        return self.roles
 
