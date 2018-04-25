@@ -1,23 +1,55 @@
 # TODO: Form possible schedules
 # TODO: Write a Schedule.__eq__ ()function
 import random
+from copy import deepcopy
+from functools import total_ordering
 
 
+@total_ordering
 class Schedule():
-    def __init__(self, persons, events_avaibilities, heuristic):
+    def __init__(self, persons, events_avaibilities):
         self.persons = persons
         self.events_avaibilities = events_avaibilities
-        self.heuristic = heuristic
+        self.heuristic = 0
 
-    def cal_heuristic(self):
+    def __eq__(self, other):
+        return self.heuristic == other.heuristic
+
+    def __ne__(self, other):
+        return not (self.heuristic == other.heuristic)
+
+    def __lt__(self, other):
+        return self.heuristic < other.heuristic
+
+    def calc_heuristic(self):
         heuristic = 0
         for person in self.persons:
-            heuristic = heuristic+ person.calc_heuristic()
+            heuristic = heuristic + person.calc_heuristic()
         self.heuristic = heuristic
 
     def form_possible_schedules(self):
         # This should return the possible new formed schedule based on different algorithms
-        return
+        all_possible_schedules = []
+        for key, value in self.events_avaibilities.items():
+            for counter, person in enumerate(self.persons):
+                mutator = deepcopy(self)
+                if person in self.events_avaibilities(key):
+                    mutator.events_avaibilities(key).remove(person)
+                    mutator.persons[counter].eventIDs.remove(key[1])
+                else:
+                    mutator.events_avaibilities(key).append(person)
+                all_possible_schedules.append(mutator)
+
+        best = max(all_possible_schedules)
+        return best
+
+    def form_random_schedule(self):
+
+        pass
+
+    def mutate(self):
+
+        pass
 
     def event_heuristic(self):
         h = 0
