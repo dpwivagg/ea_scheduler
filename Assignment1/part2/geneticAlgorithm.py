@@ -311,9 +311,6 @@ def geneticRun(originalMap, maprow, mapcol, num_I, num_R, num_C, lastTime):
     maprow = maprow
     mapcol = mapcol
     start_time = time.time()
-    elite_list = []  # For storing the elite list
-    normal_list = []
-    cull_list = []
     gen_list = []
     original_size = 100
     elite_size = 2
