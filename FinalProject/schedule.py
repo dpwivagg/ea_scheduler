@@ -115,13 +115,37 @@ class Schedule():
             for element in value:
                 if element not in list:
                     list.add(element)
+
+        persons1 = deepcopy(empty_persons)
+        persons2 = deepcopy(empty_persons)
+        event_availabilities_1 = {}
+        event_availabilities_2 = {}
         for key, value in temporary_mid_event:
+            eventID = key[0]
             list1 = []
             list2 = []
-            persons1 = 
             for element in value:
                 rand = random.random()
+                if rand > 0.5:
+                    list1.append(element)
+                    persons1 = self.add_event_to_person(persons1, element, eventID)
+                rand = random.random()
+                if rand > 0.5:
+                    list2.append(element)
+                    persons2 = self.add_event_to_person(persons2, element, eventID)
 
+            event_availabilities_1[key] = list1
+            event_availabilities_2[key] = list2
 
-        return
+        schedule1 = Schedule(persons1, event_availabilities_1)
+        schedule2 = Schedule(persons2, event_availabilities_2)
+        return schedule1, schedule2
+
+    def add_event_to_person(self, persons, id, event_id):
+        for person in persons:
+            if id == person.id:
+                if event_id not in person.eventIDs:
+                    person.eventIDs.append(event_id)
+        return persons
+
 
