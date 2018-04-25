@@ -11,5 +11,5 @@ def read_data():
             id = row.pop(0)
             events = [list(map(int, x.split(' '))) for x in row]
             allpeople.append(Person(id, [], [], events))
-        return allpeople
+            return allpeople
 
