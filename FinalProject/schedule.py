@@ -1,4 +1,5 @@
-
+# TODO: Form possible schedules
+# TODO: Write a Schedule.__eq__ ()function
 class Schedule():
     def __init__(self, persons, events_avaibilities, heuristic):
         self.persons = persons
