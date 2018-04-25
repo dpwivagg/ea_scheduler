@@ -3,7 +3,7 @@
 import random
 from copy import deepcopy
 from functools import total_ordering
-
+from FinalProject.data_parser import read_data
 
 @total_ordering
 class Schedule():
@@ -51,40 +51,46 @@ class Schedule():
 
         pass
 
+    def get_RoleList(personID):
+        roles = []
+        allpeople = read_data()
+        for person in allpeople:
+            if person.id == personID:
+                roles = person.getRoles()
+        return roles
+
     def event_heuristic(self):
         h = 0
         count = 0
         event_persons = {}
         role_list = {}
+        eventNum = int(len(self.events_avaibilities) / 6)
 
-        # At least 4 people but no more than 7 people are present at all times from 9:00 to 11:00
-        for event in self.events_avaibilities.keys():
-            for time in self.events_avaibilities[event].keys():
+        for event in range(1, eventNum + 1):
+            for timeslot in range(1, 7):
                 # times from 9:00 to 11:00 : [2, 3, 4, 5]
-                if time in [2, 3, 4, 5]:
-                        Num = len(self.events_avaibilities[event][time])
-                        if Num >= 4 and Num <= 7:
-                            count += 1
-            # if the number of peopel does not meet condition in any timeslot, take -5 penalty
-            if count < 4 :
+                if timeslot in [2, 3, 4, 5]:
+                    Num = len(self.events_avaibilities[(event, timeslot)])
+                    if Num >= 4 and Num <= 7:
+                        count += 1
+            # if the number of people does not meet condition in any timeslot, take -5 penalty
+            if count < 4:
                 h -= 5
             else:
                 h += 1
             count = 0
 
         # All five roles are filled
-        for event in self.events_avaibilities.keys():
-            event_dict = self.events_avaibilities[event]
-
-            for time in event_dict.keys():
-                persons = event_dict[time]
+        for event in range(1, eventNum + 1):
+            for time in range(1, 7):
+                persons = self.events_avaibilities[(event, time)]
                 for i in persons:
                     if i not in event_persons[event]:
                         event_persons[event].append(i)
 
-            # Not sure using the class "Person" is correct or not here,
+            # getRole????
             for k in event_persons[event]:
-                list = k.getRoles()
+                list = self.get_RoleList(k)
                 roleName = list[event-1]
                 role_list[event].append(roleName)
 
@@ -99,7 +105,6 @@ class Schedule():
                 h -= 5
         self.heuristic = h
         return h
-
 
 
     def mutate(self):
