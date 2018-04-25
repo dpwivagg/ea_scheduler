@@ -1,5 +1,8 @@
 # TODO: Form possible schedules
 # TODO: Write a Schedule.__eq__ ()function
+import random
+
+
 class Schedule():
     def __init__(self, persons, events_avaibilities, heuristic):
         self.persons = persons
@@ -62,10 +65,31 @@ class Schedule():
                 h += 1
             else:
                 h -= 5
-
+        self.heuristic = h
         return h
 
 
 
+    def mutate(self):
 
+        return
+
+    def cross_over(self,other, empty_persons):
+        temporary_mid_event = {}
+        for key, value in self.events_avaibilities:
+            temporary_mid_event[key] = value
+        for key, value in other.events_avaibilities:
+            list = temporary_mid_event.get(key)
+            for element in value:
+                if element not in list:
+                    list.add(element)
+        for key, value in temporary_mid_event:
+            list1 = []
+            list2 = []
+            persons1 = 
+            for element in value:
+                rand = random.random()
+
+
+        return
 
