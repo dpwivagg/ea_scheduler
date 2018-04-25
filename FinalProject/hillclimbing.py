@@ -49,6 +49,7 @@ def start():
         for j in range(1,7):
             sch.events_avaibilities[i,j]=[]
 
+
     for person in allpeople:
         for i in range(len(person.eventIDs)):
             event = person.eventIDs[i]
