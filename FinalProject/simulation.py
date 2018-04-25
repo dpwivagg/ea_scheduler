@@ -9,9 +9,10 @@ from FinalProject.genetic import *
 
 
 allPerson = read_data()
-
+print(allPerson)
 # Run Genetic
+run_genetic()
 
 
-# Run hill clib
-
+# Run hill climb
+run_hill_climb()

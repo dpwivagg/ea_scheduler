@@ -44,15 +44,3 @@ def start():
     #     print(person.roles, person.eventIDs)
     return allpeople
 
-
-
-
-
-
-
-
-
-
-
-
-
