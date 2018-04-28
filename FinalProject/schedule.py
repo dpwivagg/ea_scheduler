@@ -32,16 +32,20 @@ class Schedule():
         all_possible_schedules = []
         for key, value in self.events_avaibilities.items():
             for counter, person in enumerate(self.persons):
-                mutator = deepcopy(self)
-                if person in self.events_avaibilities(key):
-                    mutator.events_avaibilities(key).remove(person)
-                    mutator.persons[counter].eventIDs.remove(key[1])
+                mutator = Schedule(self.persons,deepcopy(self.events_avaibilities))
+                if person in self.events_avaibilities[key]:
+                    mutator.events_avaibilities[key].remove(person)
+                    # mutator.persons[counter].eventIDs.remove[key[1]]
                 else:
-                    mutator.events_avaibilities(key).append(person)
+                    mutator.events_avaibilities[key].append(person)
                 all_possible_schedules.append(mutator)
 
+        for a in all_possible_schedules:
+            a.calc_heuristic()
+
+        size = len(all_possible_schedules)
         best = max(all_possible_schedules)
-        return best
+        return best, size
 
     def form_random_schedule(self):
 
