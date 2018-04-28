@@ -68,6 +68,7 @@ a = start()
 def hill_climbing():
     start_time = datetime.now
     local_best = []
+    h_list = []
     time_cost = 0
     time = 60
     count = 0
@@ -116,8 +117,18 @@ def hill_climbing():
 
         new_schedule = Schedule.form_possible_schedules()
         new_h = new_schedule.h
-        
 
+    for i in range(len(local_best)):
+        h_list.append(local_best[i][1])
+
+    best_h = max(h_list)
+    best_schedule = Schedule([],{})
+
+    for (schedule, h) in local_best:
+        if h == best_h:
+            best_schedule = schedule
+
+    return best_schedule, best_h
 
 
 
