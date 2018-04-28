@@ -14,3 +14,5 @@ def read_data():
 
     return allpeople
 
+# allpeople = read_data()
+# print(len(allpeople))
