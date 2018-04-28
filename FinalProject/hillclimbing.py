@@ -27,7 +27,7 @@ role_list=["PRESENTER","INTRO","LEAD","DEBRIEF"]
 
 def start():
     allpeople = read_data()
-    sch= Schedule([],{},[])
+    sch= Schedule([],{})
     for person in allpeople:
         avaeventlist = []
         for i in range(0,21):

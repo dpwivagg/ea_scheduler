@@ -16,9 +16,11 @@ for i in range(0,7):        # time slot identifiers 0-6
 
 
 print(allPerson)
+a = Schedule(allPerson, allAvailability)
+b,s = a.form_possible_schedules()
 # Run Genetic
-run_genetic()
-
-
-# Run hill climb
-run_hill_climb()
+# run_genetic()
+#
+#
+# # Run hill climb
+# run_hill_climb()
