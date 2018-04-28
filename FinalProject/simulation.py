@@ -9,6 +9,12 @@ from FinalProject.genetic import *
 
 
 allPerson = read_data()
+allAvailability = {}
+for i in range(0,7):        # time slot identifiers 0-6
+    for j in range(1,22):   # event identifiers 1-21
+        allAvailability[j,i] = []
+
+
 print(allPerson)
 # Run Genetic
 run_genetic()
