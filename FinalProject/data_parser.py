@@ -4,13 +4,13 @@ def read_data():
     with open('Refined_data.csv', newline='') as data:
         reader = csv.reader(data)
         next(reader)
-
-        allpeople = []
-
+        allpeople = {}
+        #  Now all people is a dictionary of id and person object. person object does not have id anymore
         for row in reader:
             id = row.pop(0)
             events = [list(map(int, x.split(' '))) for x in row]
-            allpeople.append(Person(id, [], [], events))
+
+            allpeople[id] = Person({}, [], events)
 
     return allpeople
 

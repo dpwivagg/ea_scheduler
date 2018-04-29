@@ -7,9 +7,11 @@ from FinalProject.data_parser import read_data
 
 @total_ordering
 class Schedule():
-    def __init__(self, persons, events_avaibilities):
+    def __init__(self, persons, events):
+        #  Persons is a dictionary of id and person object
         self.persons = persons
-        self.events_avaibilities = events_avaibilities
+        #  Events is a dictionary of id and event object
+        self.events = events
         self.heuristic = 0
 
     def __eq__(self, other):
@@ -21,12 +23,17 @@ class Schedule():
     def __lt__(self, other):
         return self.heuristic < other.heuristic
 
+    # Calculate heuristic by event and person
     def calc_heuristic(self):
         heuristic = 0
         for person in self.persons:
             heuristic = heuristic + person.calc_heuristic()
+
+        for event in self.events:
+            heuristic = heuristic + event.calc_heuristic()
         self.heuristic = heuristic
 
+    # TODO this need to be changed
     def form_possible_schedules(self):
         # This should return the possible new formed schedule based on different algorithms
         all_possible_schedules = []
@@ -111,6 +118,8 @@ class Schedule():
 
         return
 
+
+    # TODO to be changed to form the new structure
     def cross_over(self,other, empty_persons):
         temporary_mid_event = {}
         for key, value in self.events_avaibilities:
@@ -146,11 +155,5 @@ class Schedule():
         schedule2 = Schedule(persons2, event_availabilities_2)
         return schedule1, schedule2
 
-    def add_event_to_person(self, persons, id, event_id):
-        for person in persons:
-            if id == person.id:
-                if event_id not in person.eventIDs:
-                    person.eventIDs.append(event_id)
-        return persons
 
 
