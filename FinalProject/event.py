@@ -1,4 +1,5 @@
 
+
 class Event():
     def __init__(self, roles_filled):
         # A dictionary of key of roles and data is a list of person id which is assigned for this role
@@ -33,6 +34,13 @@ class Event():
     def add_person_to_role(self, role, person_id):
         self.roles_filled[role].append(person_id)
         self.available_persons.remove(person_id)
+
+    def event_heuristic(self):
+        schedule = dict
+        for i in range(len(Event)):
+            schedule.clear()
+
+        # At least 4 people but no more than 7 people are present at all times from 9:00 to 11:00
 
 
 

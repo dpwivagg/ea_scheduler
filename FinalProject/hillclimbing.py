@@ -5,25 +5,6 @@ from FinalProject.schedule import Schedule
 from FinalProject.data_parser import read_data
 from datetime import datetime
 
-# def hill_climbing():
-#     candidate_move=[]
-#     fitness=0
-#     next_move=[]
-#     best_move=[]
-#     #choose the next step
-#     for items in range(len(candidate_move)):
-#         if candidate_move[items][1] > fitness:
-#             fitness = candidate_move[items][1]
-#
-#     for items in range(len(candidate_move)):
-#         if candidate_move[items][1] == fitness:
-#             next_move.append(candidate_move[items])
-#
-#     if len(next_move) > 0:
-#         x = random.randint(0, len(next_move) - 1)
-#         best_move = next_move[x]
-#     return best_move, fitness
-
 role_list=["PRESENTER","INTRO","LEAD","DEBRIEF"]
 
 def start():

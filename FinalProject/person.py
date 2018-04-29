@@ -32,11 +32,11 @@ class Person():
             h += 5
 
         # Calculate the number of roles
-        h += 5 if len(self.roles) > len(self.eventIDs)/3 else -5
+        h += 5 if sum(self.roles.values()) > len(self.eventIDs)/3 else -5
 
         # Calculate number of lead/presenter roles
-        h += 5 if self.roles.count("PRESENTER") <= 2 else -5
-        h += 5 if self.roles.count("LEAD") <= 2 else -5
+        h += 5 if self.roles["PRESENTER"] <= 2 else -5
+        h += 5 if self.roles["LEAD"] <= 2 else -5
         return h
 
     def getRoles(self):
