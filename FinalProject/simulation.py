@@ -15,7 +15,7 @@ allPeople = read_data()
 #  Create events
 allEvents = {}
 for i in range(0,21):
-    event = Event({})
+    event = Event(id,{})
     allEvents[i] = event
 
 for id ,person in allPeople.items():
@@ -25,7 +25,8 @@ for id ,person in allPeople.items():
 
 schedule = Schedule(allPeople, allEvents)
 
-# Now we have the first empty schedule
+for id, event in allEvents.items():
+    print("Event Id ", id, " ", event.available_persons)
 
 
 # Run Genetic

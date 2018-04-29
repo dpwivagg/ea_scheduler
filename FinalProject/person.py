@@ -61,7 +61,7 @@ class Person():
     def get_available_event_id(self):
         events = []
         for i in range(len(self.availabilities)):
-            if self.availabilities[0]!=0:
+            if self.availabilities[i][0] != 0:
                 events.append(i)
         return events
 

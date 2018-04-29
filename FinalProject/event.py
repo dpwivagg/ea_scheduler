@@ -2,7 +2,7 @@ from FinalProject.shared_constants import *
 
 
 class Event():
-    def __init__(self, roles_filled):
+    def __init__(self, id, roles_filled):
         # A dictionary of key of roles and data is a list of person id which is assigned for this role
         # for example, key presenter has data of a list of [1001, 1034] representing the id of people in this role
         # Currently we have 5 roles,
@@ -11,6 +11,7 @@ class Event():
         # lead = "LEAD"
         # debrief = "DEBRIEF"
         # no_role = "NO_ROLE"
+        self.id = id
         self.roles_filled = roles_filled
         roles_filled[presenter] = []
         roles_filled[intro] = []
