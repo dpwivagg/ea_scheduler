@@ -1,3 +1,5 @@
+from FinalProject.shared_constants import *
+
 
 class Event():
     def __init__(self, roles_filled):
@@ -10,6 +12,11 @@ class Event():
         # debrief = "DEBRIEF"
         # no_role = "NO_ROLE"
         self.roles_filled = roles_filled
+        roles_filled[presenter] = []
+        roles_filled[intro] = []
+        roles_filled[lead] = []
+        roles_filled[debrief] = []
+        roles_filled[no_role] = []
         self.heuristic = 0
         #  The list of id of persons who will be available for this event,
         # person id is removed when the person is assigned to roles and is added back to the list when he is removed from the roles

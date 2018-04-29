@@ -2,19 +2,32 @@ import copy
 
 from FinalProject.person import Person
 from FinalProject.event import Event
+from FinalProject.schedule import Schedule
 from FinalProject.shared_constants import *
 from FinalProject.data_parser import *
-from FinalProject.hillclimbing import *
+# from FinalProject.hillclimbing import *
 from FinalProject.genetic import *
 
 
-# allPerson = read_data()
+allPeople = read_data()
 # print(allPerson)
+
+#  Create events
+allEvents = {}
+for i in range(0,21):
+    event = Event({})
+    allEvents[i] = event
+
+for id ,person in allPeople.items():
+    available_events = person.get_available_event_id()
+    for event_id in available_events:
+        allEvents[event_id].add_person_available(id)
+
+schedule = Schedule(allPeople, allEvents)
+
+# Now we have the first empty schedule
 
 
 # Run Genetic
-# run_genetic()
-#
-#
-# # Run hill climb
+
 

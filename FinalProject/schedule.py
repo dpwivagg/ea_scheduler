@@ -1,7 +1,7 @@
 # TODO: Form possible schedules
 # TODO: Write a Schedule.__eq__ ()function
 import random
-from copy import deepcopy
+import copy
 from functools import total_ordering
 from FinalProject.data_parser import read_data
 
