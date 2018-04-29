@@ -17,6 +17,7 @@ class Person():
 
     #  This might need to be changed
     def calc_heuristic(self):
+        """THIS FUNCTION CANNOT BE USED WITHOUT INITIALIZING DATA IN THE PERSON CLASS"""
         h = 0
 
         # Calculate the time this person spent working

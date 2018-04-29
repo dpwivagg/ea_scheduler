@@ -3,25 +3,26 @@ import random
 from FinalProject.person import Person
 from FinalProject.schedule import Schedule
 from FinalProject.data_parser import read_data
+from datetime import datetime
 
-def hill_climbing():
-    candidate_move=[]
-    fitness=0
-    next_move=[]
-    best_move=[]
-    #choose the next step
-    for items in range(len(candidate_move)):
-        if candidate_move[items][1] > fitness:
-            fitness = candidate_move[items][1]
-
-    for items in range(len(candidate_move)):
-        if candidate_move[items][1] == fitness:
-            next_move.append(candidate_move[items])
-
-    if len(next_move) > 0:
-        x = random.randint(0, len(next_move) - 1)
-        best_move = next_move[x]
-    return best_move, fitness
+# def hill_climbing():
+#     candidate_move=[]
+#     fitness=0
+#     next_move=[]
+#     best_move=[]
+#     #choose the next step
+#     for items in range(len(candidate_move)):
+#         if candidate_move[items][1] > fitness:
+#             fitness = candidate_move[items][1]
+#
+#     for items in range(len(candidate_move)):
+#         if candidate_move[items][1] == fitness:
+#             next_move.append(candidate_move[items])
+#
+#     if len(next_move) > 0:
+#         x = random.randint(0, len(next_move) - 1)
+#         best_move = next_move[x]
+#     return best_move, fitness
 
 role_list=["PRESENTER","INTRO","LEAD","DEBRIEF"]
 
@@ -59,13 +60,75 @@ def start():
                 if person.id not in sch.persons:
                     sch.persons.append(person.id)
 
-    # print(sch.persons, sch.events_avaibilities)
-    return allpeople
-
+    print(sch.persons, sch.events_avaibilities)
+    return sch.persons, sch.events_avaibilities
 
 a = start()
 
+def hill_climbing():
+    start_time = datetime.now
+    local_best = []
+    h_list = []
+    time_cost = 0
+    time = 60
+    count = 0
+    current_schedule = Schedule.form_possible_schedules()
+    current_h = current_schedule.h
 
+    new_schedule = Schedule.form_possible_schedules()
+    new_h = new_schedule.h
+
+    while time_cost < time:
+
+        while new_h >= current_h:
+
+            while new_h == current_h:
+                if count <= 10:
+                    count += 1
+                    new_schedule = Schedule.form_possible_schedules()
+                    new_h = new_schedule.h
+
+                time_now = datetime.now()
+                time_cost = (time_now - start_time).total_seconds()
+
+                if time_cost >= time:
+                    break
+
+                #restart if count>10
+
+            count = 0
+            current_schedule = new_schedule
+            current_h = new_h
+            new_schedule = Schedule.form_possible_schedules()
+            new_h = new_schedule.h
+
+            if time_cost >= time:
+                break
+
+        time_now = datetime.now()
+        time_cost = (time_now - start_time).total_seconds()
+        local_best.append((current_schedule, current_h))
+
+        #restart if h<current_h
+        start()
+
+        current_schedule = Schedule.form_possible_schedules()
+        current_h = current_schedule.h
+
+        new_schedule = Schedule.form_possible_schedules()
+        new_h = new_schedule.h
+
+    for i in range(len(local_best)):
+        h_list.append(local_best[i][1])
+
+    best_h = max(h_list)
+    best_schedule = Schedule([],{})
+
+    for (schedule, h) in local_best:
+        if h == best_h:
+            best_schedule = schedule
+
+    return best_schedule, best_h
 
 
 
