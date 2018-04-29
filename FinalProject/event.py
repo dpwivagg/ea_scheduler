@@ -22,7 +22,7 @@ class Event():
         self.available_persons.remove(person_id)
 
     #  TODO:This is needed for calculating the event heuristic
-    def cal_heuristic(self):
+    def calc_heuristic(self):
         return
 
     # While we remove person from role, we add it back to available persons for future usage
