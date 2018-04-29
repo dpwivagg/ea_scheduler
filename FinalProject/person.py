@@ -65,4 +65,6 @@ class Person():
                 events.append(i)
         return events
 
-
+    def is_available(self, role, event_id):
+        pass
+        # TODO: Return a boolean, TRUE if person is available for given role, FALSE if not
