@@ -10,7 +10,6 @@ from FinalProject.genetic import *
 
 
 allPeople = read_data()
-# print(allPerson)
 
 #  Create events
 allEvents = {}
@@ -28,7 +27,8 @@ schedule = Schedule(allPeople, allEvents)
 for id, event in allEvents.items():
     print("Event Id ", id, " ", event.available_persons)
 
-schedule.form_possible_schedules()
+a, b = schedule.form_possible_schedules()
+print(b)
 # Run Genetic
 
 

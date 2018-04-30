@@ -31,9 +31,6 @@ class Event():
     def remove_person_available(self, person_id):
         self.available_persons.remove(person_id)
 
-    #  TODO:This is needed for calculating the event heuristic
-    def calc_heuristic(self):
-        return
 
     # While we remove person from role, we add it back to available persons for future usage
     def remove_person_from_role(self, role, person_id):
@@ -45,7 +42,7 @@ class Event():
         self.available_persons.remove(person_id)
 
 
-    def event_heuristic(self):
+    def calc_heuristic(self):
         h = 0
         # All five roles are filled
         for i in range(Event.count_events - 1):
@@ -69,7 +66,7 @@ class Event():
         return role
 
     def add_to_any_role(self, person_id, person):
-        print("Event ID:", self.id)
+        # print("Event ID:", self.id)
         if self.all_roles_filled():
             self.add_person_to_role("NO_ROLE",person_id)
             role = "NO_ROLE"
@@ -86,6 +83,8 @@ class Event():
             elif len(self.roles_filled[intro]) < 1 and person.is_available("INTRO",self.id):
                 self.add_person_to_role("INTRO", person_id)
                 role = "INTRO"
+            else:
+                role = "NO_ROLE"
         return role
 
 
