@@ -44,6 +44,7 @@ class Event():
         self.roles_filled[role].append(person_id)
         self.available_persons.remove(person_id)
 
+
     def event_heuristic(self):
         h = 0
         # All five roles are filled
@@ -55,3 +56,43 @@ class Event():
                         break
         self.heuristic = h
         return h
+
+    def find_and_remove(self, person_id):
+        for key, value in self.roles_filled.items():
+            if person_id in value:
+                self.roles_filled[key].remove(person_id)
+                role = key
+                break
+            else:
+                role = None
+        self.available_persons.append(person_id)
+        return role
+
+    def add_to_any_role(self, person_id, person):
+        print("Event ID:", self.id)
+        if self.all_roles_filled():
+            self.add_person_to_role("NO_ROLE",person_id)
+            role = "NO_ROLE"
+        else:
+            if len(self.roles_filled[presenter]) < 2 and person.is_available("PRESENTER",self.id):
+                self.add_person_to_role("PRESENTER",person_id)
+                role = "PRESENTER"
+            elif len(self.roles_filled[lead]) < 1 and person.is_available("LEAD",self.id):
+                self.add_person_to_role("LEAD", person_id)
+                role = "LEAD"
+            elif len(self.roles_filled[debrief]) < 1 and person.is_available("DEBRIEF",self.id):
+                self.add_person_to_role("DEBRIEF", person_id)
+                role = "DEBRIEF"
+            elif len(self.roles_filled[intro]) < 1 and person.is_available("INTRO",self.id):
+                self.add_person_to_role("INTRO", person_id)
+                role = "INTRO"
+        return role
+
+
+    # bool: True if all roles are filled, False if at least one role is not filled
+    def all_roles_filled(self):
+        p = len(self.roles_filled[presenter])
+        i = len(self.roles_filled[intro])
+        l = len(self.roles_filled[lead])
+        d = len(self.roles_filled[debrief])
+        return p == 2 and i == 1 and l == 1 and d == 1
