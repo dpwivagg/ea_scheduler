@@ -24,6 +24,7 @@ for id ,person in allPeople.items():
 
 schedule = Schedule(allPeople, allEvents)
 
+original_copy = copy.deepcopy(schedule)
 for id, event in allEvents.items():
     print("Event Id ", id, " ", event.available_persons)
 
