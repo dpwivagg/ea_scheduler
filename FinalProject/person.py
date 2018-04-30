@@ -4,6 +4,7 @@ from FinalProject.shared_constants import *
 
 
 class Person():
+    count = 0
     def __init__(self, roles, eventIDs, availabilities):
         self.roles = roles # Roles is a dictionary contains the the key (String of role in shared constants and the data is the number of that role the person has been)
         roles[presenter] = 0
@@ -14,6 +15,7 @@ class Person():
         self.eventIDs = eventIDs # List of Integers (event IDs)
         self.availabilities = availabilities # 2D array (events x times)
         self.heuristic = 0
+        Person.count += 1
 
     #  This might need to be changed
     def calc_heuristic(self):
@@ -61,7 +63,7 @@ class Person():
     def get_available_event_id(self):
         events = []
         for i in range(len(self.availabilities)):
-            if self.availabilities[0]!=0:
+            if self.availabilities[i][0] != 0:
                 events.append(i)
         return events
 

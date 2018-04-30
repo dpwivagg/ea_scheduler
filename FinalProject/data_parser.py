@@ -13,6 +13,3 @@ def read_data():
             allpeople[id] = Person({}, [], events)
 
     return allpeople
-
-# allpeople = read_data()
-# print(len(allpeople))

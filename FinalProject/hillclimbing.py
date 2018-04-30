@@ -10,9 +10,9 @@ role_list=["PRESENTER","INTRO","LEAD","DEBRIEF"]
 def start():
     allpeople = read_data()
     sch= Schedule([],{})
-    for person in allpeople:
+    for person in allpeople.values():
         avaeventlist = []
-        for i in range(0,21):
+        for i in range(0, 21):
             if person.availabilities[i][0] != 0:
                 avaeventlist.append(i+1)
         # print(avaeventlist)
@@ -22,7 +22,7 @@ def start():
 
         for j in range(len(person.eventIDs)):
             x = random.randint(0,3)
-            person.roles.append(role_list[x])
+            person.roles[role_list[x]] += 1
 
     # for person in allpeople:
     #     print(person.eventIDs)

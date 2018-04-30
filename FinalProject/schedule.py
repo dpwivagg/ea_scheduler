@@ -1,7 +1,7 @@
 # TODO: Form possible schedules
 # TODO: Write a Schedule.__eq__ ()function
 import random
-from copy import deepcopy
+import copy
 from functools import total_ordering
 from FinalProject.data_parser import read_data
 
@@ -39,7 +39,7 @@ class Schedule():
         all_possible_schedules = []
         for key, value in self.events_avaibilities.items():
             for counter, person in enumerate(self.persons):
-                mutator = Schedule(self.persons,deepcopy(self.events_avaibilities))
+                mutator = Schedule(self.persons,copy.deepcopy(self.events_avaibilities))
                 if person in self.events_avaibilities[key]:
                     mutator.events_avaibilities[key].remove(person)
                     # mutator.persons[counter].eventIDs.remove[key[1]]
@@ -92,28 +92,28 @@ class Schedule():
             count = 0
 
         # All five roles are filled
-        for event in range(1, eventNum + 1):
-            for time in range(1, 7):
-                persons = self.events_avaibilities[(event, time)]
-                for i in persons:
-                    if i not in event_persons[event]:
-                        event_persons[event].append(i)
-
-            # getRole????
-            for k in event_persons[event]:
-                list = self.get_RoleList(k)
-                roleName = list[event-1]
-                role_list[event].append(roleName)
-
-            presenterNum = role_list[event].count("PRESENTER")
-            introNum = role_list[event].count("INTRO")
-            leadNum = role_list[event].count("LEAD")
-            debriefNum = role_list[event].count("DEBRIEF")
-
-            if presenterNum > 1 and introNum > 0 and leadNum > 0 and debriefNum > 0:
-                h += 1
-            else:
-                h -= 5
+        # for event in range(1, eventNum + 1):
+        #     for time in range(1, 7):
+        #         persons = self.events_avaibilities[(event, time)]
+        #         for i in persons:
+        #             if i not in event_persons[event]:
+        #                 event_persons[event].append(i)
+        #
+        #     # getRole????
+        #     for k in event_persons[event]:
+        #         list = self.get_RoleList(k)
+        #         roleName = list[event-1]
+        #         role_list[event].append(roleName)
+        #
+        #     presenterNum = role_list[event].count("PRESENTER")
+        #     introNum = role_list[event].count("INTRO")
+        #     leadNum = role_list[event].count("LEAD")
+        #     debriefNum = role_list[event].count("DEBRIEF")
+        #
+        #     if presenterNum > 1 and introNum > 0 and leadNum > 0 and debriefNum > 0:
+        #         h += 1
+        #     else:
+        #         h -= 5
         self.heuristic = h
         return h
 
@@ -134,8 +134,8 @@ class Schedule():
                 if element not in list:
                     list.add(element)
 
-        persons1 = deepcopy(empty_persons)
-        persons2 = deepcopy(empty_persons)
+        persons1 = copy.deepcopy(empty_persons)
+        persons2 = copy.deepcopy(empty_persons)
         event_availabilities_1 = {}
         event_availabilities_2 = {}
         for key, value in temporary_mid_event:
