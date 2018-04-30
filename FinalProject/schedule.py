@@ -1,7 +1,7 @@
 # TODO: Form possible schedules
 # TODO: Write a Schedule.__eq__ ()function
 import random
-import copy
+from copy import deepcopy
 from functools import total_ordering
 from FinalProject.data_parser import read_data
 
@@ -37,14 +37,20 @@ class Schedule():
     def form_possible_schedules(self):
         # This should return the possible new formed schedule based on different algorithms
         all_possible_schedules = []
-        for key, value in self.events_avaibilities.items():
-            for counter, person in enumerate(self.persons):
-                mutator = Schedule(self.persons,deepcopy(self.events_avaibilities))
-                if person in self.events_avaibilities[key]:
-                    mutator.events_avaibilities[key].remove(person)
-                    # mutator.persons[counter].eventIDs.remove[key[1]]
+        for name, event in self.events.items():
+            for id, person in self.persons.items():
+                mutator = Schedule(deepcopy(self.persons),deepcopy(self.events))
+                if id in event.available_persons:
+                    # If they are available, try adding them to the event
+                    role = mutator.events[name].add_to_any_role(id, person)
+                    mutator.persons[id].add_event(id)
+                    mutator.persons[id].add_role(role)
                 else:
-                    mutator.events_avaibilities[key].append(person)
+                    # Otherwise, try taking them out
+                    role = mutator.events[name].find_and_remove(id)
+                    if role is not None:
+                        mutator.persons[id].remove_event(id)
+                        mutator.persons[id].remove_role(role)
                 all_possible_schedules.append(mutator)
 
         for a in all_possible_schedules:

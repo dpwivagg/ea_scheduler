@@ -52,10 +52,10 @@ class Person():
 
     # Add event id to the event id list
     def add_event(self, event_id):
-        event_id.append(event_id)
+        self.eventIDs.append(event_id)
 
     def remove_event(self, event_id):
-        event_id.remove(event_id)
+        self.eventIDs.remove(event_id)
 
     #  get the list of event id, the person would be available for
     def get_available_event_id(self):
@@ -66,5 +66,15 @@ class Person():
         return events
 
     def is_available(self, role, event_id):
-        pass
-        # TODO: Return a boolean, TRUE if person is available for given role, FALSE if not
+        print("Event ID:",event_id)
+        if role == "PRESENTER":
+            return True if self.availabilities[event_id][2] and self.availabilities[event_id][3] else False
+        elif role == "LEAD":
+            total = 0
+            for i in range(0,7):
+                total += self.availabilities[event_id][i]
+            return True if total >= 4 else False
+        elif role == "INTRO":
+            return True if self.availabilities[event_id][3] and self.availabilities[event_id][4] else False
+        elif role == "DEBRIEF":
+            return True if self.availabilities[event_id][5] and self.availabilities[event_id][6] else False
