@@ -23,6 +23,10 @@ class Schedule():
     def __lt__(self, other):
         return self.heuristic < other.heuristic
 
+    def __str__(self):
+        # TODO: Change this if we want a better command line representation of schedules
+        return "Schedule with heuristic " + str(self.heuristic)
+
     # Calculate heuristic by event and person
     def calc_heuristic(self):
         heuristic = 0
@@ -59,7 +63,7 @@ class Schedule():
 
         size = len(all_possible_schedules)
         best = max(all_possible_schedules)
-        return best, size
+        return best
 
     def form_random_schedule(self):
 
