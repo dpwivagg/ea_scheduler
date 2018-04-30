@@ -101,6 +101,12 @@ class Schedule():
                 h += 1
             count = 0
 
+        for event in self.events:
+            h = h + event.calc_heuristic()
+
+        for person in self.persons:
+            h = h + person.calc_heuristic()
+
         # All five roles are filled
         # for event in range(1, eventNum + 1):
         #     for time in range(1, 7):
@@ -144,8 +150,8 @@ class Schedule():
                 if element not in list:
                     list.add(element)
 
-        persons1 = copy.deepcopy(empty_persons)
-        persons2 = copy.deepcopy(empty_persons)
+        persons1 = deepcopy(empty_persons)
+        persons2 = deepcopy(empty_persons)
         event_availabilities_1 = {}
         event_availabilities_2 = {}
         for key, value in temporary_mid_event:
