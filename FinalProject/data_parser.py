@@ -9,10 +9,6 @@ def read_data():
         for row in reader:
             id = row.pop(0)
             events = [list(map(int, x.split(' '))) for x in row]
-
             allpeople[id] = Person({}, [], events)
 
     return allpeople
-
-# allpeople = read_data()
-# print(len(allpeople))

@@ -10,12 +10,11 @@ from FinalProject.genetic import *
 
 
 allPeople = read_data()
-# print(allPerson)
 
 #  Create events
 allEvents = {}
 for i in range(0,21):
-    event = Event(id,{})
+    event = Event(i,{})
     allEvents[i] = event
 
 for id ,person in allPeople.items():

@@ -1,7 +1,7 @@
 # TODO: Form possible schedules
 # TODO: Write a Schedule.__eq__ ()function
 import random
-import copy
+from copy import deepcopy
 from functools import total_ordering
 from FinalProject.data_parser import read_data
 
@@ -23,36 +23,46 @@ class Schedule():
     def __lt__(self, other):
         return self.heuristic < other.heuristic
 
+    def __str__(self):
+        # TODO: Change this if we want a better command line representation of schedules
+        return "Schedule with heuristic " + str(self.heuristic)
+
     # Calculate heuristic by event and person
     def calc_heuristic(self):
         heuristic = 0
-        for person in self.persons:
+        for id, person in self.persons.items():
             heuristic = heuristic + person.calc_heuristic()
 
-        for event in self.events:
+        for id, event in self.events.items():
             heuristic = heuristic + event.calc_heuristic()
         self.heuristic = heuristic
 
-    # TODO this need to be changed
+
     def form_possible_schedules(self):
         # This should return the possible new formed schedule based on different algorithms
         all_possible_schedules = []
-        for key, value in self.events_avaibilities.items():
-            for counter, person in enumerate(self.persons):
-                mutator = Schedule(self.persons,deepcopy(self.events_avaibilities))
-                if person in self.events_avaibilities[key]:
-                    mutator.events_avaibilities[key].remove(person)
-                    # mutator.persons[counter].eventIDs.remove[key[1]]
+        for name, event in self.events.items():
+            for id, person in self.persons.items():
+                mutator = Schedule(deepcopy(self.persons),deepcopy(self.events))
+                if id in event.available_persons:
+                    # If they are available, try adding them to the event
+                    role = mutator.events[name].add_to_any_role(id, person)
+                    mutator.persons[id].add_event(name)
+                    mutator.persons[id].add_role(role)
+
                 else:
-                    mutator.events_avaibilities[key].append(person)
+                    # Otherwise, try taking them out
+                    role = mutator.events[name].find_and_remove(id)
+                    if role is not None:
+                        mutator.persons[id].remove_event(name)
+                        mutator.persons[id].remove_role(role)
                 all_possible_schedules.append(mutator)
 
         for a in all_possible_schedules:
             a.calc_heuristic()
 
-        size = len(all_possible_schedules)
         best = max(all_possible_schedules)
-        return best, size
+        return best
 
     def form_random_schedule(self):
 
@@ -92,28 +102,28 @@ class Schedule():
             count = 0
 
         # All five roles are filled
-        for event in range(1, eventNum + 1):
-            for time in range(1, 7):
-                persons = self.events_avaibilities[(event, time)]
-                for i in persons:
-                    if i not in event_persons[event]:
-                        event_persons[event].append(i)
-
-            # getRole????
-            for k in event_persons[event]:
-                list = self.get_RoleList(k)
-                roleName = list[event-1]
-                role_list[event].append(roleName)
-
-            presenterNum = role_list[event].count("PRESENTER")
-            introNum = role_list[event].count("INTRO")
-            leadNum = role_list[event].count("LEAD")
-            debriefNum = role_list[event].count("DEBRIEF")
-
-            if presenterNum > 1 and introNum > 0 and leadNum > 0 and debriefNum > 0:
-                h += 1
-            else:
-                h -= 5
+        # for event in range(1, eventNum + 1):
+        #     for time in range(1, 7):
+        #         persons = self.events_avaibilities[(event, time)]
+        #         for i in persons:
+        #             if i not in event_persons[event]:
+        #                 event_persons[event].append(i)
+        #
+        #     # getRole????
+        #     for k in event_persons[event]:
+        #         list = self.get_RoleList(k)
+        #         roleName = list[event-1]
+        #         role_list[event].append(roleName)
+        #
+        #     presenterNum = role_list[event].count("PRESENTER")
+        #     introNum = role_list[event].count("INTRO")
+        #     leadNum = role_list[event].count("LEAD")
+        #     debriefNum = role_list[event].count("DEBRIEF")
+        #
+        #     if presenterNum > 1 and introNum > 0 and leadNum > 0 and debriefNum > 0:
+        #         h += 1
+        #     else:
+        #         h -= 5
         self.heuristic = h
         return h
 
