@@ -61,7 +61,6 @@ class Schedule():
         for a in all_possible_schedules:
             a.calc_heuristic()
 
-        size = len(all_possible_schedules)
         best = max(all_possible_schedules)
         return best
 

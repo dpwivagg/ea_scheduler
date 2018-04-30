@@ -27,8 +27,7 @@ schedule = Schedule(allPeople, allEvents)
 for id, event in allEvents.items():
     print("Event Id ", id, " ", event.available_persons)
 
-a = schedule.form_possible_schedules()
-print(a)
+
 # Run Genetic
 
 
