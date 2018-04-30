@@ -11,7 +11,8 @@ class Person():
         roles[intro] = 0
         roles[lead] = 0
         roles[debrief] = 0
-        #  No need for no role in person, because we do not use it to calculate heuristic
+        roles[no_role] = 0
+        #  We still need no role just for ease of use
         self.eventIDs = eventIDs # List of Integers (event IDs)
         self.availabilities = availabilities # 2D array (events x times)
         self.heuristic = 0
@@ -23,7 +24,7 @@ class Person():
         h = 0
 
         # Calculate the time this person spent working
-        time = reduce(lambda x, y: x + len(self.availabilities[y]), self.eventIDs)
+        time = reduce(lambda x, y: x + len(self.availabilities[int(y)]), self.eventIDs,0)
         if time < 6:
             # Time is less than 6 half hours
             h -= 10
@@ -68,15 +69,14 @@ class Person():
         return events
 
     def is_available(self, role, event_id):
-        print("Event ID:",event_id)
         if role == "PRESENTER":
-            return True if self.availabilities[event_id][2] and self.availabilities[event_id][3] else False
+            return True if 2 in self.availabilities[event_id] and 3 in self.availabilities[event_id] else False
         elif role == "LEAD":
             total = 0
             for i in range(0,7):
-                total += self.availabilities[event_id][i]
+                total += i in self.availabilities[event_id]
             return True if total >= 4 else False
         elif role == "INTRO":
-            return True if self.availabilities[event_id][3] and self.availabilities[event_id][4] else False
+            return True if 3 in self.availabilities[event_id] and 4 in self.availabilities[event_id] else False
         elif role == "DEBRIEF":
-            return True if self.availabilities[event_id][5] and self.availabilities[event_id][6] else False
+            return True if 5 in self.availabilities[event_id] and 6 in self.availabilities[event_id] else False

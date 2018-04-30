@@ -23,51 +23,46 @@ class Schedule():
     def __lt__(self, other):
         return self.heuristic < other.heuristic
 
+    def __str__(self):
+        # TODO: Change this if we want a better command line representation of schedules
+        return "Schedule with heuristic " + str(self.heuristic)
+
     # Calculate heuristic by event and person
     def calc_heuristic(self):
         heuristic = 0
-        for person in self.persons:
+        for id, person in self.persons.items():
             heuristic = heuristic + person.calc_heuristic()
 
-        for event in self.events:
+        for id, event in self.events.items():
             heuristic = heuristic + event.calc_heuristic()
         self.heuristic = heuristic
 
-    # TODO this need to be changed
+
     def form_possible_schedules(self):
         # This should return the possible new formed schedule based on different algorithms
         all_possible_schedules = []
-
-        for key, value in self.events_avaibilities.items():
-            for counter, person in enumerate(self.persons):
-                mutator = Schedule(self.persons,deepcopy(self.events_avaibilities))
-                if person in self.events_avaibilities[key]:
-                    mutator.events_avaibilities[key].remove(person)
-                    # mutator.persons[counter].eventIDs.remove[key[1]]
-
         for name, event in self.events.items():
             for id, person in self.persons.items():
                 mutator = Schedule(deepcopy(self.persons),deepcopy(self.events))
                 if id in event.available_persons:
                     # If they are available, try adding them to the event
                     role = mutator.events[name].add_to_any_role(id, person)
-                    mutator.persons[id].add_event(id)
+                    mutator.persons[id].add_event(name)
                     mutator.persons[id].add_role(role)
 
                 else:
                     # Otherwise, try taking them out
                     role = mutator.events[name].find_and_remove(id)
                     if role is not None:
-                        mutator.persons[id].remove_event(id)
+                        mutator.persons[id].remove_event(name)
                         mutator.persons[id].remove_role(role)
                 all_possible_schedules.append(mutator)
 
         for a in all_possible_schedules:
             a.calc_heuristic()
 
-        size = len(all_possible_schedules)
         best = max(all_possible_schedules)
-        return best, size
+        return best
 
     def form_random_schedule(self):
 
@@ -105,6 +100,12 @@ class Schedule():
             else:
                 h += 1
             count = 0
+
+        for event in self.events:
+            h = h + event.calc_heuristic()
+
+        for person in self.persons:
+            h = h + person.calc_heuristic()
 
         # All five roles are filled
         # for event in range(1, eventNum + 1):
