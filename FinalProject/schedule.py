@@ -134,8 +134,8 @@ class Schedule():
                 if element not in list:
                     list.add(element)
 
-        persons1 = deepcopy(empty_persons)
-        persons2 = deepcopy(empty_persons)
+        persons1 = copy.deepcopy(empty_persons)
+        persons2 = copy.deepcopy(empty_persons)
         event_availabilities_1 = {}
         event_availabilities_2 = {}
         for key, value in temporary_mid_event:
