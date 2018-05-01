@@ -1,5 +1,6 @@
 import copy
 
+from FinalProject.hillclimbing import Hill_Climb
 from FinalProject.person import Person
 from FinalProject.event import Event
 from FinalProject.schedule import Schedule
@@ -7,6 +8,7 @@ from FinalProject.shared_constants import *
 from FinalProject.data_parser import *
 # from FinalProject.hillclimbing import *
 from FinalProject.genetic import *
+from copy import deepcopy
 
 
 allPeople = read_data()
@@ -25,8 +27,6 @@ for id ,person in allPeople.items():
 schedule = Schedule(allPeople, allEvents)
 
 original_copy = copy.deepcopy(schedule)
-
-# print(original_copy.persons['1000'].availabilities)
 
 # random start
 def start(original_copy):
@@ -82,6 +82,9 @@ print("Child2 ", "Event 0 Role", str(children2.events[0].roles_filled))
 print("Child2 ", "Event 0 Persons", str(children2.events[0].available_persons))
 
 
+
+hill_climb = Hill_Climb(original_copy)
+hill_climb.hill_climbing(schedule)
 # for id, event in allEvents.items():
 #     print("Event Id ", id, " ", event.available_persons)
 
