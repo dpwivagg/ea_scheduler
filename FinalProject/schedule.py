@@ -70,14 +70,6 @@ class Schedule():
         print("Time cost ", (datetime.now()-start).total_seconds())
         return best
 
-    def form_random_schedule(self):
-
-        pass
-
-    def mutate(self):
-
-        pass
-
     def get_RoleList(personID):
         roles = []
         allpeople = read_data()
@@ -140,14 +132,32 @@ class Schedule():
         return h
 
 
-    def mutate(self):
+    def mutate(self, original_copy):
+        persons = deepcopy(original_copy.persons)
+        events = deepcopy(original_copy.events)
+        role_list = ["PRESENTER", "INTRO", "LEAD", "DEBRIEF", "NO_ROLE"]
+        for personID in persons.keys():
+            available_events = persons[personID].get_available_event_id()
+            # print(str(personID))
+            # print(available_events)
+            randomNum = random.randint(1, int(len(available_events)))
+            # randomSample = [ available_events[i] for i in sorted(random.sample(available_events), 4))]
+            persons[personID].eventIDs = random.sample(available_events, randomNum)
+            persons[personID].eventIDs.sort()
+            # print(randomNum)
+            # print(persons[personID].eventIDs)
 
-        return
+            for item in persons[personID].eventIDs:
+                x = random.randint(0, 4)
+                persons[personID].roles[role_list[x]] += 1
+                events[item].roles_filled[role_list[x]].append(personID)
+                events[item].available_persons.remove(personID)
+        newSchedule = Schedule(persons, events)
+        return newSchedule
 
 
     # TODO to be changed to form the new structure
     def cross_over(self,other, original_schedule):
-        start = datetime.now()
         original_events = original_schedule.events
         original_persons = original_schedule.persons
         crossover_events1 = deepcopy(original_events)
@@ -197,8 +207,8 @@ class Schedule():
 
         schedule1 = Schedule(crossover_persons1, crossover_events1)
         schedule2 = Schedule(crossover_persons2, crossover_events2)
-        print("Time cost ", (datetime.now()-start).total_seconds())
-        return schedule1, schedule2
+        result_list = [schedule1, schedule2]
+        return result_list
 
 
 
