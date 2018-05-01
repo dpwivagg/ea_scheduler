@@ -84,7 +84,8 @@ print("Child2 ", "Event 0 Persons", str(children2.events[0].available_persons))
 
 
 hill_climb = Hill_Climb(original_copy)
-hill_climb.hill_climbing(schedule)
+a = hill_climb.hill_climbing(schedule)
+print(a)
 # for id, event in allEvents.items():
 #     print("Event Id ", id, " ", event.available_persons)
 
