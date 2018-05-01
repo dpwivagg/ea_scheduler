@@ -15,8 +15,8 @@ def run_genetic(original_copy, schedules=[], last_time=200, ):
     start_time = time.time()
     gen_list = []
     original_size = 100
-    elite_size = 2
-    cull_size = 2
+    elite_size = 5
+    cull_size = 5
     mutation_rate = 0.02   # The fraction for mutation 0.02 chance to mutate after crossover
     diff = 0
 
