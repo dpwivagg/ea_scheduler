@@ -25,6 +25,7 @@ for id ,person in allPeople.items():
 schedule = Schedule(allPeople, allEvents)
 
 original_copy = copy.deepcopy(schedule)
+
 # print(original_copy.persons['1000'].availabilities)
 
 # random start
@@ -64,6 +65,10 @@ def start(original_copy):
 start(original_copy)
 # for id, event in allEvents.items():
 #     print("Event Id ", id, " ", event.available_persons)
+
+for id, event in allEvents.items():
+    print("Event Id ", id, " ", event.available_persons)
+
 
 # Run Genetic
 
