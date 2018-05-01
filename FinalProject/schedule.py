@@ -194,4 +194,3 @@ class Schedule():
                 person.check_correct()
         except Exception as  err:
             print(err.args)
-        
