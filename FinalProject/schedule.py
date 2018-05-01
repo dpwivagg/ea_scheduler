@@ -86,58 +86,32 @@ class Schedule():
                 roles = person.getRoles()
         return roles
 
-    def event_heuristic(self):
-        h = 0
-        count = 0
-        event_persons = {}
-        role_list = {}
-        eventNum = int(len(self.events_avaibilities) / 6)
-
-        for event in range(1, eventNum + 1):
-            for timeslot in range(1, 7):
-                # times from 9:00 to 11:00 : [2, 3, 4, 5]
-                if timeslot in [2, 3, 4, 5]:
-                    Num = len(self.events_avaibilities[(event, timeslot)])
-                    if Num >= 4 and Num <= 7:
-                        count += 1
-            # if the number of people does not meet condition in any timeslot, take -5 penalty
-            if count < 4:
-                h -= 5
-            else:
-                h += 1
-            count = 0
-
-        for event in self.events:
-            h = h + event.calc_heuristic()
-
-        for person in self.persons:
-            h = h + person.calc_heuristic()
-
-        # All five roles are filled
-        # for event in range(1, eventNum + 1):
-        #     for time in range(1, 7):
-        #         persons = self.events_avaibilities[(event, time)]
-        #         for i in persons:
-        #             if i not in event_persons[event]:
-        #                 event_persons[event].append(i)
-        #
-        #     # getRole????
-        #     for k in event_persons[event]:
-        #         list = self.get_RoleList(k)
-        #         roleName = list[event-1]
-        #         role_list[event].append(roleName)
-        #
-        #     presenterNum = role_list[event].count("PRESENTER")
-        #     introNum = role_list[event].count("INTRO")
-        #     leadNum = role_list[event].count("LEAD")
-        #     debriefNum = role_list[event].count("DEBRIEF")
-        #
-        #     if presenterNum > 1 and introNum > 0 and leadNum > 0 and debriefNum > 0:
-        #         h += 1
-        #     else:
-        #         h -= 5
-        self.heuristic = h
-        return h
+    # def event_heuristic(self):
+    #     h = 0
+    #     count = 0
+    #     event_persons = {}
+    #     role_list = {}
+    #     eventNum = int(len(self.events_avaibilities) / 6)
+    #
+    #     for event in range(1, eventNum + 1):
+    #         for timeslot in range(1, 7):
+    #             # times from 9:00 to 11:00 : [2, 3, 4, 5]
+    #             if timeslot in [2, 3, 4, 5]:
+    #                 Num = len(self.events_avaibilities[(event, timeslot)])
+    #                 if Num >= 4 and Num <= 7:
+    #                     count += 1
+    #         # if the number of people does not meet condition in any timeslot, take -5 penalty
+    #         if count < 4:
+    #             h -= 5
+    #         else:
+    #             h += 1
+    #         count = 0
+    #
+    #     for event in self.events:
+    #         h = h + event.calc_heuristic()
+    #
+    #     for person in self.persons:
+    #         h = h + person.calc_heuristic()
 
 
     def mutate(self):

@@ -79,12 +79,11 @@ class Hill_Climb():
     def __init__(self, original_copy):
         self.original_copy = original_copy
 
-    def hill_climbing(self, schedule):
+    def hill_climbing(self):
         start_time = datetime.now()
         local_best = []
-        h_list = []
         time_cost = 0
-        time = 30
+        time = 180
         count = 0
         current_schedule = self.start()
         current_h = current_schedule.heuristic
@@ -103,6 +102,7 @@ class Hill_Climb():
                     else:
                         new_schedule = self.start()
                         print("random start because of a stage")
+                        new_h = new_schedule.heuristic
                     time_cost = (datetime.now() - start_time).total_seconds()
 
                 count = 0
@@ -110,27 +110,21 @@ class Hill_Climb():
                 current_h = new_h
                 new_schedule = new_schedule.form_possible_schedules()
                 new_h = new_schedule.heuristic
+                print(str(new_h))
 
                 time_cost = (datetime.now() - start_time).total_seconds()
             local_best.append((current_schedule, current_h))
 
-            #restart if h<current_h
+            # restart if h < current_h
             current_schedule = self.start()
             current_h = current_schedule.heuristic
 
             new_schedule = current_schedule.form_possible_schedules()
             new_h = new_schedule.heuristic
 
-        # for i in range(len(local_best)):
-        #     h_list.append(local_best[i][1])
         print(local_best)
         best_schedule = max(local_best)
 
-        # for (schedule, h) in local_best:
-        #     if h == best_h:
-        #         best_schedule = schedule
-
-        # print(str(schedule.events.roles_filled))
         return best_schedule
 
     def start(self):
