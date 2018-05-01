@@ -104,3 +104,12 @@ class Event():
             if person_id in value:
                 return key
         return None
+
+    def check_correct(self):
+        for i in range(Event.count_events - 1):
+            for key in self.roles_filled.keys():
+                if key != no_role:
+                    if len(self.roles_filled[key]) < 1:
+                        raise Exception('Role not filled', key)
+
+        return True

@@ -181,3 +181,9 @@ class Schedule():
 
 
 
+    def check_correct(self):
+        for name, event in self.events.items():
+            event.check_correct()
+        for id, person in self.persons.items():
+            person.check_correct()
+        
