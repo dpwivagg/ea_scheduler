@@ -48,7 +48,10 @@ class Event():
         for i in range(Event.count_events - 1):
             for key in self.roles_filled.keys():
                 if key != no_role:
-                    if len(self.roles_filled[key]) < 1:
+                    if key == presenter:
+                        if len(self.roles_filled[key]) < 2:
+                            h -= 5
+                    elif len(self.roles_filled[key]) < 1:
                         h -= 5
                         break
         self.heuristic = h

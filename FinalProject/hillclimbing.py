@@ -16,7 +16,7 @@ class Hill_Climb():
         start_time = datetime.now()
         local_best = []
         time_cost = 0
-        time = 180
+        time = 2880
         count = 0
         current_schedule = self.start()
         current_h = current_schedule.heuristic
@@ -33,6 +33,7 @@ class Hill_Climb():
                         new_schedule = new_schedule.form_possible_schedules()
                         new_h = new_schedule.heuristic
                     else:
+                        local_best.append(new_schedule)
                         new_schedule = self.start()
                         print("random start because of a stage")
                         new_h = new_schedule.heuristic
