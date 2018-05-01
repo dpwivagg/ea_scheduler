@@ -4,6 +4,8 @@ import random
 from copy import deepcopy
 from functools import total_ordering
 from FinalProject.data_parser import read_data
+from FinalProject.shared_constants import *
+
 
 @total_ordering
 class Schedule():
@@ -140,39 +142,41 @@ class Schedule():
 
 
     # TODO to be changed to form the new structure
-    def cross_over(self,other, empty_persons):
-        temporary_mid_event = {}
-        for key, value in self.events_avaibilities:
-            temporary_mid_event[key] = value
-        for key, value in other.events_avaibilities:
-            list = temporary_mid_event.get(key)
-            for element in value:
-                if element not in list:
-                    list.add(element)
-
-        persons1 = deepcopy(empty_persons)
-        persons2 = deepcopy(empty_persons)
-        event_availabilities_1 = {}
-        event_availabilities_2 = {}
-        for key, value in temporary_mid_event:
-            eventID = key[0]
-            list1 = []
-            list2 = []
-            for element in value:
-                rand = random.random()
-                if rand > 0.5:
-                    list1.append(element)
-                    persons1 = self.add_event_to_person(persons1, element, eventID)
-                rand = random.random()
-                if rand > 0.5:
-                    list2.append(element)
-                    persons2 = self.add_event_to_person(persons2, element, eventID)
-
-            event_availabilities_1[key] = list1
-            event_availabilities_2[key] = list2
-
-        schedule1 = Schedule(persons1, event_availabilities_1)
-        schedule2 = Schedule(persons2, event_availabilities_2)
+    def cross_over(self,other, original_schedule):
+        original_events = original_schedule.events
+        original_persons = original_schedule.persons
+        crossover_events1 = deepcopy(original_events)
+        crossover_persons1 = deepcopy(original_persons)
+        crossover_events2 = deepcopy(original_events)
+        crossover_persons2 = deepcopy(original_persons)
+        events1 = self.events
+        events2 = other.events
+        for i in range(21):
+            original_available_persons = original_events[i].available_persons
+            event1 = events1[i]
+            event2 = events2[i]
+            num_people = len(original_available_persons)
+            swap_person_list = []
+            num_random_people = random.randint(1,num_people)
+            for j in range(num_random_people):
+                person_id = original_available_persons[random.randint(num_people)]
+                while person_id in swap_person_list:
+                    person_id = original_available_persons[random.randint(num_people)]
+                swap_person_list.append(person_id)
+        #     Now the person id we want to swap is found and we are trying to swap it.
+            for person_id in swap_person_list:
+                role1 = event1.find_role_by_person(person_id)
+                role2 = event2.find_role_by_person(person_id)
+                if role1 != not_assigned:
+                    crossover_events2[i].add_person_to_role(role1,person_id)
+                    crossover_persons2[person_id].add_role(role1)
+                    crossover_persons2[person_id].add_event(i)
+                if role2 != not_assigned:
+                    crossover_events1[i].add_person_to_role(role2,person_id)
+                    crossover_persons1[person_id].add_role(role2)
+                    crossover_persons1[person_id].add_event(i)
+        schedule1 = Schedule(crossover_persons1, crossover_events1)
+        schedule2 = Schedule(crossover_persons2, crossover_events2)
         return schedule1, schedule2
 
 

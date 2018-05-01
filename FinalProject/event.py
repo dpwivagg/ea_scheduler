@@ -96,3 +96,11 @@ class Event():
         l = len(self.roles_filled[lead])
         d = len(self.roles_filled[debrief])
         return p == 2 and i == 1 and l == 1 and d == 1
+
+    def find_role_by_person(self, person_id):
+        if person_id in self.available_persons:
+            return not_assigned
+        for key, value in self.roles_filled.items():
+            if person_id in value:
+                return key
+        return None
