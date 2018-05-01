@@ -46,7 +46,7 @@ class Hill_Climb():
                 print(str(new_h))
 
                 time_cost = (datetime.now() - start_time).total_seconds()
-            local_best.append((current_schedule, current_h))
+            local_best.append(current_schedule)
 
             # restart if h < current_h
             current_schedule = self.start()
