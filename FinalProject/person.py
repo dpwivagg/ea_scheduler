@@ -18,6 +18,7 @@ class Person():
         self.heuristic = 0
         Person.count += 1
 
+
     #  This might need to be changed
     def calc_heuristic(self):
         h = 0
@@ -80,20 +81,20 @@ class Person():
         elif role == "DEBRIEF":
             return True if 5 in self.availabilities[event_id] and 6 in self.availabilities[event_id] else False
 
-    def check_correct(self):
+    def check_correct(self, id):
         time = reduce(lambda x, y: x + len(self.availabilities[int(y)]), self.eventIDs, 0)
         if time > 12:
-            raise Exception('Too many hours', self)
+            print('Too many hours for person ', id, ':', time/2)
         elif time < 6:
-            raise Exception('Too few hours', self)
+            print('Too few hours for person ', id, ':', time/2)
 
         if sum(self.roles.values()) < len(self.eventIDs) / 3:
-            raise Exception('Too many roles', self)
+            print('Too many roles for person ', id)
 
         if self.roles["PRESENTER"] > 2:
-            raise Exception('Too many presenter roles', self)
+            print('Too many presenter roles for person ', id, ':', self.roles["PRESENTER"])
 
         if self.roles["LEAD"] > 2:
-            raise Exception('Too many lead roles', self)
+            print('Too many lead roles for person ', id, ':', self.roles["LEAD"])
 
         return True

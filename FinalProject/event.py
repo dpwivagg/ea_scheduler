@@ -113,10 +113,11 @@ class Event():
         return None
 
     def check_correct(self):
-        for i in range(Event.count_events - 1):
-            for key in self.roles_filled.keys():
-                if key != no_role:
-                    if len(self.roles_filled[key]) < 1:
-                        raise Exception('Role not filled', key)
+        for key in self.roles_filled.keys():
+            if key != no_role:
+                if key == presenter:
+                    if len(self.roles_filled[key]) < 2:
+                        print('Not enough presenters for event ', self.id)
+                elif len(self.roles_filled[key]) < 1:
+                    print('Role not filled for event ', self.id, ': ', key)
 
-        return True

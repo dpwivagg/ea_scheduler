@@ -40,6 +40,7 @@ original_copy = copy.deepcopy(schedule)
 hill_climb = Hill_Climb(original_copy)
 a = hill_climb.hill_climbing()
 print("Final result: ", a)
+a.check_correct()
 # for id, event in allEvents.items():
 #     print("Event Id ", id, " ", event.available_persons)
 

@@ -216,10 +216,7 @@ class Schedule():
         return
 
     def check_correct(self):
-        try:
-            for name, event in self.events.items():
-                event.check_correct()
-            for id, person in self.persons.items():
-                person.check_correct()
-        except Exception as  err:
-            print(err.args)
+        for name, event in self.events.items():
+            event.check_correct()
+        for id, person in self.persons.items():
+            person.check_correct(id)
