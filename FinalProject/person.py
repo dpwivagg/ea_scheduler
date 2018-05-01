@@ -20,7 +20,6 @@ class Person():
 
     #  This might need to be changed
     def calc_heuristic(self):
-        """THIS FUNCTION CANNOT BE USED WITHOUT INITIALIZING DATA IN THE PERSON CLASS"""
         h = 0
 
         # Calculate the time this person spent working
@@ -80,3 +79,21 @@ class Person():
             return True if 3 in self.availabilities[event_id] and 4 in self.availabilities[event_id] else False
         elif role == "DEBRIEF":
             return True if 5 in self.availabilities[event_id] and 6 in self.availabilities[event_id] else False
+
+    def check_correct(self):
+        time = reduce(lambda x, y: x + len(self.availabilities[int(y)]), self.eventIDs, 0)
+        if time > 12:
+            raise Exception('Too many hours', self)
+        elif time < 6:
+            raise Exception('Too few hours', self)
+
+        if sum(self.roles.values()) < len(self.eventIDs) / 3:
+            raise Exception('Too many roles', self)
+
+        if self.roles["PRESENTER"] > 2:
+            raise Exception('Too many presenter roles', self)
+
+        if self.roles["LEAD"] > 2:
+            raise Exception('Too many lead roles', self)
+
+        return True
