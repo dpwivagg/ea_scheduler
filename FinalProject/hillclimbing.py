@@ -5,6 +5,7 @@ from FinalProject.schedule import Schedule
 from FinalProject.event import Event
 from FinalProject.data_parser import read_data
 from datetime import datetime
+from FinalProject.simulation import start
 
 # role_list=["PRESENTER","INTRO","LEAD","DEBRIEF"]
 #
@@ -45,33 +46,33 @@ from datetime import datetime
 #     print(sch.persons, sch.events_avaibilities)
 #     return sch.persons, sch.events_avaibilities
 
-def start():
-    role_list=["PRESENTER","INTRO","LEAD","DEBRIEF"]
-    allpeople = read_data()
-    allevents = {}
-    for i in range(0, 21):
-        event = Event(i, {})
-        allevents[i] = event
-    for personID in allpeople.keys():
-        avaeventlist = []
-        for i in range(0, 21):
-            if allpeople[personID].availabilities[i][0] != 0:
-                avaeventlist.append(i+1)
-        # print(avaeventlist)
-        x = random.randint(1,len(avaeventlist))
-        allpeople[personID].eventIDs = random.sample(avaeventlist, x)
-        allpeople[personID].eventIDs.sort()
-
-        for j in range(len(allpeople[personID].eventIDs)):
-            x = random.randint(0,3)
-            allpeople[personID].roles[role_list[x]] += 1
-            allevents[j].roles_filled[role_list[x]].append(personID)
-            allevents[j].id = j+1
-            # print(allevents[j].roles_filled)
-
-    return allpeople, allevents
-
-a = start()
+# def start(original_schedule):
+#     role_list=["PRESENTER","INTRO","LEAD","DEBRIEF"]
+#     allpeople = original_schedule.persons
+#     allevents = original_schedule.events
+#     # for i in range(0, 21):
+#     #     event = Event(i, {})
+#     #     allevents[i] = event
+#     for personID in allpeople.keys():
+#         avaeventlist = []
+#         for i in range(0, 21):
+#             if allpeople[personID].availabilities[i][0] != 0:
+#                 avaeventlist.append(i+1)
+#         # print(avaeventlist)
+#         x = random.randint(1,len(avaeventlist))
+#         allpeople[personID].eventIDs = random.sample(avaeventlist, x)
+#         allpeople[personID].eventIDs.sort()
+#
+#         for j in range(len(allpeople[personID].eventIDs)):
+#             x = random.randint(0,3)
+#             allpeople[personID].roles[role_list[x]] += 1
+#             allevents[j].roles_filled[role_list[x]].append(personID)
+#             allevents[j].id = j+1
+#             # print(allevents[j].roles_filled)
+#
+#     return allpeople, allevents
+#
+# a = start()
 
 def hill_climbing():
     start_time = datetime.now
