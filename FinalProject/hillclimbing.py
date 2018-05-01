@@ -5,7 +5,7 @@ from FinalProject.schedule import Schedule
 from FinalProject.event import Event
 from FinalProject.data_parser import read_data
 from datetime import datetime
-from FinalProject.simulation import start
+from copy import deepcopy
 
 # role_list=["PRESENTER","INTRO","LEAD","DEBRIEF"]
 #
@@ -74,70 +74,96 @@ from FinalProject.simulation import start
 #
 # a = start()
 
-def hill_climbing():
-    start_time = datetime.now
-    local_best = []
-    h_list = []
-    time_cost = 0
-    time = 60
-    count = 0
-    current_schedule = Schedule.form_possible_schedules()
-    current_h = current_schedule.h
+class Hill_Climb():
 
-    new_schedule = Schedule.form_possible_schedules()
-    new_h = new_schedule.h
+    def __init__(self, original_copy):
+        self.original_copy = original_copy
 
-    while time_cost < time:
+    def hill_climbing(self, schedule):
+        start_time = datetime.now()
+        local_best = []
+        h_list = []
+        time_cost = 0
+        time = 30
+        count = 0
+        current_schedule = self.start()
+        current_h = current_schedule.heuristic
 
-        while new_h >= current_h:
+        new_schedule = deepcopy(current_schedule.form_possible_schedules())
+        new_h = new_schedule.heuristic
 
-            while new_h == current_h:
-                if count <= 10:
-                    count += 1
-                    new_schedule = Schedule.form_possible_schedules()
-                    new_h = new_schedule.h
+        while time_cost < time:
+            while new_h >= current_h and time_cost < time :
 
-                time_now = datetime.now()
-                time_cost = (time_now - start_time).total_seconds()
+                while new_h == current_h and time_cost < time:
+                    if count <= 10:
+                        count += 1
+                        new_schedule = new_schedule.form_possible_schedules()
+                        new_h = new_schedule.heuristic
+                    else:
+                        new_schedule = self.start()
+                        print("random start because of a stage")
+                    time_cost = (datetime.now() - start_time).total_seconds()
 
-                if time_cost >= time:
-                    break
+                count = 0
+                current_schedule = new_schedule
+                current_h = new_h
+                new_schedule = new_schedule.form_possible_schedules()
+                new_h = new_schedule.heuristic
 
-                #restart if count>10
+                time_cost = (datetime.now() - start_time).total_seconds()
+            local_best.append((current_schedule, current_h))
 
-            count = 0
-            current_schedule = new_schedule
-            current_h = new_h
-            new_schedule = Schedule.form_possible_schedules()
-            new_h = new_schedule.h
+            #restart if h<current_h
+            current_schedule = self.start()
+            current_h = current_schedule.heuristic
 
-            if time_cost >= time:
-                break
+            new_schedule = current_schedule.form_possible_schedules()
+            new_h = new_schedule.heuristic
 
-        time_now = datetime.now()
-        time_cost = (time_now - start_time).total_seconds()
-        local_best.append((current_schedule, current_h))
+        # for i in range(len(local_best)):
+        #     h_list.append(local_best[i][1])
+        print(local_best)
+        best_schedule = max(local_best)
 
-        #restart if h<current_h
-        start()
+        # for (schedule, h) in local_best:
+        #     if h == best_h:
+        #         best_schedule = schedule
 
-        current_schedule = Schedule.form_possible_schedules()
-        current_h = current_schedule.h
+        # print(str(schedule.events.roles_filled))
+        return best_schedule
 
-        new_schedule = Schedule.form_possible_schedules()
-        new_h = new_schedule.h
+    def start(self):
+        persons = deepcopy(self.original_copy.persons)
+        events = deepcopy(self.original_copy.events)
+        role_list = ["PRESENTER", "INTRO", "LEAD", "DEBRIEF", "NO_ROLE"]
+        for personID in persons.keys():
+            available_events = persons[personID].get_available_event_id()
+            # print(str(personID))
+            # print(available_events)
+            randomNum = random.randint(1, int(len(available_events)))
+            # randomSample = [ available_events[i] for i in sorted(random.sample(available_events), 4))]
+            persons[personID].eventIDs = random.sample(available_events, randomNum)
+            persons[personID].eventIDs.sort()
+            # print(randomNum)
+            # print(persons[personID].eventIDs)
 
-    for i in range(len(local_best)):
-        h_list.append(local_best[i][1])
+            for item in persons[personID].eventIDs:
+                x = random.randint(0, 4)
+                persons[personID].roles[role_list[x]] += 1
+                events[item].roles_filled[role_list[x]].append(personID)
+                events[item].available_persons.remove(personID)
 
-    best_h = max(h_list)
-    best_schedule = Schedule([],{})
+        # for i in events.keys():
+        #     print(str(i) + str(events[i].roles_filled))
+        #     print(str(i) + str(events[i].available_persons))
+        #
+        # for i in persons.keys():
+        #     print(str(persons[i].eventIDs))
+        #     print(str(persons[i].roles))
 
-    for (schedule, h) in local_best:
-        if h == best_h:
-            best_schedule = schedule
-
-    return best_schedule, best_h
+        newSchedule = Schedule(persons, events)
+        return newSchedule
 
 
 

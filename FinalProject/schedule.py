@@ -2,6 +2,7 @@
 # TODO: Write a Schedule.__eq__ ()function
 import random
 from copy import deepcopy
+from datetime import datetime
 from functools import total_ordering
 from FinalProject.data_parser import read_data
 from FinalProject.shared_constants import *
@@ -15,6 +16,7 @@ class Schedule():
         #  Events is a dictionary of id and event object
         self.events = events
         self.heuristic = 0
+        self.calc_heuristic()
 
     def __eq__(self, other):
         return self.heuristic == other.heuristic
@@ -42,6 +44,7 @@ class Schedule():
 
     def form_possible_schedules(self):
         # This should return the possible new formed schedule based on different algorithms
+        start = datetime.now()
         all_possible_schedules = []
         for name, event in self.events.items():
             for id, person in self.persons.items():
@@ -64,6 +67,7 @@ class Schedule():
             a.calc_heuristic()
 
         best = max(all_possible_schedules)
+        print("Time cost ", (datetime.now()-start).total_seconds())
         return best
 
     def form_random_schedule(self):

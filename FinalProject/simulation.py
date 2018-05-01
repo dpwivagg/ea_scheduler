@@ -1,5 +1,6 @@
 import copy
 
+from FinalProject.hillclimbing import Hill_Climb
 from FinalProject.person import Person
 from FinalProject.event import Event
 from FinalProject.schedule import Schedule
@@ -7,6 +8,7 @@ from FinalProject.shared_constants import *
 from FinalProject.data_parser import *
 # from FinalProject.hillclimbing import *
 from FinalProject.genetic import *
+from copy import deepcopy
 
 
 allPeople = read_data()
@@ -26,43 +28,12 @@ schedule = Schedule(allPeople, allEvents)
 
 original_copy = copy.deepcopy(schedule)
 
-# print(original_copy.persons['1000'].availabilities)
-
 # random start
-def start(original_copy):
-    persons = original_copy.persons
-    events = original_copy.events
-    role_list = ["PRESENTER","INTRO","LEAD","DEBRIEF", "NO_ROLE"]
-    for personID in persons.keys():
-        available_events = persons[personID].get_available_event_id()
-        print(str(personID))
-        print(available_events)
-        randomNum = random.randint(1,int(len(available_events)))
-        # randomSample = [ available_events[i] for i in sorted(random.sample(available_events), 4))]
-        persons[personID].eventIDs = random.sample(available_events, randomNum)
-        persons[personID].eventIDs.sort()
-        print(randomNum)
-        print(persons[personID].eventIDs)
-        # print(persons[personID].eventIDs)
-
-        for item in persons[personID].eventIDs:
-            x = random.randint(0, 4)
-            persons[personID].roles[role_list[x]] += 1
-            events[item].roles_filled[role_list[x]].append(personID)
-            events[item].available_persons.remove(personID)
-
-    # for i in events.keys():
-    #     print(str(i) + str(events[i].roles_filled))
-    #     print(str(i) + str(events[i].available_persons))
-    #
-    # for i in persons.keys():
-    #     print(str(persons[i].eventIDs))
-    #     print(str(persons[i].roles))
-
-    return persons, events
 
 
-start(original_copy)
+
+hill_climb = Hill_Climb(original_copy)
+hill_climb.hill_climbing(schedule)
 # for id, event in allEvents.items():
 #     print("Event Id ", id, " ", event.available_persons)
 
