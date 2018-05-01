@@ -7,84 +7,16 @@ from FinalProject.data_parser import read_data
 from datetime import datetime
 from copy import deepcopy
 
-# role_list=["PRESENTER","INTRO","LEAD","DEBRIEF"]
-#
-# def start():
-#     person = Person({}, [], [])
-#     allpeople = read_data()
-#     # sch= Schedule([],{})
-#     for person in allpeople.values():
-#         avaeventlist = []
-#         for i in range(0, 21):
-#             if person.availabilities[i][0] != 0:
-#                 avaeventlist.append(i+1)
-#         # print(avaeventlist)
-#         x = random.randint(1,len(avaeventlist))
-#         person.eventIDs = random.sample(avaeventlist, x)
-#         person.eventIDs.sort()
-#
-#         for j in range(len(person.eventIDs)):
-#             x = random.randint(0,3)
-#             person.roles[role_list[x]] += 1
-#
-#         print(person.roles)
-#         print(person.eventIDs)
-#
-#     for i in range(1,22):
-#         for j in range(1,7):
-#             sch.events_avaibilities[i,j]=[]
-#
-#     for person in allpeople:
-#         for i in range(len(person.eventIDs)):
-#             event = person.eventIDs[i]
-#             for j in range(len(person.availabilities[event-1])):
-#                 time = person.availabilities[event-1][j]
-#                 sch.events_avaibilities[event,time].append(person.id)
-#                 if person.id not in sch.persons:
-#                     sch.persons.append(person.id)
-#
-#     print(sch.persons, sch.events_avaibilities)
-#     return sch.persons, sch.events_avaibilities
-
-# def start(original_schedule):
-#     role_list=["PRESENTER","INTRO","LEAD","DEBRIEF"]
-#     allpeople = original_schedule.persons
-#     allevents = original_schedule.events
-#     # for i in range(0, 21):
-#     #     event = Event(i, {})
-#     #     allevents[i] = event
-#     for personID in allpeople.keys():
-#         avaeventlist = []
-#         for i in range(0, 21):
-#             if allpeople[personID].availabilities[i][0] != 0:
-#                 avaeventlist.append(i+1)
-#         # print(avaeventlist)
-#         x = random.randint(1,len(avaeventlist))
-#         allpeople[personID].eventIDs = random.sample(avaeventlist, x)
-#         allpeople[personID].eventIDs.sort()
-#
-#         for j in range(len(allpeople[personID].eventIDs)):
-#             x = random.randint(0,3)
-#             allpeople[personID].roles[role_list[x]] += 1
-#             allevents[j].roles_filled[role_list[x]].append(personID)
-#             allevents[j].id = j+1
-#             # print(allevents[j].roles_filled)
-#
-#     return allpeople, allevents
-#
-# a = start()
-
 class Hill_Climb():
 
     def __init__(self, original_copy):
         self.original_copy = original_copy
 
-    def hill_climbing(self, schedule):
+    def hill_climbing(self):
         start_time = datetime.now()
         local_best = []
-        h_list = []
         time_cost = 0
-        time = 30
+        time = 180
         count = 0
         current_schedule = self.start()
         current_h = current_schedule.heuristic
@@ -103,6 +35,7 @@ class Hill_Climb():
                     else:
                         new_schedule = self.start()
                         print("random start because of a stage")
+                        new_h = new_schedule.heuristic
                     time_cost = (datetime.now() - start_time).total_seconds()
 
                 count = 0
@@ -110,27 +43,21 @@ class Hill_Climb():
                 current_h = new_h
                 new_schedule = new_schedule.form_possible_schedules()
                 new_h = new_schedule.heuristic
+                print(str(new_h))
 
                 time_cost = (datetime.now() - start_time).total_seconds()
             local_best.append((current_schedule, current_h))
 
-            #restart if h<current_h
+            # restart if h < current_h
             current_schedule = self.start()
             current_h = current_schedule.heuristic
 
             new_schedule = current_schedule.form_possible_schedules()
             new_h = new_schedule.heuristic
 
-        # for i in range(len(local_best)):
-        #     h_list.append(local_best[i][1])
         print(local_best)
         best_schedule = max(local_best)
 
-        # for (schedule, h) in local_best:
-        #     if h == best_h:
-        #         best_schedule = schedule
-
-        # print(str(schedule.events.roles_filled))
         return best_schedule
 
     def start(self):

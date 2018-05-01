@@ -4,9 +4,13 @@
 # TODO: run genetic
 import time
 import random
+from copy import deepcopy
 from itertools import chain
 
-def run_genetic(schedules=[], last_time=10):
+from FinalProject.schedule import Schedule
+
+
+def run_genetic(original_copy, schedules=[], last_time=200, ):
     print("Run genetic algorithm")
     start_time = time.time()
     gen_list = []
@@ -18,7 +22,7 @@ def run_genetic(schedules=[], last_time=10):
 
     #  Fill in the list
     while len(gen_list)<original_size:
-        gen_list.append(randomly_form_schedule())
+        gen_list.append(randomly_form_schedule(original_copy))
     gen_list.sort(key=lambda x: x.heuristic,reverse=True)
 
     while diff < last_time:
@@ -40,16 +44,21 @@ def run_genetic(schedules=[], last_time=10):
             parent1 = parents[0]
             parent2 = parents[1]
             # Cross over
-            children = parent1.crossover(parent2)
+            children = parent1.cross_over(parent2, original_copy)
             # check for mutation
             if random.random() < mutation_rate:
-                children[0] = children[0].mutate()
-                children[1] = children[1].mutate()
+                children[0] = children[0].mutate(original_copy)
+                children[1] = children[1].mutate(original_copy)
             # print(children[0])
             # print(children[1])
             gen_list = gen_list + children
         gen_list.sort(key=lambda x: x.heuristic, reverse=True)
         diff = float(time.time() - start_time)
+        print(gen_list[0])
+    print("Final state is:")
+    print(gen_list[0])
+    print("Heuristic " + str(gen_list[0].heuristic))
+    print("actual time spent " + str(diff))
 
     return
 
@@ -78,8 +87,25 @@ def probability_distribution(schedule_list):
         return probability_list
 
 
-def randomly_form_schedule():
-    map_status = {}
-    map = []
-    # print(map1)
-    return map
+def randomly_form_schedule(original_copy):
+    persons = deepcopy(original_copy.persons)
+    events = deepcopy(original_copy.events)
+    role_list = ["PRESENTER", "INTRO", "LEAD", "DEBRIEF", "NO_ROLE"]
+    for personID in persons.keys():
+        available_events = persons[personID].get_available_event_id()
+        # print(str(personID))
+        # print(available_events)
+        randomNum = random.randint(1, int(len(available_events)))
+        # randomSample = [ available_events[i] for i in sorted(random.sample(available_events), 4))]
+        persons[personID].eventIDs = random.sample(available_events, randomNum)
+        persons[personID].eventIDs.sort()
+        # print(randomNum)
+        # print(persons[personID].eventIDs)
+
+        for item in persons[personID].eventIDs:
+            x = random.randint(0, 4)
+            persons[personID].roles[role_list[x]] += 1
+            events[item].roles_filled[role_list[x]].append(personID)
+            events[item].available_persons.remove(personID)
+    newSchedule = Schedule(persons, events)
+    return newSchedule
