@@ -30,8 +30,8 @@ original_copy = copy.deepcopy(schedule)
 
 # random start
 def start(original_copy):
-    persons = original_copy.persons
-    events = original_copy.events
+    persons = copy.deepcopy(original_copy.persons)
+    events = copy.deepcopy(original_copy.events)
     role_list = ["PRESENTER","INTRO","LEAD","DEBRIEF", "NO_ROLE"]
     for personID in persons.keys():
         available_events = persons[personID].get_available_event_id()
@@ -59,15 +59,18 @@ def start(original_copy):
     #     print(str(persons[i].eventIDs))
     #     print(str(persons[i].roles))
 
-    return persons, events
+    return Schedule(persons,events)
+
 
 
 start(original_copy)
+
+
 # for id, event in allEvents.items():
 #     print("Event Id ", id, " ", event.available_persons)
 
-for id, event in allEvents.items():
-    print("Event Id ", id, " ", event.available_persons)
+# for id, event in allEvents.items():
+#     print("Event Id ", id, " ", event.available_persons)
 
 
 # Run Genetic
