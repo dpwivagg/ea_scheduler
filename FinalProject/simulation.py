@@ -38,7 +38,7 @@ run_genetic(original_copy)
 
 
 hill_climb = Hill_Climb(original_copy)
-a = hill_climb.hill_climbing(schedule)
+a = hill_climb.hill_climbing()
 print("Final result: ", a)
 # for id, event in allEvents.items():
 #     print("Event Id ", id, " ", event.available_persons)
