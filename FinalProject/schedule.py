@@ -34,6 +34,28 @@ class Schedule():
     # Calculate heuristic by event and person
     def calc_heuristic(self):
         heuristic = 0
+
+        for eventID in self.events.keys():
+            timeslot = {}
+            count = 0
+            for personID in self.persons.keys():
+                if eventID in self.persons[personID].eventIDs:
+                    for time in self.persons[personID].availabilities[eventID]:
+                        if time not in timeslot.keys():
+                            timeslot[time] = [personID]
+                        else:
+                            timeslot[time].append(personID)
+            # print(str(eventID) + '\t' + str(timeslot))
+            for i in timeslot.keys():
+                if i in [2, 3, 4, 5]:
+                    Num = len(timeslot[i])
+                    if Num >= 4 and Num <= 7:
+                        count += 1
+            if count < 4:
+                heuristic -= 5
+            else:
+                heuristic += 1
+
         for id, person in self.persons.items():
             heuristic = heuristic + person.calc_heuristic()
 
@@ -77,34 +99,6 @@ class Schedule():
             if person.id == personID:
                 roles = person.getRoles()
         return roles
-
-    # def event_heuristic(self):
-    #     h = 0
-    #     count = 0
-    #     event_persons = {}
-    #     role_list = {}
-    #     eventNum = int(len(self.events_avaibilities) / 6)
-    #
-    #     for event in range(1, eventNum + 1):
-    #         for timeslot in range(1, 7):
-    #             # times from 9:00 to 11:00 : [2, 3, 4, 5]
-    #             if timeslot in [2, 3, 4, 5]:
-    #                 Num = len(self.events_avaibilities[(event, timeslot)])
-    #                 if Num >= 4 and Num <= 7:
-    #                     count += 1
-    #         # if the number of people does not meet condition in any timeslot, take -5 penalty
-    #         if count < 4:
-    #             h -= 5
-    #         else:
-    #             h += 1
-    #         count = 0
-    #
-    #     for event in self.events:
-    #         h = h + event.calc_heuristic()
-    #
-    #     for person in self.persons:
-    #         h = h + person.calc_heuristic()
-
 
     def mutate(self, original_copy):
         persons = deepcopy(original_copy.persons)

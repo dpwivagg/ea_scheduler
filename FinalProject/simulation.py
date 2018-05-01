@@ -33,7 +33,7 @@ original_copy = copy.deepcopy(schedule)
 
 # hill_climb = Hill_Climb(original_copy)
 # hill_climb.hill_climbing(schedule)
-run_genetic(original_copy)
+# run_genetic(original_copy)
 
 
 
