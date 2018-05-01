@@ -77,6 +77,43 @@ class Hill_Climb():
 
             for item in persons[personID].eventIDs:
                 x = random.randint(0, 4)
+                if events[item].is_role_filled(role_list[x]):
+                    persons[personID].roles["NO_ROLE"] += 1
+                    events[item].add_person_to_role("NO_ROLE",personID)
+                else:
+                    persons[personID].roles[role_list[x]] += 1
+                    events[item].add_person_to_role(role_list[x],personID)
+
+        # for i in events.keys():
+        #     print(str(i) + str(events[i].roles_filled))
+        #     print(str(i) + str(events[i].available_persons))
+        #
+        # for i in persons.keys():
+        #     print(str(persons[i].eventIDs))
+        #     print(str(persons[i].roles))
+
+        newSchedule = Schedule(persons, events)
+        return newSchedule
+
+
+
+    def old_start(self):
+        persons = deepcopy(self.original_copy.persons)
+        events = deepcopy(self.original_copy.events)
+        role_list = ["PRESENTER", "INTRO", "LEAD", "DEBRIEF", "NO_ROLE"]
+        for personID in persons.keys():
+            available_events = persons[personID].get_available_event_id()
+            # print(str(personID))
+            # print(available_events)
+            randomNum = random.randint(1, int(len(available_events)))
+            # randomSample = [ available_events[i] for i in sorted(random.sample(available_events), 4))]
+            persons[personID].eventIDs = random.sample(available_events, randomNum)
+            persons[personID].eventIDs.sort()
+            # print(randomNum)
+            # print(persons[personID].eventIDs)
+
+            for item in persons[personID].eventIDs:
+                x = random.randint(0, 4)
                 persons[personID].roles[role_list[x]] += 1
                 events[item].roles_filled[role_list[x]].append(personID)
                 events[item].available_persons.remove(personID)

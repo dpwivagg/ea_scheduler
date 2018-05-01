@@ -88,6 +88,13 @@ class Event():
                 role = no_role
         return role
 
+    # Return True if the role is filled and False otherwise
+    def is_role_filled(self, role):
+        if role == presenter:
+            return len(self.roles_filled[presenter]) >= 2
+        else:
+            return len(self.roles_filled[role])
+
 
     # bool: True if all roles are filled, False if at least one role is not filled
     def all_roles_filled(self):
