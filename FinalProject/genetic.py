@@ -43,8 +43,8 @@ def run_genetic(schedules=[], last_time=10):
             children = parent1.crossover(parent2)
             # check for mutation
             if random.random() < mutation_rate:
-                children[0].mutate()
-                children[1].mutate()
+                children[0] = children[0].mutate()
+                children[1] = children[1].mutate()
             # print(children[0])
             # print(children[1])
             gen_list = gen_list + children
