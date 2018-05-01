@@ -184,7 +184,9 @@ class Schedule():
         result_list = [schedule1, schedule2]
         return result_list
 
-
+    # This is the cross over that fits
+    def cross_over2(self):
+        return 
 
     def check_correct(self):
         try:
