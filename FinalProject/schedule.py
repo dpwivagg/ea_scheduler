@@ -178,7 +178,6 @@ class Schedule():
                         crossover_persons1[person_id].add_role(role1)
                         crossover_persons1[person_id].add_event(i)
 
-
         schedule1 = Schedule(crossover_persons1, crossover_events1)
         schedule2 = Schedule(crossover_persons2, crossover_events2)
         result_list = [schedule1, schedule2]
@@ -186,7 +185,41 @@ class Schedule():
 
     # This is the cross over that fits
     def cross_over2(self):
-        return 
+        return
+
+    # this changes the schedule to make there is only two presenters,
+    # one lead, one intro, one debrief and several no_role
+    def repair_schedule(self):
+        for event_id, event in self.events:
+            for role,person_ids in event.roles_filled:
+                length = len(person_ids)
+                if role == presenter:
+                    if length > 2:
+                        while length > 2:
+                            index = random.randint(0,length-1)
+                            # Start changing for the data
+                            removed_person = person_ids[index]
+                            event.remove_person_from_role(role,removed_person)
+                            self.persons[removed_person].remove_event(event_id)
+                            self.persons[removed_person].remove_role(role)
+                            person_ids.remove(removed_person)
+                            length = len(person_ids)
+                    elif length < 2:
+                        while length < 2:
+                            return
+                elif role != no_role and length > 1:
+                    while length > 1:
+                        index = random.randint(0,length-1)
+                        # Start changing for the data
+                        removed_person = person_ids[index]
+                        event.remove_person_from_role(role,removed_person)
+                        self.persons[removed_person].remove_event(event_id)
+                        self.persons[removed_person].remove_role(role)
+                        person_ids.remove(removed_person)
+                        length = len(person_ids)
+
+
+        return
 
     def check_correct(self):
         try:
