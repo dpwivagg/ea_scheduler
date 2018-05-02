@@ -1,4 +1,6 @@
-## Data format ##
+# Scheduling Made Simple #
+This project is a simple scheduling service where members of an organization are scheduled into events based on their availability.
+
 The CSV file with raw data is separated into columns of events and rows of people. Each person is identified by an ID number. Each event is labeled "Event i" where i is the column number. The availability is coded as follows:
 * 1: Available from 8:30 to 9:00
 * 2: Available from 9:00 to 9:30

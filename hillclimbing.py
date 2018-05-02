@@ -1,9 +1,9 @@
 # TODO: implement hill climbing algorithm
 import random
-from FinalProject.person import Person
-from FinalProject.schedule import Schedule
-from FinalProject.event import Event
-from FinalProject.data_parser import read_data
+from person import Person
+from schedule import Schedule
+from event import Event
+from data_parser import read_data
 from datetime import datetime
 from copy import deepcopy
 

@@ -1,4 +1,4 @@
-from FinalProject.shared_constants import *
+from shared_constants import *
 
 
 class Event():
