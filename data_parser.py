@@ -1,5 +1,5 @@
 import csv
-from FinalProject.person import Person
+from person import Person
 def read_data():
     with open('Refined_data.csv', newline='') as data:
         reader = csv.reader(data)

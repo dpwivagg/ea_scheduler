@@ -4,7 +4,6 @@ from shared_constants import *
 
 
 class Person():
-    count = 0
     def __init__(self, roles, eventIDs, availabilities):
         self.roles = roles # Roles is a dictionary contains the the key (String of role in shared constants and the data is the number of that role the person has been)
         roles[presenter] = 0
@@ -15,14 +14,10 @@ class Person():
         #  We still need no role just for ease of use
         self.eventIDs = eventIDs # List of Integers (event IDs)
         self.availabilities = availabilities # 2D array (events x times)
-        self.heuristic = 0
-        Person.count += 1
-
 
     #  This might need to be changed
     def calc_heuristic(self):
         h = 0
-
         # Calculate the time this person spent working
         time = reduce(lambda x, y: x + len(self.availabilities[int(y)]), self.eventIDs,0)
         if time < 6:
@@ -33,10 +28,8 @@ class Person():
             h -= time
         else:
             h += 5
-
         # Calculate the number of roles
         h += 5 if sum(self.roles.values()) > len(self.eventIDs)/3 else -5
-
         # Calculate number of lead/presenter roles
         h += 5 if self.roles["PRESENTER"] <= 2 else -5
         h += 5 if self.roles["LEAD"] <= 2 else -5

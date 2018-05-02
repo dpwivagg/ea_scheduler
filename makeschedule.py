@@ -25,13 +25,16 @@ def makeschedule(people, events, end_time):
             new_schedule = new_schedule.form_possible_schedules()
             new_h = new_schedule.heuristic
             count += 1
+            print(new_schedule)
         else:
+            print("Restarting")
             local_best.append(new_schedule)
             new_schedule = random_restart(people, events)
             new_h = new_schedule.heuristic
             current_h = new_h - 10
             count = 0
 
+    local_best.append(new_schedule)
     return max(local_best)
 
 def random_restart(all_people, all_events):

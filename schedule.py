@@ -1,12 +1,8 @@
-# TODO: Form possible schedules
-# TODO: Write a Schedule.__eq__ ()function
-import random
 from copy import deepcopy
 from datetime import datetime
 from functools import total_ordering
 from data_parser import read_data
 from shared_constants import *
-
 
 @total_ordering
 class Schedule():
@@ -28,7 +24,7 @@ class Schedule():
         return self.heuristic < other.heuristic
 
     def __str__(self):
-        # TODO: Change this if we want a better command line representation of schedules
+        # TODO: Change this if you want a better command line representation of schedules
         return "Schedule with heuristic " + str(self.heuristic)
 
     # Calculate heuristic by event and person
@@ -66,7 +62,6 @@ class Schedule():
 
     def form_possible_schedules(self):
         # This should return the possible new formed schedule based on different algorithms
-        start = datetime.now()
         all_possible_schedules = []
         for name, event in self.events.items():
             for id, person in self.persons.items():
@@ -76,7 +71,6 @@ class Schedule():
                     role = mutator.events[name].add_to_any_role(id, person)
                     mutator.persons[id].add_event(name)
                     mutator.persons[id].add_role(role)
-
                 else:
                     # Otherwise, try taking them out
                     role = mutator.events[name].find_and_remove(id)
@@ -89,7 +83,6 @@ class Schedule():
             a.calc_heuristic()
 
         best = max(all_possible_schedules)
-        print("Time cost ", (datetime.now()-start).total_seconds())
         return best
 
     def get_RoleList(personID):

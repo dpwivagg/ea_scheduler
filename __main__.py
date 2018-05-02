@@ -1,6 +1,5 @@
 import copy
 
-from makeschedule import Hill_Climb
 from person import Person
 from event import Event
 from schedule import Schedule
