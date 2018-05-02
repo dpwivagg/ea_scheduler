@@ -65,7 +65,10 @@ class Schedule():
         all_possible_schedules = []
         for name, event in self.events.items():
             for id, person in self.persons.items():
-                mutator = Schedule(deepcopy(self.persons),deepcopy(self.events))
+                # mutator = Schedule(deepcopy(self.persons),deepcopy(self.events))
+                mutator = Schedule(dict(self.persons), dict(self.events))
+                mutator.persons[id] = deepcopy(person)
+                mutator.events[name] = deepcopy(event)
                 if id in event.available_persons:
                     # If they are available, try adding them to the event
                     role = mutator.events[name].add_to_any_role(id, person)
@@ -98,3 +101,8 @@ class Schedule():
             event.check_correct()
         for id, person in self.persons.items():
             person.check_correct(id)
+
+    def disp(self):
+        for name, event in self.events:
+            for ID, person in event.roles_filled:
+                pass

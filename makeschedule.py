@@ -16,6 +16,7 @@ def makeschedule(people, events, end_time):
     new_h = new_schedule.heuristic
 
     while time.time() < timeout:
+        print("Time left: ", round(timeout - time.time()), "s")
         if new_h > current_h:
             current_h = new_h
             new_schedule = new_schedule.form_possible_schedules()
@@ -49,13 +50,8 @@ def random_restart(all_people, all_events):
         person.eventIDs.sort()
 
         for eventID in person.eventIDs:
-            x = random.randint(0, 4)
-            if events[eventID].is_role_filled(role_list[x]):
-                person.roles["NO_ROLE"] += 1
-                events[eventID].add_person_to_role("NO_ROLE",ID)
-            else:
-                person.roles[role_list[x]] += 1
-                events[eventID].add_person_to_role(role_list[x],ID)
+            role = events[eventID].add_to_any_role(ID, person)
+            person.add_role(role)
 
     newSchedule = Schedule(people, events)
     return newSchedule

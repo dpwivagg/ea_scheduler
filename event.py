@@ -42,15 +42,11 @@ class Event():
     def calc_heuristic(self):
         h = 0
         # All five roles are filled
+        h += 5 if len(self.roles_filled[presenter]) == 2 else -5
         for key in self.roles_filled.keys():
-            if key != no_role:
-                if key == presenter:
-                    if len(self.roles_filled[key]) < 2:
-                        h -= 5
-                elif len(self.roles_filled[key]) < 1:
-                    h -= 5
-                    break
-        self.heuristic = h
+            if key != presenter and key != no_role:
+                h += 5 if len(self.roles_filled[key]) == 1 else -5
+
         return h
 
     def find_and_remove(self, person_id):

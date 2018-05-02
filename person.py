@@ -20,19 +20,18 @@ class Person():
         h = 0
         # Calculate the time this person spent working
         time = reduce(lambda x, y: x + len(self.availabilities[int(y)]), self.eventIDs,0)
-        if time < 6:
+        eventcount = len(self.eventIDs)
+        if time < 12 and eventcount < 3:
             # Time is less than 6 half hours
-            h -= 10
-        elif time > 12:
+            h -= 25
+        elif time > 30 and eventcount > 7:
             # Time is greater than 12 half hours
-            h -= time
+            h -= time + eventcount
         else:
-            h += 5
-        # Calculate the number of roles
-        h += 5 if sum(self.roles.values()) > len(self.eventIDs)/3 else -5
+            h += 10
         # Calculate number of lead/presenter roles
-        h += 5 if self.roles["PRESENTER"] <= 2 else -5
-        h += 5 if self.roles["LEAD"] <= 2 else -5
+        h += 5 if self.roles["PRESENTER"] <= 4 else -5
+        h += 5 if self.roles["LEAD"] <= 4 else -5
         return h
 
     def getRoles(self):
@@ -76,18 +75,15 @@ class Person():
 
     def check_correct(self, id):
         time = reduce(lambda x, y: x + len(self.availabilities[int(y)]), self.eventIDs, 0)
-        if time > 12:
-            print('Too many hours for person ', id, ':', time/2)
-        elif time < 6:
-            print('Too few hours for person ', id, ':', time/2)
+        if time > 30:
+            print('Too many hours for person ', id, ':', time/2, "(", len(self.eventIDs), "events)")
+        elif time < 9:
+            print('Too few hours for person ', id, ':', time/2, "(", len(self.eventIDs), "events)")
 
-        if sum(self.roles.values()) < len(self.eventIDs) / 3:
-            print('Too many roles for person ', id)
-
-        if self.roles["PRESENTER"] > 2:
+        if self.roles["PRESENTER"] > 4:
             print('Too many presenter roles for person ', id, ':', self.roles["PRESENTER"])
 
-        if self.roles["LEAD"] > 2:
+        if self.roles["LEAD"] > 4:
             print('Too many lead roles for person ', id, ':', self.roles["LEAD"])
 
         return True
