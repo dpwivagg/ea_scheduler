@@ -1,11 +1,12 @@
 import copy
 
-from hillclimbing import Hill_Climb
+from makeschedule import Hill_Climb
 from person import Person
 from event import Event
 from schedule import Schedule
 from shared_constants import *
 from data_parser import *
+from makeschedule import makeschedule
 
 allPeople = read_data()
 
@@ -24,8 +25,6 @@ schedule = Schedule(allPeople, allEvents)
 
 original_copy = copy.deepcopy(schedule)
 
-
-hill_climb = Hill_Climb(original_copy)
-a = hill_climb.hill_climbing()
+a = makeschedule(allPeople, allEvents, 180)
 print("Final result: ", a)
 a.check_correct()

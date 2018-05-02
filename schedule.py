@@ -4,8 +4,8 @@ import random
 from copy import deepcopy
 from datetime import datetime
 from functools import total_ordering
-from FinalProject.data_parser import read_data
-from FinalProject.shared_constants import *
+from data_parser import read_data
+from shared_constants import *
 
 
 @total_ordering
