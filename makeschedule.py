@@ -43,8 +43,8 @@ def random_restart(all_people, all_events):
     events = deepcopy(all_events)
     role_list = ["PRESENTER", "INTRO", "LEAD", "DEBRIEF", "NO_ROLE"]
     for ID, person in people.items():
-        availability = person.get_available_event_id()
-        randomNum = random.randint(1, int(len(availability)))
+        availability = [a for a in person.get_available_event_id()]
+        randomNum = random.randint(1, 9 if len(availability) > 9 else len(availability))
 
         person.eventIDs = random.sample(availability, randomNum)
         person.eventIDs.sort()

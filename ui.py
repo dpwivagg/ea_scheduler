@@ -12,7 +12,7 @@ class MyApp(App):
 
     def build(self):
         scroller = ScrollView(size_hint=(1, None), size=(Window.width, Window.height))
-        root = Accordion(orientation='vertical',size_hint_y=None,height=50*21)
+        root = Accordion(orientation='vertical',size_hint_y=None,height=50*27)
         chart = self.create_gantt()
         for title in chart:
             item = AccordionItem(title=title)
@@ -64,6 +64,6 @@ class MyApp(App):
             # plt.show()
             # fig.savefig(title)
             # fig = plt.figure()
-            title = 'img/plot' + str(eventNum) + '.png'
+            title = 'img/Event' + str(eventNum) + '.png'
             fig.savefig(title)
             yield title
