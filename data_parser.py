@@ -1,14 +1,19 @@
 import csv
 from person import Person
+from event import Event
+
 def read_data():
     with open('Refined_data.csv', newline='') as data:
         reader = csv.reader(data)
-        next(reader)
+        allEvents = {i: Event(i) for i in range(0, len(next(reader)) - 1)}
+
         allpeople = {}
-        #  Now all people is a dictionary of id and person object. person object does not have id anymore
         for row in reader:
             id = row.pop(0)
             events = [list(map(int, x.split(' '))) for x in row]
-            allpeople[id] = Person({}, [], events)
+            newperson = Person(events)
+            for e in newperson.get_available_event_id():
+                allEvents[e].add_person_available(id)
+            allpeople[id] = newperson
 
-    return allpeople
+    return allpeople, allEvents

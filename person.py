@@ -4,15 +4,15 @@ from shared_constants import *
 
 
 class Person():
-    def __init__(self, roles, eventIDs, availabilities):
-        self.roles = roles # Roles is a dictionary contains the the key (String of role in shared constants and the data is the number of that role the person has been)
-        roles[presenter] = 0
-        roles[intro] = 0
-        roles[lead] = 0
-        roles[debrief] = 0
-        roles[no_role] = 0
+    def __init__(self, availabilities):
+        self.roles = {} # Roles is a dictionary contains the the key (String of role in shared constants and the data is the number of that role the person has been)
+        self.roles[presenter] = 0
+        self.roles[intro] = 0
+        self.roles[lead] = 0
+        self.roles[debrief] = 0
+        self.roles[no_role] = 0
         #  We still need no role just for ease of use
-        self.eventIDs = eventIDs # List of Integers (event IDs)
+        self.eventIDs = [] # List of Integers (event IDs)
         self.availabilities = availabilities # 2D array (events x times)
 
     #  This might need to be changed
@@ -54,11 +54,9 @@ class Person():
 
     #  get the list of event id, the person would be available for
     def get_available_event_id(self):
-        events = []
         for i in range(len(self.availabilities)):
             if self.availabilities[i][0] != 0:
-                events.append(i)
-        return events
+                yield i
 
     def is_available(self, role, event_id):
         if role == "PRESENTER":

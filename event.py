@@ -2,7 +2,7 @@ from shared_constants import *
 
 
 class Event():
-    def __init__(self, id, roles_filled):
+    def __init__(self, id):
         # A dictionary of key of roles and data is a list of person id which is assigned for this role
         # for example, key presenter has data of a list of [1001, 1034] representing the id of people in this role
         # Currently we have 5 roles,
@@ -12,12 +12,13 @@ class Event():
         # debrief = "DEBRIEF"
         # no_role = "NO_ROLE"
         self.id = id
-        self.roles_filled = roles_filled
-        roles_filled[presenter] = []
-        roles_filled[intro] = []
-        roles_filled[lead] = []
-        roles_filled[debrief] = []
-        roles_filled[no_role] = []
+        # self.roles_filled = roles_filled
+        self.roles_filled = {}
+        self.roles_filled[presenter] = []
+        self.roles_filled[intro] = []
+        self.roles_filled[lead] = []
+        self.roles_filled[debrief] = []
+        self.roles_filled[no_role] = []
         #  The list of id of persons who will be available for this event,
         # person id is removed when the person is assigned to roles and is added back to the list when he is removed from the roles
         self.available_persons = []

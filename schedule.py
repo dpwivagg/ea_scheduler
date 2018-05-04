@@ -65,7 +65,6 @@ class Schedule():
         all_possible_schedules = []
         for name, event in self.events.items():
             for id, person in self.persons.items():
-                # mutator = Schedule(deepcopy(self.persons),deepcopy(self.events))
                 mutator = Schedule(dict(self.persons), dict(self.events))
                 mutator.persons[id] = deepcopy(person)
                 mutator.events[name] = deepcopy(event)
