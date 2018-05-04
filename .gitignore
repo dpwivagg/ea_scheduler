@@ -102,3 +102,6 @@ ENV/
 
 # pycharm
 .idea
+
+# don't want images
+img/
