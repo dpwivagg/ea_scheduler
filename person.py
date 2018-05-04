@@ -24,9 +24,11 @@ class Person():
         if time < 12 and eventcount < 3:
             # Time is less than 6 half hours
             h -= 25
-        elif time > 30 and eventcount > 7:
+        elif time > 35 and eventcount > 8:
             # Time is greater than 12 half hours
             h -= time + eventcount
+        elif time > 35:
+            h -= time - 10
         else:
             h += 10
         # Calculate number of lead/presenter roles
@@ -73,7 +75,7 @@ class Person():
 
     def check_correct(self, id):
         time = reduce(lambda x, y: x + len(self.availabilities[int(y)]), self.eventIDs, 0)
-        if time > 30:
+        if time > 35:
             print('Too many hours for person ', id, ':', time/2, "(", len(self.eventIDs), "events)")
         elif time < 9:
             print('Too few hours for person ', id, ':', time/2, "(", len(self.eventIDs), "events)")
