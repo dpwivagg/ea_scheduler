@@ -1,4 +1,3 @@
-# TODO: implement hill climbing algorithm
 import random
 from schedule import Schedule
 import time
@@ -12,18 +11,18 @@ def makeschedule(people, events, end_time):
     current_schedule = random_restart(people, events)
     current_h = current_schedule.heuristic
 
-    new_schedule = current_schedule.form_possible_schedules()
+    new_schedule = current_schedule.choose_best_schedule()
     new_h = new_schedule.heuristic
 
     while time.time() < timeout:
         print("Time left: ", round(timeout - time.time()), "s")
         if new_h > current_h:
             current_h = new_h
-            new_schedule = new_schedule.form_possible_schedules()
+            new_schedule = new_schedule.choose_best_schedule()
             new_h = new_schedule.heuristic
             print(new_schedule)
         elif new_h == current_h and count <= 10:
-            new_schedule = new_schedule.form_possible_schedules()
+            new_schedule = new_schedule.choose_best_schedule()
             new_h = new_schedule.heuristic
             count += 1
             print(new_schedule)

@@ -40,13 +40,26 @@ class Event():
         self.available_persons.remove(person_id)
 
 
-    def calc_heuristic(self):
+    def calc_heuristic(self, persons):
         h = 0
         # All five roles are filled
         h += 5 if len(self.roles_filled[presenter]) == 2 else -5
         for key in self.roles_filled.keys():
             if key != presenter and key != no_role:
                 h += 5 if len(self.roles_filled[key]) == 1 else -5
+
+        # Make sure enough people are in attendance for the duration of the event
+        # (4-7 between 9:00 and 11:00, at least one otherwise)
+        person_counts = [persons[person].availabilities[self.id] for role, people in self.roles_filled.items() for person in people]
+        for i in range(2, 6):
+            total = sum(x.count(i) for x in person_counts)
+            h += 1 if total <= 7 and total >= 4 else -3
+
+        total1 = sum(x.count(1) for x in person_counts)
+        h += 1 if total1 <= 7 and total1 >= 2 else -3
+
+        total6 = sum(x.count(6) for x in person_counts)
+        h += 1 if total6 <= 7 and total6 >= 2 else -3
 
         return h
 

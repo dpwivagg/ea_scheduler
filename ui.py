@@ -1,5 +1,4 @@
 from kivy.uix.accordion import Accordion, AccordionItem
-from kivy.uix.label import Label
 from kivy.app import App
 from kivy.uix.image import Image
 import pandas as pd

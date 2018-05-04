@@ -3,7 +3,7 @@ from makeschedule import makeschedule
 from ui import MyApp
 
 allPeople, allEvents = read_data()
-schedule = makeschedule(allPeople, allEvents, 360)
+schedule = makeschedule(allPeople, allEvents, 300)
 print("Final result: ", schedule)
 schedule.check_correct()
 
