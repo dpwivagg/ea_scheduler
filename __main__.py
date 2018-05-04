@@ -31,5 +31,5 @@ a.check_correct()
 
 
 new_window = MyApp()
-new_window.schedule = schedule
+new_window.schedule = a
 new_window.run()
